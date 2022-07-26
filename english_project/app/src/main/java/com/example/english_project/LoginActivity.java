@@ -1,4 +1,4 @@
-package com.example.english_project.net;
+package com.example.english_project;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -14,7 +14,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import android.util.Log;
 
-import com.example.english_project.R;
+import com.example.english_project.net.RequestHandler;
+import com.example.english_project.net.SharedPrefManager;
+import com.example.english_project.net.URLs;
+import com.example.english_project.net.User;
 
 import java.util.HashMap;
 

@@ -1,4 +1,4 @@
-package com.example.english_project.net;
+package com.example.english_project;
 
 import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,6 +7,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.english_project.R;
+import com.example.english_project.LoginActivity;
+import com.example.english_project.net.SharedPrefManager;
+import com.example.english_project.net.User;
 
 public class ProfileActivity extends AppCompatActivity {
 

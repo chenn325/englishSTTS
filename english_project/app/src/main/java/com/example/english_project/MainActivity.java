@@ -2,15 +2,11 @@ package com.example.english_project;
 
 
 
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.example.english_project.net.IndexActivity;
-import com.example.english_project.net.LoginActivity;
-import com.example.english_project.net.ProfileActivity;
 import com.google.android.material.tabs.TabLayout;
 
 public class MainActivity extends AppCompatActivity {

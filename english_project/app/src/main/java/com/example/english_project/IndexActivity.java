@@ -1,4 +1,4 @@
-package com.example.english_project.net;
+package com.example.english_project;
 
 
 import android.content.Intent;
@@ -11,9 +11,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.english_project.R;
+import com.example.english_project.net.RequestHandler;
+import com.example.english_project.net.SharedPrefManager;
+import com.example.english_project.net.URLs;
+import com.example.english_project.net.User;
 
 import org.json.JSONException;
 import org.json.JSONObject;
