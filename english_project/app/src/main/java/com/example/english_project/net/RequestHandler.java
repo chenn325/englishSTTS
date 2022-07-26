@@ -1,5 +1,7 @@
 package com.example.english_project.net;
 
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStreamReader;
@@ -55,6 +57,9 @@ public class RequestHandler {
                 while((response = br.readLine()) != null){
                     sb.append(response);
                 }
+            }
+            else{
+                Log.d("RequestHandler","http not sent");
             }
         }catch(Exception e){
             e.printStackTrace();

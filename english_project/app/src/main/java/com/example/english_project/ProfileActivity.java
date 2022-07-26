@@ -5,9 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-
-import com.example.english_project.R;
-import com.example.english_project.LoginActivity;
 import com.example.english_project.net.SharedPrefManager;
 import com.example.english_project.net.User;
 
