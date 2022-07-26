@@ -29,6 +29,8 @@
             android:name=".LoginActivity"/>
         <activity
             android:name=".ProfileActivity" />
+        <activity
+            android:name=".MainActivity"/>
 
     </application>
 
