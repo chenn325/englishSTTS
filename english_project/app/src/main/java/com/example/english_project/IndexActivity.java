@@ -34,7 +34,7 @@ public class IndexActivity extends AppCompatActivity {
         //if the user is already logged in we will directly start the profile activity
         if(SharedPrefManager.getInstance(this).isLoggedIn()){
             finish();
-            startActivity(new Intent(this, ProfileActivity.class));
+            startActivity(new Intent(this, MainActivity.class));
             return;
         }
 
