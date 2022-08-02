@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.home:  //我上一篇的menu裡面設的id
+                    case R.id.home:
                         getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout,new Menu_Home()).commit();  //切換fragment
                         return true;
                     case R.id.study:
