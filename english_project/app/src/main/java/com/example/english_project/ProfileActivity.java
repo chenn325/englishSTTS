@@ -3,6 +3,7 @@ package com.example.english_project;
 import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import com.example.english_project.net.SharedPrefManager;
@@ -15,8 +16,8 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
-
+        setContentView(R.layout.show_personal);
+        Log.d("Profile", "onCreate");
         //if the user is not logged in
         //starting the login activity
         if (!SharedPrefManager.getInstance(this).isLoggedIn()) {
@@ -43,6 +44,7 @@ public class ProfileActivity extends AppCompatActivity {
             public void onClick(View view) {
                 finish();
                 SharedPrefManager.getInstance(getApplicationContext()).logout();
+                Log.d("Profile", "logout");
             }
         });
     }
