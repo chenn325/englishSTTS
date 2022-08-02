@@ -1,45 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:gravity="center"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center">
 
         <TextView
+            android:id="@+id/topicC"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text='語音轉文字'
-            android:textColor="@color/white"
+            android:text=""
             android:textSize="50dp"
-            android:background="@color/teal_700"
-            android:layout_marginBottom="20dp"/>
-        <EditText
-            android:id="@+id/text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="test"
-            android:textSize="50sp"
-            />
+            android:textColor="@color/black" />
 
-        <ImageView
-            android:id="@+id/mic"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_marginTop="50dp"
-            android:src="@drawable/mic_icon"
-            />
-        <Button
-            android:id="@+id/switchBut"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="80dp"
+            android:layout_marginRight="80dp"
+            android:gravity="center">
+            <TextView
+                android:id="@+id/topicE"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="40dp"
+                android:textColor="@color/black"
+                android:textAlignment="center"
+                android:layout_weight=".2"/>
+
+            <ImageView
+                android:id="@+id/audio"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/audio_icon"
+                android:layout_weight=".1"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/teal_700"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:gravity="center_vertical">
+            <EditText
+                android:id="@+id/inputAns"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="50sp"
+                android:paddingRight="30dp"
+                android:gravity="center"
+                android:focusable="false"
+                android:layout_weight=".4"/>
+
+            <ImageView
+                android:id="@+id/mic"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/mic_icon"
+                android:layout_weight=".1"/>
+
+        </LinearLayout>
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text='切換'/>
+            android:layout_marginTop="20dp"
+            android:text="（按住麥克風並說出單字輸入答案）" />
+
+        <TextView
+            android:id="@+id/feedback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text=""
+            android:textSize="30dp" />
+
+        <Button
+            android:id="@+id/next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text='下一題'
+            android:textSize="30dp"/>
+
     </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
