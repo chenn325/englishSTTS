@@ -94,6 +94,38 @@ if(isset($_GET['apicall'])){
 				}
 			}
 			break;
+		case 'study' :
+			if(isTheseParametersAvailable(array('qnum'))){
+				$Qnum = $_POST['qnum'];
+
+				$stmt = $conn->prepare("SELECT ch, en FROM study WHERE id = ?");
+				$stmt->bind_param("s", $Qnum);
+				$stmt->execute();
+				$stmt->store_result();
+
+				if($stmt->num_rows() > 0){
+					$stmt->bind_result($ch, $en);
+					$stmt->fetch();
+
+					$topic = array(
+						'ch' => $ch,
+						'en' => $en
+					);
+
+					$response['error'] = false;
+					$response['message'] = 'get topic successful';
+					$response['topic'] = $topic;
+				}
+				else{
+					$response['error'] = true;
+					$response['message'] = 'get topic error';
+				}
+			}
+			else{
+				$response['error'] = true;
+			$response['message'] = 'false';
+			}
+			break;
 		default:
 			$response['error'] = true;
 			$response['message'] = 'Invalid Operation Called';
