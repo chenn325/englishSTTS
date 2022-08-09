@@ -50,12 +50,11 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction ft = fm.beginTransaction();
         if (!showFragment.isAdded()) {
             ft.add(R.id.container, showFragment);
-        }else{
-            ft.show(showFragment);
         }
         if (currentFragment.isAdded()) {
             ft.hide(currentFragment);
         }
+        ft.show(showFragment);
         currentFragment = showFragment;
         Log.d("showFragment", String.valueOf(showFragment));
         ft.commit();
