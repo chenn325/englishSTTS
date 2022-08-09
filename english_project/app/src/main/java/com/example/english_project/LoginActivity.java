@@ -118,14 +118,14 @@ public class LoginActivity extends AppCompatActivity {
 
                         //starting the profile activity
                         finish();
-                        startActivity(new Intent(getApplicationContext(), TeacherMainActivity.class));
-//                        if(user.getIdentity().equals("teacher")){
-//                            startActivity(new Intent(getApplicationContext(), TeacherMainActivity.class));
-//                            Log.d("identity","Teacher Activity succeessful");
-//                        }
-//                        else{
-                            //startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                       // }
+                        if(user.getIdentity().equals("teacher")){
+                            startActivity(new Intent(getApplicationContext(), TeacherMainActivity.class));
+                            Log.d("identity","Teacher Activity succeessful");
+                            Log.d("teacher", user.getName());
+                        }
+                        else{
+                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        }
                     } else {
                         Toast.makeText(getApplicationContext(), "Invalid username or password", Toast.LENGTH_SHORT).show();
                     }

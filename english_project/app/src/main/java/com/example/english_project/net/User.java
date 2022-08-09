@@ -29,4 +29,10 @@ public class User {
 
     public String getIdentity() { return identity; }
 
+    public String getName() { return name; }
+
+    public int getMyclass() { return myclass; }
+
+    public String getGender() { return gender; }
+
 }

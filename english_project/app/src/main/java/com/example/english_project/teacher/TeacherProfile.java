@@ -20,7 +20,7 @@ import com.example.english_project.net.SharedPrefManager;
 import com.example.english_project.net.User;
 
 public class TeacherProfile extends Fragment {
-    TextView textViewId, textViewUsername;
+    TextView textViewName, textViewUsername;
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         View view=inflater.inflate(R.layout.fragment_teacher_profile,container,false);
@@ -34,16 +34,13 @@ public class TeacherProfile extends Fragment {
         }
 
 
-        textViewId = (TextView) view.findViewById(R.id.textViewId);
+        textViewName = (TextView) view.findViewById(R.id.textViewName);
         textViewUsername = (TextView) view.findViewById(R.id.textViewUsername);
-
 
         //getting the current user
         User user = SharedPrefManager.getInstance(getActivity()).getUser();
-
-        //setting the values to the textviews
-        textViewId.setText(String.valueOf(user.getId()));
         textViewUsername.setText(user.getUsername());
+        textViewName.setText(user.getName());
 
         //when the user presses logout button
         //calling the logout method
