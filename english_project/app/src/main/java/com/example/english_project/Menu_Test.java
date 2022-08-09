@@ -10,8 +10,6 @@ import androidx.fragment.app.Fragment;
 
 public class Menu_Test extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.show_test,container,false);
-
-        return view;
+        return inflater.inflate(R.layout.show_test, container, false);
     }
 }
