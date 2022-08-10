@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProfileActivity">
+    tools:context=".teacher.TeacherProfile">
 
 
     <LinearLayout
@@ -23,17 +23,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:text="Id"
+                    android:text="teacher name"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
 
                 <TextView
-                    android:id="@+id/textViewId"
+                    android:id="@+id/textViewName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:text="1"
+                    android:text="none"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
-
 
             </TableRow>
 
@@ -43,7 +42,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:text="Username"
+                    android:text="username"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
 
                 <TextView
@@ -51,20 +50,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:text="probelalkhan"
+                    android:text="none"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
 
             </TableRow>
-
-
-
-
         </TableLayout>
+
 
         <Button
             android:id="@+id/buttonLogout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Logout" />
+
+
+
     </LinearLayout>
 </RelativeLayout>

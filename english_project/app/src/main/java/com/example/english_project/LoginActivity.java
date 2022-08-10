@@ -18,6 +18,7 @@ import com.example.english_project.net.RequestHandler;
 import com.example.english_project.net.SharedPrefManager;
 import com.example.english_project.net.URLs;
 import com.example.english_project.net.User;
+import com.example.english_project.teacher.*;
 
 import java.util.HashMap;
 
@@ -105,7 +106,11 @@ public class LoginActivity extends AppCompatActivity {
                         //creating a new user object
                         User user = new User(
                                 userJson.getInt("id"),
-                                userJson.getString("username")
+                                userJson.getString("username"),
+                                userJson.getString("identity"),
+                                userJson.getString("name"),
+                                userJson.getInt("myclass"),
+                                userJson.getString("gender")
                         );
 
                         //storing the user in shared preferences
@@ -113,7 +118,14 @@ public class LoginActivity extends AppCompatActivity {
 
                         //starting the profile activity
                         finish();
-                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        if(user.getIdentity().equals("teacher")){
+                            startActivity(new Intent(getApplicationContext(), TeacherMainActivity.class));
+                            Log.d("identity","Teacher Activity succeessful");
+                            Log.d("teacher", user.getName());
+                        }
+                        else{
+                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        }
                     } else {
                         Toast.makeText(getApplicationContext(), "Invalid username or password", Toast.LENGTH_SHORT).show();
                     }
