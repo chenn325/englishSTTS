@@ -68,19 +68,23 @@ if(isset($_GET['apicall'])){
 				$password = md5($_POST['password']);
 
 				//creating the query
-				$stmt = $conn->prepare("SELECT id, username, password FROM users WHERE username = ? AND password = ?");
+				$stmt = $conn->prepare("SELECT id,  username, password, identity, name, myclass, gender FROM users WHERE username = ? AND password = ?");
 				$stmt->bind_param("ss",$username, $password);
 				$stmt->execute();
 				$stmt->store_result();
 
 				//if the user exist
 				if($stmt->num_rows > 0){
-					$stmt->bind_result($id, $username, $password);
+					$stmt->bind_result($id, $username, $password, $identity, $name, $myclass, $gender);
 					$stmt->fetch();
 
 					$user = array(
 						'id' => $id,
-						'username' => $username
+						'username' => $username,
+						'identity' => $identity,
+						'name' => $name,
+						'myclass' => $myclass,
+						'gender' => $gender
 					);
 
 					$response['error'] = false;
@@ -90,7 +94,7 @@ if(isset($_GET['apicall'])){
 				else{
 					//if the user not found
 					$response['error'] = true;
-					$response['message'] = 'Invalid username or passwor';
+					$response['message'] = 'Invalid username or password';
 				}
 			}
 			break;
@@ -123,7 +127,7 @@ if(isset($_GET['apicall'])){
 			}
 			else{
 				$response['error'] = true;
-			$response['message'] = 'false';
+				$response['message'] = 'false';
 			}
 			break;
 		default:
