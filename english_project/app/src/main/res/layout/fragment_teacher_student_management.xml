@@ -5,12 +5,72 @@
     android:layout_height="match_parent"
     tools:context=".teacher.TeacherStudentManagement">
 
-    <!-- TODO: Update blank fragment layout -->
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/textViewGrade"
+                android:layout_width="35dp"
+                android:layout_height="50dp"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="50dp"
+                android:layout_marginLeft="15dp"
+                android:text="__"
+                android:textSize="35dp" />
+            <Spinner
+                android:id="@+id/spGrade"
+                android:layout_width="30dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="50dp"
+                android:entries="@array/grade"
+                />
+            <TextView
+                android:layout_width="35dp"
+                android:layout_height="50dp"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="50dp"
+                android:text="年"
+                android:textSize="35dp" />
+            <TextView
+                android:id="@+id/textViewClass"
+                android:layout_width="35dp"
+                android:layout_height="50dp"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="50dp"
+                android:layout_marginLeft="15dp"
+                android:text="__"
+                android:textSize="35dp" />
+            <Spinner
+                android:id="@+id/spMyclass"
+                android:layout_width="60dp"
+                android:layout_height="50dp"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="50dp"
+                android:entries="@array/myclass"
+                />
+            <TextView
+                android:layout_width="35dp"
+                android:layout_height="50dp"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="50dp"
+                android:text="班"
+                android:textSize="35dp" />
+
+
+
+        </TableRow>
+    </TableLayout>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center"
         android:text="Student management page~"
-        android:textSize="30dp"
-        android:gravity="center"/>
+        android:textSize="30dp" />
 
 </FrameLayout>

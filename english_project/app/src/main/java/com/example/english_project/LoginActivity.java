@@ -125,6 +125,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
                         else{
                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                            Log.d("identity","Student Activity succeessful");
                         }
                     } else {
                         Toast.makeText(getApplicationContext(), "Invalid username or password", Toast.LENGTH_SHORT).show();
