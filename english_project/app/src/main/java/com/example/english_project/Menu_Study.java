@@ -43,11 +43,13 @@ public class Menu_Study extends Fragment implements TextToSpeech.OnInitListener 
     EditText inputAns;
     TextView topicC, topicE, fb;
     Button next;
+    ProgressBar progressBar;
 
     TextToSpeech tts;
     private static final int RECOGNIZER_RESULT = 1;
 
-    int QNum;
+    int QNum, TotalQNum;
+    JSONObject TopicObj;
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.show_study,container,false);
@@ -59,6 +61,7 @@ public class Menu_Study extends Fragment implements TextToSpeech.OnInitListener 
         next = view.findViewById(R.id.next);
         inputAns = view.findViewById(R.id.inputAns);
         fb = view.findViewById(R.id.feedback);
+        progressBar = view.findViewById(R.id.progressBar);
 
         tts = new TextToSpeech(getContext(), this);
 
@@ -70,7 +73,7 @@ public class Menu_Study extends Fragment implements TextToSpeech.OnInitListener 
 //        next.setEnabled(false);
 //        next.setVisibility(View.INVISIBLE);
 
-        QNum=1;
+        QNum=0;
         getTopic();
 
         return view;
@@ -101,13 +104,29 @@ public class Menu_Study extends Fragment implements TextToSpeech.OnInitListener 
         @Override
         public void onClick(View view) {
             QNum++;
-            getTopic();
-            if(QNum>=5){
+//            getTopic();
+            if(QNum<TotalQNum){
+                try{
+                    setTopic(QNum);
+                }catch (JSONException e){
+                    e.printStackTrace();
+                    Log.d("study frag","topic json error");
+                };
+            }
+            if(QNum==TotalQNum-1){
                 next.setText("題目已全作答完畢");
                 next.setEnabled(false);
             }
         }
     };
+    private void setTopic(int n) throws JSONException {
+        JSONObject topicJson = TopicObj.getJSONObject(String.valueOf(n));
+
+        topicC.setText(topicJson.getString("ch"));
+        topicE.setText(topicJson.getString("en"));
+        Log.d("setT", topicJson.getString("ch") +' '+ topicJson.getString("en"));
+//        Log.d("test", String.valueOf(TotalQNum));
+    }
 
     View.OnClickListener audioClick = new View.OnClickListener() {
         @Override
@@ -143,27 +162,36 @@ public class Menu_Study extends Fragment implements TextToSpeech.OnInitListener 
 
     private void getTopic() {
         class GetTopic extends AsyncTask<Void, Void, String> {
+//            ProgressBar progressBar;
+
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
+//                progressBar = (ProgressBar) getView().findViewById(R.id.progressBar);
+                progressBar.setVisibility(View.VISIBLE);;
             }
 
             @Override
             protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                progressBar.setVisibility(View.GONE);
                 try {
-                    Log.d("json", String.valueOf(QNum));
-                    JSONObject obj = new JSONObject(s);
+//                    Log.d("json", String.valueOf(QNum));
+                    TopicObj = new JSONObject(s);
+                    Log.d("json", "拿到題庫6");
 
-                    if (!obj.getBoolean("error")) {
-                        Toast.makeText(getActivity().getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
-
-                        JSONObject topicJson = obj.getJSONObject("topic");
-
-                        String topicCh =  topicJson.getString("ch");
-                        String topicEn =  topicJson.getString("en");
-                        topicC.setText(topicCh);
-                        topicE.setText(topicEn);
-
+                    if (!TopicObj.getBoolean("error")) {
+                        Toast.makeText(getActivity().getApplicationContext(), TopicObj.getString("message"), Toast.LENGTH_SHORT).show();
+//                      取得題目數量
+                        TotalQNum = TopicObj.getInt("rownum");
+//                        JSONObject topicJson = obj.getJSONObject("topic");
+//
+//                        String topicCh = topicJson.getString("ch");
+//                        String topicEn = topicJson.getString("en");
+//                        topicC.setText(topicCh);
+//                        topicE.setText(topicEn);
+//                        Log.d("test", String.valueOf(TotalQNum));
+//
                     } else {
                         Log.d("toast", "oh");
                         Toast.makeText(getActivity().getApplicationContext(), "Can't get topic", Toast.LENGTH_SHORT).show();
@@ -172,13 +200,22 @@ public class Menu_Study extends Fragment implements TextToSpeech.OnInitListener 
                     e.printStackTrace();
                     Log.d("study frag","study json error");
                 }
+                //設置題目
+                try{
+                    setTopic(QNum);
+                }catch (JSONException e){
+                    e.printStackTrace();
+                    Log.d("study frag","topic json error");
+                };
             }
 
             @Override
             protected String doInBackground(Void... voids) {
                 RequestHandler requestHandler = new RequestHandler();
                 HashMap<String, String> params = new HashMap<>();
-                params.put("qnum", String.valueOf(QNum));
+                //動態取得學習單元和班級
+                params.put("unit", "2");
+                params.put("classnum", "302");
                 return requestHandler.sendPostRequest(URLs.URL_STUDY, params);
             }
         }
