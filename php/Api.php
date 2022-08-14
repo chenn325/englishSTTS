@@ -99,30 +99,36 @@ if(isset($_GET['apicall'])){
 			}
 			break;
 		case 'study' :
-			if(isTheseParametersAvailable(array('qnum'))){
-				$Qnum = $_POST['qnum'];
+			if(isTheseParametersAvailable(array('unit', 'classnum'))){
+                $Unit = $_POST['unit'];
+				$Classnum = $_POST['classnum'];
 
-				$stmt = $conn->prepare("SELECT ch, en FROM study WHERE id = ?");
-				$stmt->bind_param("s", $Qnum);
+				$stmt = $conn->prepare("SELECT ch, en FROM textbook WHERE unit = ? AND class = ?");
+				$stmt->bind_param("ss", $Unit, $Classnum);
 				$stmt->execute();
 				$stmt->store_result();
+				$count = $stmt->num_rows;
 
-				if($stmt->num_rows() > 0){
-					$stmt->bind_result($ch, $en);
-					$stmt->fetch();
-
-					$topic = array(
-						'ch' => $ch,
-						'en' => $en
-					);
-
+				if($count > 0){
 					$response['error'] = false;
 					$response['message'] = 'get topic successful';
-					$response['topic'] = $topic;
+					$response['rownum'] = $count;
+					for($i=0; $i<$count; $i++){
+						$stmt->bind_result($ch, $en);
+						$stmt->fetch();
+
+						$topic = array(
+							'ch' => $ch,
+							'en' => $en
+						);
+		
+						$response[$i] = $topic;
+					}
 				}
 				else{
 					$response['error'] = true;
 					$response['message'] = 'get topic error';
+					$response['rownum'] = $count;
 				}
 			}
 			else{
