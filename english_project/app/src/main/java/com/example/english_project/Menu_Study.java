@@ -214,8 +214,8 @@ public class Menu_Study extends Fragment implements TextToSpeech.OnInitListener 
                 RequestHandler requestHandler = new RequestHandler();
                 HashMap<String, String> params = new HashMap<>();
                 //動態取得學習單元和班級
-                params.put("unit", "2");
-                params.put("classnum", "302");
+                params.put("unit", "1");
+                params.put("classnum", "301");
                 return requestHandler.sendPostRequest(URLs.URL_STUDY, params);
             }
         }

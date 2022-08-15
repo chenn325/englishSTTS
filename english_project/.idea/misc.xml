@@ -27,6 +27,7 @@
         <entry key="app/src/main/res/layout/activity_teacher_main.xml" value="0.19270833333333334" />
         <entry key="app/src/main/res/layout/fragment_teacher_home.xml" value="0.19270833333333334" />
         <entry key="app/src/main/res/layout/fragment_teacher_textbook.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/in_fab_dialog_layout.xml" value="0.28125" />
         <entry key="app/src/main/res/layout/show_home.xml" value="0.1" />
         <entry key="app/src/main/res/layout/show_personal.xml" value="0.2545289855072464" />
         <entry key="app/src/main/res/layout/show_study.xml" value="0.165" />

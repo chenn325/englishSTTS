@@ -25,9 +25,25 @@
     </string-array>
 
     <string-array name="dateDay">
+        <item>01</item>
+        <item>02</item>
+        <item>03</item>
+    </string-array>
+
+    <string-array name="dataUnit">
         <item>1</item>
         <item>2</item>
-        <item>3</item>
+    </string-array>
+
+    <string-array name="dataCategory">
+        <item>listen</item>
+        <item>speak</item>
+    </string-array>
+
+    <string-array name="dataType">
+        <item>vocabulary</item>
+        <item>sentence</item>
+        <item>phrase</item>
     </string-array>
 
 </resources>
