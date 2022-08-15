@@ -65,9 +65,7 @@ public class TeacherTextbook extends Fragment {
         SPDay = view.findViewById(R.id.SPday);
         SPCategory = view.findViewById(R.id.SPcategory);
         SPType = view.findViewById(R.id.SPtype);
-
         fab1 = view.findViewById(R.id.fab);
-//        fab2 = view.findViewById(R.id.fab2);
 
         int pg = SpGrade.getSelectedItemPosition() + 3;
         int pc = SpClass.getSelectedItemPosition() + 1;
@@ -105,7 +103,6 @@ public class TeacherTextbook extends Fragment {
                 super.onPostExecute(s);
                 progressBar.setVisibility(View.GONE);
                 try {
-//                    Log.d("json", String.valueOf(QNum));
                     AddTextObj = new JSONObject(s);
                     Log.d("json", "拿到題庫6");
 
@@ -135,8 +132,11 @@ public class TeacherTextbook extends Fragment {
                 RequestHandler requestHandler = new RequestHandler();
                 HashMap<String, String> params = new HashMap<>();
                 //動態取得學習單元和班級
-                params.put("unit", "1");
-                params.put("classnum", String.valueOf(classForSearch));
+                params.put("unit", String.valueOf(unit));
+                params.put("class", String.valueOf(classForSearch));
+                params.put("category", category);
+                params.put("type", type);
+
                 return requestHandler.sendPostRequest(URLs.URL_STUDY, params);
             }
         }
@@ -162,6 +162,10 @@ public class TeacherTextbook extends Fragment {
         int pg = SpGrade.getSelectedItemPosition() + 3;
         int pc = SpClass.getSelectedItemPosition() + 1;
         classForSearch = pg*100 +pc;
+        unit = Integer.parseInt(SPUnit.getSelectedItem().toString());
+        //time = SPYear.getSelectedItem().toString() + '-' + SPYear.getSelectedItem().toString() + '-' +SPDay.getSelectedItem().toString();
+        category = SPCategory.getSelectedItem().toString();
+        type = SPType.getSelectedItem().toString();
 
         showTextLayout1.removeAllViewsInLayout();
         getTopic();
