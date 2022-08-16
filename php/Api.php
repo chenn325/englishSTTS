@@ -99,12 +99,14 @@ if(isset($_GET['apicall'])){
 			}
 			break;
 		case 'study' :
-			if(isTheseParametersAvailable(array('unit', 'classnum'))){
+			if(isTheseParametersAvailable(array('unit', 'class', 'category', 'type'))){
                 $Unit = $_POST['unit'];
-				$Classnum = $_POST['classnum'];
+				$Classnum = $_POST['class'];
+				$Category = $_POST['category'];
+				$Type = $_POST['type'];
 
-				$stmt = $conn->prepare("SELECT ch, en FROM textbook WHERE unit = ? AND class = ?");
-				$stmt->bind_param("ss", $Unit, $Classnum);
+				$stmt = $conn->prepare("SELECT ch, en FROM textbook WHERE unit = ? AND class = ? AND category = ? AND type = ?");
+				$stmt->bind_param("ssss", $Unit, $Classnum, $Category, $Type);
 				$stmt->execute();
 				$stmt->store_result();
 				$count = $stmt->num_rows;
@@ -130,6 +132,25 @@ if(isset($_GET['apicall'])){
 					$response['message'] = 'get topic error';
 					$response['rownum'] = $count;
 				}
+			}
+			else{
+				$response['error'] = true;
+				$response['message'] = 'false';
+			}
+			break;
+		case 'addTextbook':
+			if(isTheseParametersAvailable(array('e', 'c', 'unit', 'class', 'category', 'type'))){
+				$E = $_POST['e'];
+				$C = $_POST['c'];
+				$Unit = $_POST['unit'];
+				$Class = $_POST['class'];
+				$Category = $_POST['category'];
+				$Type = $_POST['type'];
+
+				$stmt = $conn->prepare("INSERT INTO textbook (unit, class, category, type, ch, en) VALUES (?, ?, ?, ?, ?, ?)");
+				$stmt->bind_param("ssssss", $Unit, $Class, $Category, $Type, $C, $E);
+				$response['error'] = !($stmt->execute());
+				$response['message'] = '新增成功！';
 			}
 			else{
 				$response['error'] = true;
