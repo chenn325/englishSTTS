@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,67 +11,115 @@
         android:layout_height="match_parent">
 
         <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:gravity="center">
             <TextView
-                android:id="@+id/textViewGrade"
-                android:layout_width="35dp"
-                android:layout_height="50dp"
-                android:gravity="center_horizontal"
-                android:layout_marginTop="50dp"
-                android:layout_marginLeft="15dp"
-                android:text="__"
-                android:textSize="35dp" />
+                android:text="學生歷程記錄"/>
+        </TableRow>
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="年級" />
+
             <Spinner
                 android:id="@+id/spGrade"
-                android:layout_width="30dp"
-                android:layout_height="50dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="50dp"
-                android:entries="@array/grade"
-                />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:entries="@array/dataYear"/>
+
             <TextView
-                android:layout_width="35dp"
-                android:layout_height="50dp"
-                android:gravity="center_horizontal"
-                android:layout_marginTop="50dp"
-                android:text="年"
-                android:textSize="35dp" />
-            <TextView
-                android:id="@+id/textViewClass"
-                android:layout_width="35dp"
-                android:layout_height="50dp"
-                android:gravity="center_horizontal"
-                android:layout_marginTop="50dp"
-                android:layout_marginLeft="15dp"
-                android:text="__"
-                android:textSize="35dp" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="班級" />
+
             <Spinner
-                android:id="@+id/spMyclass"
-                android:layout_width="60dp"
-                android:layout_height="50dp"
-                android:gravity="center_horizontal"
-                android:layout_marginTop="50dp"
-                android:entries="@array/myclass"
-                />
+                android:id="@+id/spClass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:entries="@array/dataClass"/>
             <TextView
-                android:layout_width="35dp"
-                android:layout_height="50dp"
-                android:gravity="center_horizontal"
-                android:layout_marginTop="50dp"
-                android:text="班"
-                android:textSize="35dp" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="unit" />
+
+            <Spinner
+                android:id="@+id/spUnit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:entries="@array/dataUnit"/>
 
 
 
         </TableRow>
+        <TableRow
+            android:gravity="center">
+            <Button
+                android:id="@+id/searchBut"
+                android:layout_height="40dp"
+                android:text="查詢"/>
+        </TableRow>
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_weight="20">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="10"
+            android:background="@drawable/framestyle"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fadingEdge="vertical"
+                android:scrollbars="vertical"
+                tools:ignore="MissingConstraints">
+
+                <TableLayout
+                    android:id="@+id/showStudentHistory"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp">
+
+                    <TableLayout
+                        android:id="@+id/showText"
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+<!--                        android:background="#ffcccccc"-->
+<!--                        android:layout_margin="0.5dip"-->
+
+                    </TableLayout>
+
+
+                </TableLayout>
+            </ScrollView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+
     </TableLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="Student management page~"
-        android:textSize="30dp" />
-
-</FrameLayout>
+    <ProgressBar
+        android:visibility="gone"
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
+</RelativeLayout>

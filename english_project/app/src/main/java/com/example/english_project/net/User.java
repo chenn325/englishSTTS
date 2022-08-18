@@ -4,6 +4,7 @@ public class User {
 
     private int id, myclass;
     private String username, identity, name, gender;
+    private int listen_p, speak_p, listen_c, speak_c;
 
     public User(int id, String username, String identity, String name, int myclass, String gender) {
         this.id = id;

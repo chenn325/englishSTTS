@@ -48,7 +48,9 @@ public class TeacherProfile extends Fragment {
             @Override
             public void onClick(View view) {
                 getActivity().finish();
-                SharedPrefManager.getInstance(getActivity().getApplicationContext()).logout();
+                //SharedPrefManager.getInstance(getActivity().getApplicationContext()).logout();
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                startActivity(intent);
                 Log.d("Profile", "logout");
             }
         });

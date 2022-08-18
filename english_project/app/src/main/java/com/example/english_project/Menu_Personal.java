@@ -10,8 +10,6 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.example.english_project.net.SharedPrefManager;
 import com.example.english_project.net.User;
@@ -49,7 +47,9 @@ public class Menu_Personal extends Fragment {
             @Override
             public void onClick(View view) {
                 getActivity().finish();
-                SharedPrefManager.getInstance(getActivity().getApplicationContext()).logout();
+                //SharedPrefManager.getInstance(getActivity().getApplicationContext()).logout();
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                startActivity(intent);
                 Log.d("Profile", "logout");
             }
         });

@@ -17,6 +17,7 @@ import com.example.english_project.net.RequestHandler;
 import com.example.english_project.net.SharedPrefManager;
 import com.example.english_project.net.URLs;
 import com.example.english_project.net.User;
+import com.example.english_project.teacher.TeacherMainActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,7 +35,13 @@ public class IndexActivity extends AppCompatActivity {
         //if the user is already logged in we will directly start the profile activity
         if(SharedPrefManager.getInstance(this).isLoggedIn()){
             finish();
-            startActivity(new Intent(this, MainActivity.class));
+            String identity = SharedPrefManager.getIdentity();
+            if(identity.equals("teacher")){
+                startActivity(new Intent(this, TeacherMainActivity.class));
+            }
+            else{
+                startActivity(new Intent(this, MainActivity.class));
+            }
             return;
         }
 
