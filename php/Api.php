@@ -13,7 +13,7 @@ if(isset($_GET['apicall'])){
 			if(isTheseParametersAvailable(array('username','password'))){
 				//getting the values
 				$username = $_POST['username'];
-				$password = md5($_POST['password']);
+				$password = $_POST['password'];
 
 				//checking if the user is already exist with this username
 				$stmt = $conn->prepare("SELECT id FROM users WHERE username = ?");
@@ -65,7 +65,7 @@ if(isset($_GET['apicall'])){
 			if(isTheseParametersAvailable(array('username','password'))){
 				//getting values
 				$username = $_POST['username'];
-				$password = md5($_POST['password']);
+				$password = $_POST['password'];
 
 				//creating the query
 				$stmt = $conn->prepare("SELECT id,  username, password, identity, name, myclass, gender FROM users WHERE username = ? AND password = ?");
@@ -157,6 +157,45 @@ if(isset($_GET['apicall'])){
 				$response['message'] = 'false';
 			}
 			break;
+		case 'readStudentHistory':
+			if(isTheseParametersAvailable(array('myClass','unit'))){
+				$myclass = $_POST['myClass'];
+				$unit = $_POST['unit'];
+
+				//creating the query
+				$stmt = $conn->prepare("SELECT users.name, history.listen_p, history.speak_p, history.listen_c, history.speak_c FROM users JOIN history ON users.id = history.user_id WHERE users.myclass = ? AND history.unit = ?");
+				$stmt->bind_param("ss", $myclass, $unit);
+				$stmt->execute();
+				$stmt->store_result();
+
+				if($stmt->num_rows >0){
+					$response['row'] = $stmt->num_rows;
+					$count = $stmt->num_rows;
+					for($i=0; $i<$count; $i++){
+						$stmt->bind_result($name, $listen_p, $speak_p, $listen_c, $speak_c);
+						$stmt->fetch();
+						$score = array(
+							'name'=>$name,
+							'listen_p' => $listen_p,
+							'speak_p' => $speak_p,
+							'listen_c' => $listen_c,
+							'speak_c' => $speak_c
+						);
+
+						$response[$i] = $score;
+					}
+					
+				}
+			
+				$response['error'] = false;
+				$response['message'] = 'get studentHistory successful';
+			}
+			else{
+				$response['error'] = true;
+				$response['message'] = 'readStudentHistory have some problem.';
+			}
+			break;
+			
 		default:
 			$response['error'] = true;
 			$response['message'] = 'Invalid Operation Called';
