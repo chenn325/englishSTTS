@@ -126,6 +126,25 @@ if(isset($_GET['apicall'])){
 		
 						$response[$i] = $topic;
 					}
+
+					$stmt = $conn->prepare("SELECT startYmd, EndYmd FROM date WHERE unit = ? AND class = ?");
+					$stmt->bind_param("ss", $Unit, $Classnum);
+					$stmt->execute();
+					$stmt->store_result();
+					$count = $stmt->num_rows;
+					if($count > 0){
+						$response['dateGetError'] = false;
+						$response['dateGetMessage'] = 'get successful';
+
+						$stmt->bind_result($sd, $ed);
+						$stmt->fetch();
+						$response['startDate'] = $sd;
+						$response['endDate'] = $ed;
+					}
+					else{
+						$response['dateGetError'] = true;
+						$response['dateGetMessage'] = 'get dete error';
+					}
 				}
 				else{
 					$response['error'] = true;
@@ -149,6 +168,7 @@ if(isset($_GET['apicall'])){
 
 				$stmt = $conn->prepare("INSERT INTO textbook (unit, class, category, type, ch, en) VALUES (?, ?, ?, ?, ?, ?)");
 				$stmt->bind_param("ssssss", $Unit, $Class, $Category, $Type, $C, $E);
+				//怪怪
 				$response['error'] = !($stmt->execute());
 				$response['message'] = '新增成功！';
 			}
@@ -195,7 +215,29 @@ if(isset($_GET['apicall'])){
 				$response['message'] = 'readStudentHistory have some problem.';
 			}
 			break;
-			
+		case 'changeStartDate':
+			if(isTheseParametersAvailable(array('unit', 'class', 'sd'))){
+				$Unit = $_POST['unit'];
+				$Class = $_POST['class'];
+				$Sd = $_POST['sd'];
+
+				$stmt = $conn->prepare("UPDATE `date` SET `startYmd`=? WHERE `unit` = ? AND `class` = ?");
+				$stmt->bind_param("sss", $Sd, $Unit, $Class);
+
+				if($stmt->execute()){
+					$response['error'] = false;
+					$response['message'] = "change start date successful";
+				}
+				else{
+					$response['error'] = true;
+					$response['message'] = "change start date error";
+				}
+			}
+			else{
+				$response['error'] = true;
+				$response['message'] = 'change start date parameter error';
+			}
+			break;
 		default:
 			$response['error'] = true;
 			$response['message'] = 'Invalid Operation Called';
