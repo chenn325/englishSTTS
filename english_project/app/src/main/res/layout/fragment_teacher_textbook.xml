@@ -9,53 +9,12 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
         android:layout_marginTop="50dp"
+        android:layout_marginRight="10dp"
         android:layout_marginBottom="30dp"
-        android:gravity="center">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center">
-
-            <Spinner
-                android:id="@+id/SPyear"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:entries="@array/dateYear"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="年" />
-
-            <Spinner
-                android:id="@+id/SPmonth"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:entries="@array/dateMonth"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="月"/>
-
-            <Spinner
-                android:id="@+id/SPday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:entries="@array/dateDay"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="日"/>
-
-        </LinearLayout>
+        android:gravity="center"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -66,13 +25,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="年級"/>
+                android:text="年級" />
 
             <Spinner
                 android:id="@+id/SPgrade"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:entries="@array/dataYear"/>
+                android:entries="@array/dataYear" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -83,7 +42,8 @@
                 android:id="@+id/SPclass"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:entries="@array/dataClass"/>
+                android:entries="@array/dataClass" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -93,8 +53,9 @@
                 android:id="@+id/SPunit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:entries="@array/dataUnit"/>
+                android:entries="@array/dataUnit" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -119,134 +80,203 @@
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:entries="@array/dataType"/>
+                android:entries="@array/dataType" />
         </LinearLayout>
+
         <Button
             android:id="@+id/ButSearch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="查詢"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="查詢" />
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:orientation="vertical"
-            android:layout_weight="20">
+            android:layout_height="2dp"
+            android:background="@color/gray"/>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
+        <LinearLayout
+            android:id="@+id/showLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="22"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="10"
-                android:background="@drawable/framestyle"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp">
+                android:layout_weight="1"
+                android:gravity="center">
 
-                <ScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fadingEdge="vertical"
-                    android:scrollbars="vertical"
-                    tools:ignore="MissingConstraints">
-
-                    <LinearLayout
-                        android:id="@+id/showTextbook1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:paddingLeft="10dp"
-                        android:paddingTop="5dp">
-
-                    </LinearLayout>
-                </ScrollView>
-
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/fab"
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="end|bottom"
-                    android:layout_margin="3dp"
-                    android:src="@drawable/ic_add_circle"
-                    app:fabSize="mini"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:backgroundTint="@color/white"
-                    app:backgroundTint="@color/white"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:text="開放日期："
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/showDateS"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0-0-0"
+                    android:textColor="@color/black" />
+
+                <Button
+                    android:id="@+id/setDateS"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="設定" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="結束日期："
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/showDateE"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="9999-12-31"
+                    android:textColor="@color/black" />
+
+                <Button
+                    android:id="@+id/setDateE"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="設定" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="30"
+                android:orientation="vertical">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="10"
+                    android:background="@drawable/framestyle"
+                    android:orientation="vertical">
+
+                    <ScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fadingEdge="vertical"
+                        android:scrollbars="vertical"
+                        tools:ignore="MissingConstraints">
+
+                        <LinearLayout
+                            android:id="@+id/showTextbook1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:paddingLeft="10dp"
+                            android:paddingTop="5dp">
+
+                        </LinearLayout>
+                    </ScrollView>
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/fab"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|bottom"
+                        android:layout_margin="3dp"
+                        android:backgroundTint="@color/white"
+                        android:src="@drawable/ic_add_circle"
+                        app:backgroundTint="@color/white"
+                        app:fabSize="mini"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
         </LinearLayout>
 
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="0dp"-->
-<!--            android:layout_weight="5"-->
-<!--            android:orientation="vertical">-->
+        <!--        <LinearLayout-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="0dp"-->
+        <!--            android:layout_weight="5"-->
+        <!--            android:orientation="vertical">-->
 
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_weight="1"-->
-<!--                android:gravity="center">-->
+        <!--            <LinearLayout-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_weight="1"-->
+        <!--                android:gravity="center">-->
 
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_weight="5"-->
-<!--                    android:text="聽力" />-->
+        <!--                <TextView-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:layout_weight="5"-->
+        <!--                    android:text="聽力" />-->
 
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_weight="2"-->
-<!--                    android:text="類型" />-->
+        <!--                <TextView-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:layout_weight="2"-->
+        <!--                    android:text="類型" />-->
 
-<!--                <Spinner-->
-<!--                    android:id="@+id/SPtype"-->
-<!--                    android:layout_width="100dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_weight="3" />-->
-<!--            </LinearLayout>-->
+        <!--                <Spinner-->
+        <!--                    android:id="@+id/SPtype"-->
+        <!--                    android:layout_width="100dp"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:layout_weight="3" />-->
+        <!--            </LinearLayout>-->
 
-<!--            <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginLeft="20dp"-->
-<!--                android:layout_marginRight="20dp"-->
-<!--                android:layout_weight="10"-->
-<!--                android:background="@drawable/framestyle"-->
-<!--                android:orientation="vertical">-->
+        <!--            <androidx.constraintlayout.widget.ConstraintLayout-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_marginLeft="20dp"-->
+        <!--                android:layout_marginRight="20dp"-->
+        <!--                android:layout_weight="10"-->
+        <!--                android:background="@drawable/framestyle"-->
+        <!--                android:orientation="vertical">-->
 
-<!--                <ScrollView-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:fadingEdge="vertical"-->
-<!--                    android:scrollbars="vertical"-->
-<!--                    tools:ignore="MissingConstraints">-->
+        <!--                <ScrollView-->
+        <!--                    android:layout_width="match_parent"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:fadingEdge="vertical"-->
+        <!--                    android:scrollbars="vertical"-->
+        <!--                    tools:ignore="MissingConstraints">-->
 
-<!--                    <LinearLayout-->
-<!--                        android:id="@+id/showTextbook2"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:orientation="vertical"-->
-<!--                        android:paddingLeft="10dp"-->
-<!--                        android:paddingTop="5dp">-->
+        <!--                    <LinearLayout-->
+        <!--                        android:id="@+id/showTextbook2"-->
+        <!--                        android:layout_width="match_parent"-->
+        <!--                        android:layout_height="wrap_content"-->
+        <!--                        android:orientation="vertical"-->
+        <!--                        android:paddingLeft="10dp"-->
+        <!--                        android:paddingTop="5dp">-->
 
-<!--                    </LinearLayout>-->
-<!--                </ScrollView>-->
+        <!--                    </LinearLayout>-->
+        <!--                </ScrollView>-->
 
-<!--                <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-<!--                    android:id="@+id/fab2"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_gravity="end|bottom"-->
-<!--                    android:layout_margin="3dp"-->
-<!--                    android:backgroundTint="@color/white"-->
-<!--                    android:src="@drawable/ic_add_circle"-->
-<!--                    app:backgroundTint="@color/white"-->
-<!--                    app:fabSize="mini"-->
-<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                    app:layout_constraintEnd_toEndOf="parent" />-->
-<!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
-<!--        </LinearLayout>-->
+        <!--                <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+        <!--                    android:id="@+id/fab2"-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:layout_gravity="end|bottom"-->
+        <!--                    android:layout_margin="3dp"-->
+        <!--                    android:backgroundTint="@color/white"-->
+        <!--                    android:src="@drawable/ic_add_circle"-->
+        <!--                    app:backgroundTint="@color/white"-->
+        <!--                    app:fabSize="mini"-->
+        <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--                    app:layout_constraintEnd_toEndOf="parent" />-->
+        <!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
+        <!--        </LinearLayout>-->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

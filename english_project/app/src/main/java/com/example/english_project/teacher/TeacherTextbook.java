@@ -1,6 +1,7 @@
 package com.example.english_project.teacher;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -28,18 +30,25 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
 
 public class TeacherTextbook extends Fragment {
 
-    int TotalQNum, classForSearch, unit;
-    String category, type, time;
+    int TotalQNum, classForSearch, unit, nowSettingDate;
+    String category, type, time, date;
 
     ProgressBar progressBar;
     LinearLayout showTextLayout1;
-    Button search;
+    Button search, butSetDateS, butSetDateE;
     Spinner SpGrade, SpClass, SPUnit, SPYear, SPMonth, SPDay, SPCategory, SPType;
-    FloatingActionButton fab1, fab2;
+    FloatingActionButton fab1;
+
+    TextView showDateS, showDateE;
+    DatePickerDialog.OnDateSetListener datePicker;
+    Calendar calendar = Calendar.getInstance();
 
     JSONObject AddTextObj;
 
@@ -47,7 +56,7 @@ public class TeacherTextbook extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        classForSearch = 301;
+        nowSettingDate = 0;
     }
 
     @Override
@@ -60,9 +69,53 @@ public class TeacherTextbook extends Fragment {
         SpGrade = view.findViewById(R.id.SPgrade);
         SpClass = view.findViewById(R.id.SPclass);
         SPUnit = view.findViewById(R.id.SPunit);
-        SPYear = view.findViewById(R.id.SPyear);
-        SPMonth = view.findViewById(R.id.SPmonth);
-        SPDay = view.findViewById(R.id.SPday);
+//        SPYear = view.findViewById(R.id.SPyear);
+//        SPMonth = view.findViewById(R.id.SPmonth);
+//        SPDay = view.findViewById(R.id.SPday);
+        butSetDateS = view.findViewById(R.id.setDateS);
+        butSetDateE = view.findViewById(R.id.setDateE);
+        showDateS = view.findViewById(R.id.showDateS);
+        showDateE = view.findViewById(R.id.showDateE);
+        datePicker = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, month);
+                calendar.set(Calendar.DAY_OF_MONTH, day);
+
+                String myFormat = "yyyy-MM-dd";
+                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.TAIWAN);
+//                showDateS.setText(sdf.format(calendar.getTime()));
+                date = sdf.format(calendar.getTime());
+                String[] dateS = date.split("-");
+                int dateI = Integer.parseInt(dateS[0])*10000+Integer.parseInt(dateS[1])*100+Integer.parseInt(dateS[2]);
+                if(nowSettingDate==0) { //start date
+                    String[] endDate = (showDateE.getText().toString()).split("-");
+                    int endDI = Integer.parseInt(endDate[0])*10000+Integer.parseInt(endDate[1])*100+Integer.parseInt(endDate[2]);
+                    Log.d("set d", endDI + " " + dateI);
+                    if(dateI > endDI) {
+                        Toast.makeText(getActivity().getApplicationContext(), "開始日期須比結束日期早", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        Toast.makeText(getActivity().getApplicationContext(), "設置成功！", Toast.LENGTH_SHORT).show();
+                        showDateS.setText(date);
+                    }
+                }
+                else { //end date
+                    String[] startDate = (showDateS.getText().toString()).split("-");
+                    int startDI = Integer.parseInt(startDate[0])*10000+Integer.parseInt(startDate[1])*100+Integer.parseInt(startDate[2]);
+                    Log.d("set d", startDI + " " + dateI);
+                    if(dateI < startDI) {
+                        Toast.makeText(getActivity().getApplicationContext(), "結束日期須比開始日期晚", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        Toast.makeText(getActivity().getApplicationContext(), "設置成功！", Toast.LENGTH_SHORT).show();
+                        showDateE.setText(date);
+                    }
+                }
+            }
+        };
+
         SPCategory = view.findViewById(R.id.SPcategory);
         SPType = view.findViewById(R.id.SPtype);
         fab1 = view.findViewById(R.id.fab);
@@ -71,7 +124,7 @@ public class TeacherTextbook extends Fragment {
         int pc = SpClass.getSelectedItemPosition() + 1;
         classForSearch = pg*100 +pc;
         unit = Integer.parseInt(SPUnit.getSelectedItem().toString());
-        time = SPYear.getSelectedItem().toString() + '-' + SPYear.getSelectedItem().toString() + '-' +SPDay.getSelectedItem().toString();
+//        time = SPYear.getSelectedItem().toString() + '-' + SPYear.getSelectedItem().toString() + '-' +SPDay.getSelectedItem().toString();
         category = SPCategory.getSelectedItem().toString();
         type = SPType.getSelectedItem().toString();
 
@@ -84,6 +137,18 @@ public class TeacherTextbook extends Fragment {
         fab1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) { fab1OnClick(); }
+        });
+        butSetDateS.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setDate(0);
+            }
+        });
+        butSetDateE.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setDate(1);
+            }
         });
         getTopic();
         return view;
@@ -102,25 +167,33 @@ public class TeacherTextbook extends Fragment {
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
                 progressBar.setVisibility(View.GONE);
+                String sd="", ed="";
                 try {
                     AddTextObj = new JSONObject(s);
-                    Log.d("json", "拿到題庫6");
+//                    Log.d("json", "拿到題庫6");
 
                     if (!AddTextObj.getBoolean("error")) {
                         Toast.makeText(getActivity().getApplicationContext(), AddTextObj.getString("message"), Toast.LENGTH_SHORT).show();
 //                      取得題目數量
                         TotalQNum = AddTextObj.getInt("rownum");
+                        if(!AddTextObj.getBoolean("dateGetError")){
+                            sd = AddTextObj.getString("startDate");
+                            ed = AddTextObj.getString("endDate");
+                        }
                     } else {
                         Log.d("toast", "oh");
                         Toast.makeText(getActivity().getApplicationContext(), "Can't get topic", Toast.LENGTH_SHORT).show();
+                        return;
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                     Log.d("study frag","study json error");
+                    return;
                 }
                 //設置題目
                 try{
                     setTopic(TotalQNum);
+                    setDateFromDB(sd, ed);
                 }catch (JSONException e){
                     e.printStackTrace();
                     Log.d("study frag","topic json error");
@@ -147,14 +220,13 @@ public class TeacherTextbook extends Fragment {
 
     private void setTopic(int n) throws JSONException{
         for (int i=0; i<n; i++){
-            Log.d("add text", "add");
+//            Log.d("add text", "add");
             JSONObject t = AddTextObj.getJSONObject(String.valueOf(i));
             TextView tv = new TextView(getContext());
             tv.setText( (i+1) + ". " + t.getString("en"));
             tv.setTextColor(getResources().getColor(R.color.black));
             tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
             showTextLayout1.addView(tv);
-
         }
     }
 
@@ -249,5 +321,14 @@ public class TeacherTextbook extends Fragment {
             AddToDB at = new AddToDB();
             at.execute();
         }
+    }
+    private void setDate(int i){
+        DatePickerDialog d = new DatePickerDialog(getActivity(), datePicker, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        nowSettingDate = i;
+        d.show();
+    }
+    private void setDateFromDB(String s, String e){
+        showDateS.setText(s);
+        showDateE.setText(e);
     }
 }
