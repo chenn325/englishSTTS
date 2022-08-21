@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".teacher.TeacherTextbook">
 
     <LinearLayout
@@ -89,16 +89,17 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="查詢" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="2dp"
-            android:background="@color/gray"/>
+            android:background="@color/gray" />
 
         <LinearLayout
             android:id="@+id/showLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="22"
+            android:layout_height="0dp"
+            android:layout_weight="30"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -162,18 +163,18 @@
                 android:layout_weight="30"
                 android:orientation="vertical">
 
+                <!--                android:layout_weight="10"-->
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:layout_weight="10"
                     android:background="@drawable/framestyle"
                     android:orientation="vertical">
 
                     <ScrollView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:fadingEdge="vertical"
                         android:scrollbars="vertical"
                         tools:ignore="MissingConstraints">
@@ -181,7 +182,7 @@
                         <LinearLayout
                             android:id="@+id/showTextbook1"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:orientation="vertical"
                             android:paddingLeft="10dp"
                             android:paddingTop="5dp">
@@ -190,7 +191,7 @@
                     </ScrollView>
 
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/fab"
+                        android:id="@+id/fabAdd"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end|bottom"
@@ -201,94 +202,36 @@
                         app:fabSize="mini"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent" />
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/fabDelete"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|bottom"
+                        android:layout_marginRight="3dp"
+                        android:layout_marginBottom="50dp"
+                        android:src="@drawable/ic_remove_circle"
+                        app:backgroundTint="@color/white"
+                        app:tint="@color/black"
+                        app:fabSize="mini"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
         </LinearLayout>
 
-        <!--        <LinearLayout-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="0dp"-->
-        <!--            android:layout_weight="5"-->
-        <!--            android:orientation="vertical">-->
-
-        <!--            <LinearLayout-->
-        <!--                android:layout_width="match_parent"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:layout_weight="1"-->
-        <!--                android:gravity="center">-->
-
-        <!--                <TextView-->
-        <!--                    android:layout_width="wrap_content"-->
-        <!--                    android:layout_height="wrap_content"-->
-        <!--                    android:layout_weight="5"-->
-        <!--                    android:text="聽力" />-->
-
-        <!--                <TextView-->
-        <!--                    android:layout_width="wrap_content"-->
-        <!--                    android:layout_height="wrap_content"-->
-        <!--                    android:layout_weight="2"-->
-        <!--                    android:text="類型" />-->
-
-        <!--                <Spinner-->
-        <!--                    android:id="@+id/SPtype"-->
-        <!--                    android:layout_width="100dp"-->
-        <!--                    android:layout_height="wrap_content"-->
-        <!--                    android:layout_weight="3" />-->
-        <!--            </LinearLayout>-->
-
-        <!--            <androidx.constraintlayout.widget.ConstraintLayout-->
-        <!--                android:layout_width="match_parent"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:layout_marginLeft="20dp"-->
-        <!--                android:layout_marginRight="20dp"-->
-        <!--                android:layout_weight="10"-->
-        <!--                android:background="@drawable/framestyle"-->
-        <!--                android:orientation="vertical">-->
-
-        <!--                <ScrollView-->
-        <!--                    android:layout_width="match_parent"-->
-        <!--                    android:layout_height="wrap_content"-->
-        <!--                    android:fadingEdge="vertical"-->
-        <!--                    android:scrollbars="vertical"-->
-        <!--                    tools:ignore="MissingConstraints">-->
-
-        <!--                    <LinearLayout-->
-        <!--                        android:id="@+id/showTextbook2"-->
-        <!--                        android:layout_width="match_parent"-->
-        <!--                        android:layout_height="wrap_content"-->
-        <!--                        android:orientation="vertical"-->
-        <!--                        android:paddingLeft="10dp"-->
-        <!--                        android:paddingTop="5dp">-->
-
-        <!--                    </LinearLayout>-->
-        <!--                </ScrollView>-->
-
-        <!--                <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-        <!--                    android:id="@+id/fab2"-->
-        <!--                    android:layout_width="wrap_content"-->
-        <!--                    android:layout_height="wrap_content"-->
-        <!--                    android:layout_gravity="end|bottom"-->
-        <!--                    android:layout_margin="3dp"-->
-        <!--                    android:backgroundTint="@color/white"-->
-        <!--                    android:src="@drawable/ic_add_circle"-->
-        <!--                    app:backgroundTint="@color/white"-->
-        <!--                    app:fabSize="mini"-->
-        <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--                    app:layout_constraintEnd_toEndOf="parent" />-->
-        <!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
-        <!--        </LinearLayout>-->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="2" />
+            android:layout_weight="3" />
 
     </LinearLayout>
 
     <ProgressBar
-        android:visibility="gone"
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true" />
+        android:layout_centerVertical="true"
+        android:visibility="gone" />
 </RelativeLayout>

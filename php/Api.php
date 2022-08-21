@@ -238,6 +238,25 @@ if(isset($_GET['apicall'])){
 				$response['message'] = 'change start date parameter error';
 			}
 			break;
+		case 'deleteTextbook':
+			if(isTheseParametersAvailable(array('unit', 'class', 'e', 'c'))){
+				$Unit = $_POST['unit'];
+				$Class = $_POST['class'];
+				$E = $_POST['e'];
+				$C = $_POST['c'];
+
+				$stmt = $conn->prepare("DELETE FROM textbook WHERE unit = ? AND class = ? AND en = ? AND ch = ?");
+				$stmt->bind_param("ssss", $Unit, $Class, $E, $C);
+				if($stmt->execute()){
+					$response['error'] = false;
+					$response['message'] = "delete textbook successful";
+				}
+				else{
+					$response['error'] = true;
+					$response['message'] = "delete textbook error";
+				}
+			}
+			break;
 		default:
 			$response['error'] = true;
 			$response['message'] = 'Invalid Operation Called';

@@ -3,6 +3,9 @@ package com.example.english_project.teacher;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -14,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -37,18 +41,19 @@ import java.util.Locale;
 
 public class TeacherTextbook extends Fragment {
 
-    int TotalQNum, classForSearch, unit, nowSettingDate;
-    String category, type, time, date;
+    int totalQNum, classForSearch, unit, nowSettingDate;
+    String category, type, date;
+    boolean fabDmode;
 
     ProgressBar progressBar;
     LinearLayout showTextLayout1;
     Button search, butSetDateS, butSetDateE;
-    Spinner SpGrade, SpClass, SPUnit, SPYear, SPMonth, SPDay, SPCategory, SPType;
-    FloatingActionButton fab1;
-
+    Spinner SpGrade, SpClass, SPUnit, SPCategory, SPType;
+    FloatingActionButton fabA, fabD;
     TextView showDateS, showDateE;
     DatePickerDialog.OnDateSetListener datePicker;
     Calendar calendar = Calendar.getInstance();
+    CheckBox[] cbArray;
 
     JSONObject AddTextObj;
 
@@ -57,6 +62,7 @@ public class TeacherTextbook extends Fragment {
         super.onCreate(savedInstanceState);
 
         nowSettingDate = 0;
+        fabDmode = false;
     }
 
     @Override
@@ -69,9 +75,6 @@ public class TeacherTextbook extends Fragment {
         SpGrade = view.findViewById(R.id.SPgrade);
         SpClass = view.findViewById(R.id.SPclass);
         SPUnit = view.findViewById(R.id.SPunit);
-//        SPYear = view.findViewById(R.id.SPyear);
-//        SPMonth = view.findViewById(R.id.SPmonth);
-//        SPDay = view.findViewById(R.id.SPday);
         butSetDateS = view.findViewById(R.id.setDateS);
         butSetDateE = view.findViewById(R.id.setDateE);
         showDateS = view.findViewById(R.id.showDateS);
@@ -85,7 +88,6 @@ public class TeacherTextbook extends Fragment {
 
                 String myFormat = "yyyy-MM-dd";
                 SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.TAIWAN);
-//                showDateS.setText(sdf.format(calendar.getTime()));
                 date = sdf.format(calendar.getTime());
                 String[] dateS = date.split("-");
                 int dateI = Integer.parseInt(dateS[0])*10000+Integer.parseInt(dateS[1])*100+Integer.parseInt(dateS[2]);
@@ -118,13 +120,13 @@ public class TeacherTextbook extends Fragment {
 
         SPCategory = view.findViewById(R.id.SPcategory);
         SPType = view.findViewById(R.id.SPtype);
-        fab1 = view.findViewById(R.id.fab);
+        fabA = view.findViewById(R.id.fabAdd);
+        fabD = view.findViewById(R.id.fabDelete);
 
         int pg = SpGrade.getSelectedItemPosition() + 3;
         int pc = SpClass.getSelectedItemPosition() + 1;
         classForSearch = pg*100 +pc;
         unit = Integer.parseInt(SPUnit.getSelectedItem().toString());
-//        time = SPYear.getSelectedItem().toString() + '-' + SPYear.getSelectedItem().toString() + '-' +SPDay.getSelectedItem().toString();
         category = SPCategory.getSelectedItem().toString();
         type = SPType.getSelectedItem().toString();
 
@@ -134,9 +136,13 @@ public class TeacherTextbook extends Fragment {
                 searchOnClick();
             }
         });
-        fab1.setOnClickListener(new View.OnClickListener() {
+        fabA.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) { fab1OnClick(); }
+            public void onClick(View view) { fabAOnClick(); }
+        });
+        fabD.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) { fabDOnClick(); }
         });
         butSetDateS.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -170,12 +176,10 @@ public class TeacherTextbook extends Fragment {
                 String sd="", ed="";
                 try {
                     AddTextObj = new JSONObject(s);
-//                    Log.d("json", "拿到題庫6");
-
                     if (!AddTextObj.getBoolean("error")) {
                         Toast.makeText(getActivity().getApplicationContext(), AddTextObj.getString("message"), Toast.LENGTH_SHORT).show();
 //                      取得題目數量
-                        TotalQNum = AddTextObj.getInt("rownum");
+                        totalQNum = AddTextObj.getInt("rownum");
                         if(!AddTextObj.getBoolean("dateGetError")){
                             sd = AddTextObj.getString("startDate");
                             ed = AddTextObj.getString("endDate");
@@ -192,7 +196,7 @@ public class TeacherTextbook extends Fragment {
                 }
                 //設置題目
                 try{
-                    setTopic(TotalQNum);
+                    setTopic();
                     setDateFromDB(sd, ed);
                 }catch (JSONException e){
                     e.printStackTrace();
@@ -218,15 +222,18 @@ public class TeacherTextbook extends Fragment {
         gt.execute();
     }
 
-    private void setTopic(int n) throws JSONException{
-        for (int i=0; i<n; i++){
-//            Log.d("add text", "add");
+    private void setTopic() throws JSONException{
+        cbArray = new CheckBox[totalQNum];
+        for (int i = 0; i< totalQNum; i++){
             JSONObject t = AddTextObj.getJSONObject(String.valueOf(i));
-            TextView tv = new TextView(getContext());
-            tv.setText( (i+1) + ". " + t.getString("en"));
-            tv.setTextColor(getResources().getColor(R.color.black));
-            tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
-            showTextLayout1.addView(tv);
+            CheckBox cb = new CheckBox(getContext());
+            cb.setText( (i+1) + ". " + t.getString("en") + " " + t.getString("ch") );
+            cb.setTextColor(getResources().getColor(R.color.black));
+            cb.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
+            cb.setButtonTintList(ColorStateList.valueOf(Color.TRANSPARENT));
+            cb.setEnabled(false);
+            cbArray[i] = cb;
+            showTextLayout1.addView(cb);
         }
     }
 
@@ -235,7 +242,6 @@ public class TeacherTextbook extends Fragment {
         int pc = SpClass.getSelectedItemPosition() + 1;
         classForSearch = pg*100 +pc;
         unit = Integer.parseInt(SPUnit.getSelectedItem().toString());
-        //time = SPYear.getSelectedItem().toString() + '-' + SPYear.getSelectedItem().toString() + '-' +SPDay.getSelectedItem().toString();
         category = SPCategory.getSelectedItem().toString();
         type = SPType.getSelectedItem().toString();
 
@@ -243,7 +249,7 @@ public class TeacherTextbook extends Fragment {
         getTopic();
     }
 
-    private void fab1OnClick(){
+    private void fabAOnClick(){
         AlertDialog.Builder ad = new AlertDialog.Builder(getActivity());
         View v = getLayoutInflater().inflate(R.layout.in_fab_dialog_layout, null);
         ad.setView(v);
@@ -259,6 +265,39 @@ public class TeacherTextbook extends Fragment {
         });
         ad.setNegativeButton("取消", null);
         ad.show();
+    }
+
+    private void fabDOnClick(){
+        //mode false:未點選 true:點選
+        if(!fabDmode) {
+            for (int i = 0; i < totalQNum; i++) {
+                cbArray[i].setButtonTintList(ColorStateList.valueOf((getResources().getColor(R.color.dark_green))));
+                cbArray[i].setEnabled(true);
+            }
+            fabD.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.dark_green)));
+            fabD.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.white)));
+            fabDmode = true;
+        }
+        else{
+            boolean changed = false;
+            for(int i=0; i<totalQNum; i++){
+                if(cbArray[i].isChecked()){
+                    changed = true;
+                    showTextLayout1.removeView(cbArray[i]);
+                    deleteFromDb(i);
+                    Log.d("remove text", i + " is removed");
+                }
+                cbArray[i].setButtonTintList(ColorStateList.valueOf(Color.TRANSPARENT));
+                cbArray[i].setEnabled(false);
+            }
+            if(changed) {
+                showTextLayout1.removeAllViewsInLayout();
+                getTopic();
+            }
+            fabD.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.white)));
+            fabD.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.black)));
+            fabDmode = false;
+        }
     }
 
     private void addTextbook(String e, String c){
@@ -307,7 +346,6 @@ public class TeacherTextbook extends Fragment {
                 protected String doInBackground(Void... voids) {
                     RequestHandler requestHandler = new RequestHandler();
                     HashMap<String, String> params = new HashMap<>();
-                    //動態取得學習單元和班級
                     params.put("unit", String.valueOf(unit));
                     params.put("class", String.valueOf(classForSearch));
                     params.put("e", e);
@@ -322,13 +360,68 @@ public class TeacherTextbook extends Fragment {
             at.execute();
         }
     }
+
     private void setDate(int i){
         DatePickerDialog d = new DatePickerDialog(getActivity(), datePicker, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
         nowSettingDate = i;
         d.show();
     }
+
     private void setDateFromDB(String s, String e){
         showDateS.setText(s);
         showDateE.setText(e);
+    }
+
+    private void deleteFromDb(int i) {
+        class DeleteFromDb extends AsyncTask<Void, Void, String> {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                progressBar.setVisibility(View.VISIBLE);;
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                progressBar.setVisibility(View.GONE);
+                try {
+                    JSONObject DeleteTextObj = new JSONObject(s);
+                    if (!DeleteTextObj.getBoolean("error")) {
+                        Toast.makeText(getActivity().getApplicationContext(), DeleteTextObj.getString("message"), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Log.d("toast", "oh");
+                        Toast.makeText(getActivity().getApplicationContext(), "Can't delete topic", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.d("delete topic frag","delete json error");
+                    return;
+                }
+            }
+
+            @Override
+            protected String doInBackground(Void... voids) {
+                RequestHandler requestHandler = new RequestHandler();
+                HashMap<String, String> params = new HashMap<>();
+                params.put("unit", String.valueOf(unit));
+                params.put("class", String.valueOf(classForSearch));
+
+                try {
+                    JSONObject t = AddTextObj.getJSONObject(String.valueOf(i));
+                    String e = t.getString("en");
+                    String c = t.getString("ch");
+                    params.put("e", e);
+                    params.put("c", c);
+                } catch (JSONException ex) {
+                    ex.printStackTrace();
+                }
+
+                return requestHandler.sendPostRequest(URLs.URL_DELETE, params);
+            }
+        }
+
+        DeleteFromDb dfd = new DeleteFromDb();
+        dfd.execute();
     }
 }
