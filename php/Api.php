@@ -215,14 +215,20 @@ if(isset($_GET['apicall'])){
 				$response['message'] = 'readStudentHistory have some problem.';
 			}
 			break;
-		case 'changeStartDate':
-			if(isTheseParametersAvailable(array('unit', 'class', 'sd'))){
+		case 'changeDate':
+			if(isTheseParametersAvailable(array('unit', 'class', 'date', 'select'))){
 				$Unit = $_POST['unit'];
 				$Class = $_POST['class'];
-				$Sd = $_POST['sd'];
+				$Date = $_POST['date'];
+				$Select = filter_var($_POST['select'], FILTER_VALIDATE_BOOLEAN);
 
-				$stmt = $conn->prepare("UPDATE `date` SET `startYmd`=? WHERE `unit` = ? AND `class` = ?");
-				$stmt->bind_param("sss", $Sd, $Unit, $Class);
+				if($Select){
+					$stmt = $conn->prepare("UPDATE `date` SET `startYmd`=? WHERE `unit` = ? AND `class` = ?");
+				}
+				else{
+					$stmt = $conn->prepare("UPDATE `date` SET `endYmd`=? WHERE `unit` = ? AND `class` = ?");
+				}
+				$stmt->bind_param("sss", $Date, $Unit, $Class);
 
 				if($stmt->execute()){
 					$response['error'] = false;

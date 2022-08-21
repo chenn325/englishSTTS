@@ -5,7 +5,6 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -55,7 +54,7 @@ public class TeacherTextbook extends Fragment {
     Calendar calendar = Calendar.getInstance();
     CheckBox[] cbArray;
 
-    JSONObject AddTextObj;
+    JSONObject TextObj;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -94,25 +93,21 @@ public class TeacherTextbook extends Fragment {
                 if(nowSettingDate==0) { //start date
                     String[] endDate = (showDateE.getText().toString()).split("-");
                     int endDI = Integer.parseInt(endDate[0])*10000+Integer.parseInt(endDate[1])*100+Integer.parseInt(endDate[2]);
-                    Log.d("set d", endDI + " " + dateI);
                     if(dateI > endDI) {
                         Toast.makeText(getActivity().getApplicationContext(), "開始日期須比結束日期早", Toast.LENGTH_SHORT).show();
                     }
                     else{
-                        Toast.makeText(getActivity().getApplicationContext(), "設置成功！", Toast.LENGTH_SHORT).show();
-                        showDateS.setText(date);
+                        changeDateToDB(date, "true");
                     }
                 }
                 else { //end date
                     String[] startDate = (showDateS.getText().toString()).split("-");
                     int startDI = Integer.parseInt(startDate[0])*10000+Integer.parseInt(startDate[1])*100+Integer.parseInt(startDate[2]);
-                    Log.d("set d", startDI + " " + dateI);
                     if(dateI < startDI) {
                         Toast.makeText(getActivity().getApplicationContext(), "結束日期須比開始日期晚", Toast.LENGTH_SHORT).show();
                     }
                     else{
-                        Toast.makeText(getActivity().getApplicationContext(), "設置成功！", Toast.LENGTH_SHORT).show();
-                        showDateE.setText(date);
+                        changeDateToDB(date, "false");
                     }
                 }
             }
@@ -175,14 +170,14 @@ public class TeacherTextbook extends Fragment {
                 progressBar.setVisibility(View.GONE);
                 String sd="", ed="";
                 try {
-                    AddTextObj = new JSONObject(s);
-                    if (!AddTextObj.getBoolean("error")) {
-                        Toast.makeText(getActivity().getApplicationContext(), AddTextObj.getString("message"), Toast.LENGTH_SHORT).show();
+                    TextObj = new JSONObject(s);
+                    if (!TextObj.getBoolean("error")) {
+                        Toast.makeText(getActivity().getApplicationContext(), TextObj.getString("message"), Toast.LENGTH_SHORT).show();
 //                      取得題目數量
-                        totalQNum = AddTextObj.getInt("rownum");
-                        if(!AddTextObj.getBoolean("dateGetError")){
-                            sd = AddTextObj.getString("startDate");
-                            ed = AddTextObj.getString("endDate");
+                        totalQNum = TextObj.getInt("rownum");
+                        if(!TextObj.getBoolean("dateGetError")){
+                            sd = TextObj.getString("startDate");
+                            ed = TextObj.getString("endDate");
                         }
                     } else {
                         Log.d("toast", "oh");
@@ -225,7 +220,7 @@ public class TeacherTextbook extends Fragment {
     private void setTopic() throws JSONException{
         cbArray = new CheckBox[totalQNum];
         for (int i = 0; i< totalQNum; i++){
-            JSONObject t = AddTextObj.getJSONObject(String.valueOf(i));
+            JSONObject t = TextObj.getJSONObject(String.valueOf(i));
             CheckBox cb = new CheckBox(getContext());
             cb.setText( (i+1) + ". " + t.getString("en") + " " + t.getString("ch") );
             cb.setTextColor(getResources().getColor(R.color.black));
@@ -323,11 +318,11 @@ public class TeacherTextbook extends Fragment {
                     super.onPostExecute(s);
                     progressBar.setVisibility(View.GONE);
                     try {
-                        AddTextObj = new JSONObject(s);
+                        TextObj = new JSONObject(s);
                         Log.d("json add", "送出");
 
-                        if (!AddTextObj.getBoolean("error")) {
-                            Toast.makeText(getActivity().getApplicationContext(), AddTextObj.getString("message"), Toast.LENGTH_SHORT).show();
+                        if (!TextObj.getBoolean("error")) {
+                            Toast.makeText(getActivity().getApplicationContext(), TextObj.getString("message"), Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(getActivity().getApplicationContext(), "Can't add textbook", Toast.LENGTH_SHORT).show();
                             return;
@@ -365,6 +360,54 @@ public class TeacherTextbook extends Fragment {
         DatePickerDialog d = new DatePickerDialog(getActivity(), datePicker, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
         nowSettingDate = i;
         d.show();
+    }
+
+    private void changeDateToDB(String date, String select){
+        class ChangeDateToDB extends AsyncTask<Void, Void, String>{
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                progressBar.setVisibility(View.VISIBLE);;
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                progressBar.setVisibility(View.GONE);
+                try {
+                    JSONObject changeDateJson = new JSONObject(s);
+                    if (!changeDateJson.getBoolean("error")) {
+                        Toast.makeText(getActivity().getApplicationContext(), changeDateJson.getString("message"), Toast.LENGTH_SHORT).show();
+                        if(select.equals("true"))   {   showDateS.setText(date);    }
+                        else    {   showDateE.setText(date);    }
+                    } else {
+                        Log.d("toast", "oh");
+                        Toast.makeText(getActivity().getApplicationContext(), "Can't change date", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.d("teacher textbook frag","change date json error");
+                    return;
+                }
+            }
+
+            @Override
+            protected String doInBackground(Void... voids) {
+                RequestHandler requestHandler = new RequestHandler();
+                HashMap<String, String> params = new HashMap<>();
+                //動態取得學習單元和班級
+                params.put("unit", String.valueOf(unit));
+                params.put("class", String.valueOf(classForSearch));
+                params.put("date", date);
+                params.put("select", select);
+
+                return requestHandler.sendPostRequest(URLs.URL_CHANGEDATE, params);
+            }
+        }
+        ChangeDateToDB cdtd = new ChangeDateToDB();
+        cdtd.execute();
     }
 
     private void setDateFromDB(String s, String e){
@@ -408,7 +451,7 @@ public class TeacherTextbook extends Fragment {
                 params.put("class", String.valueOf(classForSearch));
 
                 try {
-                    JSONObject t = AddTextObj.getJSONObject(String.valueOf(i));
+                    JSONObject t = TextObj.getJSONObject(String.valueOf(i));
                     String e = t.getString("en");
                     String c = t.getString("ch");
                     params.put("e", e);

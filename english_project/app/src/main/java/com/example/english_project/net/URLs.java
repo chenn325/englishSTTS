@@ -11,4 +11,5 @@ public class URLs {
     public static final String URL_ADD = ROOT_URL + "addTextbook";
     public static final String URL_HISTORY = ROOT_URL + "readStudentHistory";
     public static final String URL_DELETE = ROOT_URL + "deleteTextbook";
+    public static final String URL_CHANGEDATE = ROOT_URL + "changeDate";
 }
