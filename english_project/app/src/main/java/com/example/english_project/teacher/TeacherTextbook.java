@@ -151,6 +151,7 @@ public class TeacherTextbook extends Fragment {
                 setDate(1);
             }
         });
+        testSet();
         getTopic();
         return view;
     }
@@ -180,8 +181,8 @@ public class TeacherTextbook extends Fragment {
                             ed = TextObj.getString("endDate");
                         }
                     } else {
-                        Log.d("toast", "oh");
-                        Toast.makeText(getActivity().getApplicationContext(), "Can't get topic", Toast.LENGTH_SHORT).show();
+                        Log.d("get topic", "oh");
+                        Toast.makeText(getActivity().getApplicationContext(), "There are no topic", Toast.LENGTH_SHORT).show();
                         return;
                     }
                 } catch (JSONException e) {
@@ -192,7 +193,7 @@ public class TeacherTextbook extends Fragment {
                 //設置題目
                 try{
                     setTopic();
-                    setDateFromDB(sd, ed);
+                    setDateView(sd, ed);
                 }catch (JSONException e){
                     e.printStackTrace();
                     Log.d("study frag","topic json error");
@@ -240,6 +241,8 @@ public class TeacherTextbook extends Fragment {
         category = SPCategory.getSelectedItem().toString();
         type = SPType.getSelectedItem().toString();
 
+        //先檢查是否有該班級單元日期資料 沒有則創建 有則進行顯示修改
+        testSet();
         showTextLayout1.removeAllViewsInLayout();
         getTopic();
     }
@@ -410,7 +413,7 @@ public class TeacherTextbook extends Fragment {
         cdtd.execute();
     }
 
-    private void setDateFromDB(String s, String e){
+    private void setDateView(String s, String e){
         showDateS.setText(s);
         showDateE.setText(e);
     }
@@ -466,5 +469,51 @@ public class TeacherTextbook extends Fragment {
 
         DeleteFromDb dfd = new DeleteFromDb();
         dfd.execute();
+    }
+
+    private void testSet(){
+        class TestSet extends AsyncTask<Void, Void, String> {
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                progressBar.setVisibility(View.VISIBLE);;
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                progressBar.setVisibility(View.GONE);
+                try {
+                    JSONObject testSetObj = new JSONObject(s);
+                    Toast.makeText(getActivity().getApplicationContext(), testSetObj.getString("message"), Toast.LENGTH_SHORT).show();
+//                    Log.d("test set", "");
+                    if (testSetObj.getBoolean("error")) {
+                        Log.d("test set", "has set");
+                        return;
+                    }
+                    else{
+                        setDateView(testSetObj.getString("startDate"), testSetObj.getString("endDate"));
+                        Log.d("test set", "set successful");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.d("test set","test set json error");
+                    return;
+                }
+            }
+
+            @Override
+            protected String doInBackground(Void... voids) {
+                RequestHandler requestHandler = new RequestHandler();
+                HashMap<String, String> params = new HashMap<>();
+                params.put("unit", String.valueOf(unit));
+                params.put("class", String.valueOf(classForSearch));
+                return requestHandler.sendPostRequest(URLs.URL_TESTSET, params);
+            }
+        }
+
+        TestSet ts = new TestSet();
+        ts.execute();
     }
 }

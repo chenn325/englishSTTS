@@ -263,6 +263,44 @@ if(isset($_GET['apicall'])){
 				}
 			}
 			break;
+		case 'testSet':
+			if(isTheseParametersAvailable(array('unit', 'class'))){
+				$Unit = $_POST['unit'];
+				$Class = $_POST['class'];
+
+				$stmt = $conn->prepare("SELECT unit FROM `date` WHERE unit = ? AND class = ?");
+				$stmt->bind_param("ss", $Unit, $Class);
+				$stmt->execute();
+				$stmt->store_result();
+				$count = $stmt->num_rows;
+
+				if($count==0){
+					date_default_timezone_set('PRC');
+					$today = date("Y-m-d", time());
+					$tomarrow = date("Y-m-d", strtotime(" 1 day"));
+					$stmt = $conn->prepare("INSERT INTO `date` (unit, class, startYmd, endYmd) VALUES (?, ?, ?, ?)");
+					$stmt->bind_param("ssss", $Unit, $Class, $today, $tomarrow);
+					
+					if($stmt->execute()){
+						$response['error'] = false;
+						$response['message'] = "set new textbook successful";
+						$response['startDate'] = $today;
+						$response['endDate'] = $tomarrow;
+					}
+					else{
+						$response['error'] = true;
+						$response['message'] = "set new textbook fail";
+					}
+					
+				}
+				else{
+					//$response['test'] = "seted";
+					$response['error'] = true;
+					$response['message'] = "show textbook";
+				}
+
+			}
+			break;
 		default:
 			$response['error'] = true;
 			$response['message'] = 'Invalid Operation Called';
