@@ -103,6 +103,7 @@
             android:textSize="30dp"/>
 
     </LinearLayout>
+
     <ProgressBar
         android:visibility="gone"
         android:id="@+id/progressBar"
