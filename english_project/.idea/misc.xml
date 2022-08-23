@@ -6,11 +6,10 @@
         <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/drawable/selected_menu_color.xml" value="0.1" />
         <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/layout/activity_index.xml" value="0.24947916666666667" />
         <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/layout/activity_login.xml" value="0.24947916666666667" />
-        <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/layout/activity_main.xml" value="0.2" />
         <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/layout/activity_profile.xml" value="0.24947916666666667" />
-        <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/layout/activity_teacher_main.xml" value="0.2" />
+        <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/layout/activity_teacher_main.xml" value="0.1" />
         <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/layout/choose_partners.xml" value="0.1765625" />
-        <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/layout/fragment_listen_learning.xml" value="0.24592391304347827" />
         <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/layout/fragment_teacher_home.xml" value="0.16302083333333334" />
         <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/layout/fragment_teacher_profile.xml" value="0.1" />
         <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/layout/fragment_teacher_student_management.xml" value="0.264" />
@@ -19,15 +18,17 @@
         <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/layout/show_personal.xml" value="0.1625" />
         <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/layout/show_study.xml" value="0.1625" />
         <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/layout/show_test.xml" value="0.16145833333333334" />
-        <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/menu/menu.xml" value="0.1953125" />
         <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/menu/menu_resource.xml" value="0.20416666666666666" />
         <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/menu/teacher_menu.xml" value="0.2012820512820513" />
+        <entry key="app/src/main/res/drawable/framestyle.xml" value="0.1495" />
         <entry key="app/src/main/res/drawable/frameview.xml" value="0.144" />
         <entry key="app/src/main/res/layout/activity_index.xml" value="0.2545289855072464" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_teacher_main.xml" value="0.19270833333333334" />
+        <entry key="app/src/main/res/layout/fragment_speak_learning.xml" value="0.20989583333333334" />
         <entry key="app/src/main/res/layout/fragment_teacher_home.xml" value="0.19270833333333334" />
+        <entry key="app/src/main/res/layout/fragment_teacher_student_management.xml" value="0.20989583333333334" />
         <entry key="app/src/main/res/layout/fragment_teacher_textbook.xml" value="0.25" />
         <entry key="app/src/main/res/layout/in_fab_dialog_layout.xml" value="0.28125" />
         <entry key="app/src/main/res/layout/show_home.xml" value="0.1" />
