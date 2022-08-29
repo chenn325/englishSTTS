@@ -43,7 +43,6 @@ public class TeacherTextbook extends Fragment {
 
     int totalQNum, classForSearch, unit, nowSettingDate;
     String category, type, date;
-//    boolean fabDmode;
 
     ProgressBar progressBar;
     LinearLayout showTextLayout1, delButLayout;
@@ -62,7 +61,6 @@ public class TeacherTextbook extends Fragment {
         super.onCreate(savedInstanceState);
 
         nowSettingDate = 0;
-//        fabDmode = false;
     }
 
     @Override
@@ -285,8 +283,6 @@ public class TeacherTextbook extends Fragment {
     }
 
     private void fabDOnClick(){
-        //mode false:未點選 true:點選
-//        if(!fabDmode) {
         search.setEnabled(false);
         fabA.setEnabled(false);
             delButLayout.setVisibility(View.VISIBLE);
@@ -297,28 +293,6 @@ public class TeacherTextbook extends Fragment {
             fabD.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.dark_green)));
             fabD.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.white)));
             fabD.setEnabled(false);
-//            fabDmode = true;
-//        }
-//        else{
-//            boolean changed = false;
-//            for(int i=0; i<totalQNum; i++){
-//                if(cbArray[i].isChecked()){
-//                    changed = true;
-//                    showTextLayout1.removeView(cbArray[i]);
-//                    deleteFromDb(i);
-//                    Log.d("remove text", i + " is removed");
-//                }
-//                cbArray[i].setButtonTintList(ColorStateList.valueOf(Color.TRANSPARENT));
-//                cbArray[i].setEnabled(false);
-//            }
-//            if(changed) {
-//                showTextLayout1.removeAllViewsInLayout();
-//                getTopic();
-//            }
-//            fabD.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.white)));
-//            fabD.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.black)));
-//            fabDmode = false;
-//        }
     }
 
     private void delPosOnClick(){
@@ -553,7 +527,6 @@ public class TeacherTextbook extends Fragment {
                 try {
                     JSONObject testSetObj = new JSONObject(s);
                     Toast.makeText(getActivity().getApplicationContext(), testSetObj.getString("message"), Toast.LENGTH_SHORT).show();
-//                    Log.d("test set", "");
                     if (testSetObj.getBoolean("error")) {
                         Log.d("test set", "has set");
                         return;

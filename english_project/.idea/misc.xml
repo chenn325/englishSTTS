@@ -34,6 +34,9 @@
         <entry key="app/src/main/res/layout/show_home.xml" value="0.1" />
         <entry key="app/src/main/res/layout/show_personal.xml" value="0.2545289855072464" />
         <entry key="app/src/main/res/layout/show_study.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/student_txt.xml" value="0.28125" />
+        <entry key="app/src/main/res/layout/teacher_next.xml" value="0.28125" />
+        <entry key="app/src/main/res/layout/teacher_text.xml" value="0.28125" />
       </map>
     </option>
   </component>
