@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -42,11 +43,11 @@ public class TeacherTextbook extends Fragment {
 
     int totalQNum, classForSearch, unit, nowSettingDate;
     String category, type, date;
-    boolean fabDmode;
+//    boolean fabDmode;
 
     ProgressBar progressBar;
-    LinearLayout showTextLayout1;
-    Button search, butSetDateS, butSetDateE;
+    LinearLayout showTextLayout1, delButLayout;
+    Button search, butSetDateS, butSetDateE, delPositive, delNegative;
     Spinner SpGrade, SpClass, SPUnit, SPCategory, SPType;
     FloatingActionButton fabA, fabD;
     TextView showDateS, showDateE;
@@ -61,7 +62,7 @@ public class TeacherTextbook extends Fragment {
         super.onCreate(savedInstanceState);
 
         nowSettingDate = 0;
-        fabDmode = false;
+//        fabDmode = false;
     }
 
     @Override
@@ -70,6 +71,7 @@ public class TeacherTextbook extends Fragment {
         View view = inflater.inflate(R.layout.fragment_teacher_textbook, container, false);
         progressBar = view.findViewById(R.id.progressBar);
         showTextLayout1 = view.findViewById(R.id.showTextbook1);
+        delButLayout = view.findViewById(R.id.deleteButLayout);
         search = view.findViewById(R.id.ButSearch);
         SpGrade = view.findViewById(R.id.SPgrade);
         SpClass = view.findViewById(R.id.SPclass);
@@ -78,6 +80,10 @@ public class TeacherTextbook extends Fragment {
         butSetDateE = view.findViewById(R.id.setDateE);
         showDateS = view.findViewById(R.id.showDateS);
         showDateE = view.findViewById(R.id.showDateE);
+        delPositive = view.findViewById(R.id.deletePositive);
+        delNegative = view.findViewById(R.id.deleteNegative);
+
+        delButLayout.setVisibility(View.GONE);
         datePicker = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
@@ -151,6 +157,19 @@ public class TeacherTextbook extends Fragment {
                 setDate(1);
             }
         });
+        delPositive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                delPosOnClick();
+            }
+        });
+        delNegative.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                delNegativeOnClick();
+            }
+        });
+
         testSet();
         getTopic();
         return view;
@@ -267,35 +286,82 @@ public class TeacherTextbook extends Fragment {
 
     private void fabDOnClick(){
         //mode false:未點選 true:點選
-        if(!fabDmode) {
+//        if(!fabDmode) {
+        search.setEnabled(false);
+        fabA.setEnabled(false);
+            delButLayout.setVisibility(View.VISIBLE);
             for (int i = 0; i < totalQNum; i++) {
                 cbArray[i].setButtonTintList(ColorStateList.valueOf((getResources().getColor(R.color.dark_green))));
                 cbArray[i].setEnabled(true);
             }
             fabD.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.dark_green)));
             fabD.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.white)));
-            fabDmode = true;
+            fabD.setEnabled(false);
+//            fabDmode = true;
+//        }
+//        else{
+//            boolean changed = false;
+//            for(int i=0; i<totalQNum; i++){
+//                if(cbArray[i].isChecked()){
+//                    changed = true;
+//                    showTextLayout1.removeView(cbArray[i]);
+//                    deleteFromDb(i);
+//                    Log.d("remove text", i + " is removed");
+//                }
+//                cbArray[i].setButtonTintList(ColorStateList.valueOf(Color.TRANSPARENT));
+//                cbArray[i].setEnabled(false);
+//            }
+//            if(changed) {
+//                showTextLayout1.removeAllViewsInLayout();
+//                getTopic();
+//            }
+//            fabD.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.white)));
+//            fabD.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.black)));
+//            fabDmode = false;
+//        }
+    }
+
+    private void delPosOnClick(){
+        delButLayout.setVisibility(View.GONE);
+        fabD.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.white)));
+        fabD.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.black)));
+        fabD.setEnabled(true);
+        search.setEnabled(true);
+        fabA.setEnabled(true);
+        boolean changed = false;
+        for (int i = 0; i < totalQNum; i++) {
+            if (cbArray[i].isChecked()) {
+                changed = true;
+                showTextLayout1.removeView(cbArray[i]);
+                deleteFromDb(i);
+                Log.d("remove text", i + " is removed");
+            }
+            cbArray[i].setButtonTintList(ColorStateList.valueOf(Color.TRANSPARENT));
+            cbArray[i].setEnabled(false);
+        }
+        if (changed) {
+            showTextLayout1.removeAllViewsInLayout();
+            getTopic();
         }
         else{
-            boolean changed = false;
-            for(int i=0; i<totalQNum; i++){
-                if(cbArray[i].isChecked()){
-                    changed = true;
-                    showTextLayout1.removeView(cbArray[i]);
-                    deleteFromDb(i);
-                    Log.d("remove text", i + " is removed");
-                }
-                cbArray[i].setButtonTintList(ColorStateList.valueOf(Color.TRANSPARENT));
-                cbArray[i].setEnabled(false);
-            }
-            if(changed) {
-                showTextLayout1.removeAllViewsInLayout();
-                getTopic();
-            }
-            fabD.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.white)));
-            fabD.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.black)));
-            fabDmode = false;
+            Toast.makeText(getActivity().getApplicationContext(), "delete nothing", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void delNegativeOnClick(){
+        delButLayout.setVisibility(View.GONE);
+        fabD.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.white)));
+        fabD.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.black)));
+        fabD.setEnabled(true);
+        fabA.setEnabled(true);
+        search.setEnabled(true);
+        for(int i=0; i<totalQNum; i++){
+            cbArray[i].setButtonTintList(ColorStateList.valueOf(Color.TRANSPARENT));
+            cbArray[i].setEnabled(false);
+            cbArray[i].setSelected(false);
+            cbArray[i].setChecked(false);
+        }
+        Toast.makeText(getActivity().getApplicationContext(), "cancel delete", Toast.LENGTH_SHORT).show();
     }
 
     private void addTextbook(String e, String c){
