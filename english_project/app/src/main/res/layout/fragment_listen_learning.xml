@@ -3,104 +3,111 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".study.ListenLearning">
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:gravity="center">
+        android:background="@color/light_blue">
 
         <TextView
-            android:id="@+id/topicC"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:gravity="center"
+            android:text="聽力練習"
+            android:textSize="25dp"></TextView>
+
+        //left
+        <LinearLayout
+            android:id="@+id/leftbot"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
-            android:textSize="50dp"
-            android:textColor="@color/black" />
+            android:orientation="horizontal"
+            android:layout_margin="10dp">
+            //頭像
+            <androidx.cardview.widget.CardView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                app:cardCornerRadius="50dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="80dp"
-            android:layout_marginRight="80dp"
-            android:gravity="center">
-            <TextView
-                android:id="@+id/topicE"
+                <ImageView
+                    android:id="@+id/partnerImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY">
+
+                </ImageView>
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=""
-                android:textSize="40dp"
-                android:textColor="@color/black"
-                android:textAlignment="center"
-                android:layout_weight=".2"/>
+                android:layout_marginLeft="15dp"
+                android:orientation="vertical">
+                //名字
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/partnerName"
+                    android:textSize="15dp"
+                    android:text="Wendy"></TextView>
 
-            <ImageView
-                android:id="@+id/audio"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/audio_icon"
-                android:layout_weight=".1"/>
+                //內容
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:padding="10dp"
+                    android:orientation="horizontal"
+                    android:background="@drawable/shape_corner">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/partnerText"
+                        android:textSize="18dp">
+                    </TextView>
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="@color/teal_700"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="30dp"/>
 
+        //right
         <LinearLayout
-            android:layout_width="match_parent"
+            android:id="@+id/rightStudent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:gravity="center_vertical">
-            <EditText
-                android:id="@+id/inputAns"
+            android:orientation="horizontal"
+            android:layout_margin="10dp"
+            android:layout_gravity="right">
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=""
-                android:textSize="50sp"
-                android:paddingRight="30dp"
-                android:gravity="center"
-                android:focusable="false"
-                android:layout_weight=".4"/>
+                android:layout_marginLeft="15dp"
+                android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/mic"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/mic_icon"
-                android:layout_weight=".1"/>
+                //內容
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:padding="10dp"
+                    android:orientation="horizontal"
+                    android:background="@drawable/shape_corner_right">
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/studentText"
+                        android:textSize="18dp">
+                    </TextView>
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="（按住麥克風並說出單字輸入答案）" />
-
-        <TextView
-            android:id="@+id/feedback"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text=""
-            android:textSize="30dp" />
-
-        <Button
-            android:id="@+id/next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:text='下一題'
-            android:textSize="30dp"/>
-
     </LinearLayout>
 
     <ProgressBar

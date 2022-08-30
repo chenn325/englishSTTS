@@ -3,7 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/drawable-v24/shape_corner_right.xml" value="0.1235" />
         <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/drawable/selected_menu_color.xml" value="0.1" />
+        <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/drawable/shape_corner.xml" value="0.169" />
         <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/layout/activity_index.xml" value="0.24947916666666667" />
         <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/layout/activity_login.xml" value="0.24947916666666667" />
         <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/layout/activity_main.xml" value="0.1" />

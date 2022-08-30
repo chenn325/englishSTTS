@@ -3,6 +3,7 @@ package com.example.english_project.study;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,8 @@ import android.view.ViewGroup;
 import com.example.english_project.R;
 
 public class ListenLearning extends Fragment {
+
+    RecyclerView recyclerView;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
