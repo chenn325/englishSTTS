@@ -20,6 +20,6 @@
         android:layout_alignParentBottom="true"
         android:background="#E5EDF9"
         app:labelVisibilityMode="labeled"
-        app:menu="@menu/menu" />
+        app:menu="@menu/student_menu" />
 
 </RelativeLayout>

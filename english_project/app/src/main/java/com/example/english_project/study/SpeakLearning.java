@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
 import android.speech.RecognizerIntent;
-import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,21 +27,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.english_project.R;
-import com.example.english_project.SpeakAdapter;
 import com.example.english_project.net.RequestHandler;
 import com.example.english_project.net.SharedPrefManager;
 import com.example.english_project.net.URLs;
 import com.example.english_project.net.User;
-import com.example.english_project.teacher.TeacherTextbook;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Locale;
-import java.util.jar.JarEntry;
 
 public class SpeakLearning extends Fragment {
 

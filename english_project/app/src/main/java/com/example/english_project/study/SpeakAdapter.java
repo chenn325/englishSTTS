@@ -1,4 +1,4 @@
-package com.example.english_project;
+package com.example.english_project.study;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.english_project.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;

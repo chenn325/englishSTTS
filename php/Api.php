@@ -68,14 +68,14 @@ if(isset($_GET['apicall'])){
 				$password = $_POST['password'];
 
 				//creating the query
-				$stmt = $conn->prepare("SELECT id,  username, password, identity, name, myclass, gender FROM users WHERE username = ? AND password = ?");
+				$stmt = $conn->prepare("SELECT id,  username, password, identity, name, myclass, gender, partner FROM users WHERE username = ? AND password = ?");
 				$stmt->bind_param("ss",$username, $password);
 				$stmt->execute();
 				$stmt->store_result();
 
 				//if the user exist
 				if($stmt->num_rows > 0){
-					$stmt->bind_result($id, $username, $password, $identity, $name, $myclass, $gender);
+					$stmt->bind_result($id, $username, $password, $identity, $name, $myclass, $gender, $partner);
 					$stmt->fetch();
 
 					$user = array(
@@ -84,7 +84,8 @@ if(isset($_GET['apicall'])){
 						'identity' => $identity,
 						'name' => $name,
 						'myclass' => $myclass,
-						'gender' => $gender
+						'gender' => $gender,
+						'partner' => $partner
 					);
 
 					$response['error'] = false;
@@ -299,6 +300,42 @@ if(isset($_GET['apicall'])){
 					$response['message'] = "show textbook";
 				}
 
+			}
+			break;
+		case 'ListenLearning':
+			if(isTheseParametersAvailable(array('unit','myclass','category','type'))){
+				$unit = $_POST['unit'];
+				$myclass = $_POST['myclass'];
+				$category = $_POST['category'];
+				$type = $_POST['type'];
+
+				//creating the query
+				$stmt = $conn->prepare("SELECT ch, en FROM textbook WHERE unit = ? AND class = ? AND category = ? AND type = ?");
+				$stmt->bind_param("ssss", $unit, $myclass, $category, $type);
+				$stmt->execute();
+				$stmt->store_result();
+
+				if($stmt->num_rows >0){
+					$response['row'] = $stmt->num_rows;
+					$count = $stmt->num_rows;
+					for($i=0; $i<$count; $i++){
+						$stmt->bind_result($ch, $en);
+						$stmt->fetch();
+						$ListenText = array(
+							'ch' => $ch,
+							'en' => $en
+						);
+
+						$response[$i] = $ListenText;
+					}
+				}
+			
+				$response['error'] = false;
+				$response['message'] = 'get ListenLearning successful';
+			}
+			else{
+				$response['error'] = true;
+				$response['message'] = 'ListenLearning have some problem.';
 			}
 			break;
 		default:

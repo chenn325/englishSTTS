@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,18 +16,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.english_project.R;
 import com.example.english_project.study.model.MyModel;
 
-import java.io.BufferedReader;
 import java.util.List;
 import java.util.Locale;
 
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
+public class ListenAdapter extends RecyclerView.Adapter<ListenAdapter.ViewHolder> {
     //存放數據
     List<MyModel> myModelList;
     static private Context context;
     TextToSpeech tts;
 
-    public MyAdapter(Context context, List<MyModel> datalist){
+    public ListenAdapter(Context context, List<MyModel> datalist){
         this.context = context;
         this.myModelList = datalist;
     }
@@ -36,10 +34,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     @NonNull
     @Override
-    public MyAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ListenAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         //布局加載器
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
-        tts = new TextToSpeech(MyAdapter.context, new TextToSpeech.OnInitListener() {
+        tts = new TextToSpeech(ListenAdapter.context, new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
                 if(status == TextToSpeech.SUCCESS){
@@ -59,7 +57,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     //位置對應的數據與holder進行綁定
     @Override
-    public void onBindViewHolder(@NonNull MyAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ListenAdapter.ViewHolder holder, int position) {
         MyModel myModel = myModelList.get(position);
         holder.itemView.setTag(position);
         if(myModel.getType() == MyModel.SEND){

@@ -48,7 +48,7 @@ public class ListenLearning extends Fragment implements OnInitListener {
 
     List<MyModel> myModelList = new ArrayList<MyModel>();
     RecyclerView recyclerView;
-    MyAdapter myAdapter;
+    ListenAdapter listenAdapter;
     View view;
     User user;
 
@@ -167,14 +167,14 @@ public class ListenLearning extends Fragment implements OnInitListener {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        myAdapter = new MyAdapter(getContext(),myModelList);
-        recyclerView.setAdapter(myAdapter);
+        listenAdapter = new ListenAdapter(getContext(),myModelList);
+        recyclerView.setAdapter(listenAdapter);
     }
 
     void sendMessage(String message){
         MyModel myModel = new MyModel(R.drawable.ic_baseline_emoji_people_24, user.getName(), message, MyModel.SEND);
         myModelList.add(myModel);
-        myAdapter.notifyItemInserted(myModelList.size() - 1);
+        listenAdapter.notifyItemInserted(myModelList.size() - 1);
         recyclerView.scrollToPosition(myModelList.size() - 1);
     }
 
@@ -206,7 +206,7 @@ public class ListenLearning extends Fragment implements OnInitListener {
         }
         myModelList.add(myModel);
 
-        myAdapter.notifyItemInserted(myModelList.size()-1);
+        listenAdapter.notifyItemInserted(myModelList.size()-1);
         recyclerView.scrollToPosition(myModelList.size()-1);
     }
 
