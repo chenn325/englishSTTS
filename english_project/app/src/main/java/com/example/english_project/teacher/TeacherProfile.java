@@ -12,9 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.english_project.Choose_Partner;
 import com.example.english_project.LoginActivity;
-import com.example.english_project.MainActivity;
 import com.example.english_project.R;
 import com.example.english_project.net.SharedPrefManager;
 import com.example.english_project.net.User;

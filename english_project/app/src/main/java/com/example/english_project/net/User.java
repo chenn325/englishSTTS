@@ -2,17 +2,17 @@ package com.example.english_project.net;
 
 public class User {
 
-    private int id, myclass;
+    private int id, myclass, partner;
     private String username, identity, name, gender;
-    private int listen_p, speak_p, listen_c, speak_c;
 
-    public User(int id, String username, String identity, String name, int myclass, String gender) {
+    public User(int id, String username, String identity, String name, int myclass, String gender, int partner) {
         this.id = id;
         this.username = username;
         this.identity = identity;
         this.name = name;
         this.myclass = myclass;
         this.gender = gender;
+        this.partner = partner;
     }
     //register
     public User(int id, String username){
@@ -35,5 +35,8 @@ public class User {
     public int getMyclass() { return myclass; }
 
     public String getGender() { return gender; }
+
+    public int getPartner() { return partner; }
+
 
 }

@@ -18,6 +18,7 @@ import com.example.english_project.net.RequestHandler;
 import com.example.english_project.net.SharedPrefManager;
 import com.example.english_project.net.URLs;
 import com.example.english_project.net.User;
+import com.example.english_project.student.StudentMainActivity;
 import com.example.english_project.teacher.*;
 
 import java.util.HashMap;
@@ -110,7 +111,8 @@ public class LoginActivity extends AppCompatActivity {
                                 userJson.getString("identity"),
                                 userJson.getString("name"),
                                 userJson.getInt("myclass"),
-                                userJson.getString("gender")
+                                userJson.getString("gender"),
+                                userJson.getInt("partner")
                         );
 
                         //storing the user in shared preferences
@@ -124,7 +126,7 @@ public class LoginActivity extends AppCompatActivity {
                             Log.d("teacher", user.getName());
                         }
                         else{
-                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                            startActivity(new Intent(getApplicationContext(), StudentMainActivity.class));
                             Log.d("identity","Student Activity succeessful");
                         }
                     } else {

@@ -1,4 +1,4 @@
-package com.example.english_project;
+package com.example.english_project.student;
 
 
 import androidx.annotation.NonNull;
@@ -8,20 +8,20 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.english_project.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MainActivity extends AppCompatActivity {
+public class StudentMainActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
-    Menu_Home menu_home = new Menu_Home();
-    Menu_Study menu_study = new Menu_Study();
-    Menu_Test menu_test = new Menu_Test();
-    Menu_Personal menu_personal = new Menu_Personal();
-    Choose_Partner choose_partner = new Choose_Partner();
-    Fragment currentFragment = null;
+    StudentHome student_home = new StudentHome();
+    StudentStudy student_study = new StudentStudy();
+    StudentTest student_test = new StudentTest();
+    StudentProfile studentProfile = new StudentProfile();
+    StudentChoosePartner studentChoose_partner = new StudentChoosePartner();
+    Fragment currentFragment = student_home;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -29,25 +29,26 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.home:
-                    changeFragment(menu_home);
+                    changeFragment(student_home);
                     return true;
                 case R.id.study:
-                    changeFragment(menu_study);
+                    changeFragment(student_study);
                     return true;
                 case R.id.test:
-                    changeFragment(menu_test);
+                    changeFragment(student_test);
                     return true;
                 case R.id.personal:
-                    changeFragment(menu_personal);
+                    changeFragment(studentProfile);
                     return true;
             }
             return false;
         }
     };
 
-    protected void changeFragment(Fragment showFragment) {
+    public void changeFragment(Fragment showFragment) {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
+
         if (!showFragment.isAdded()) {
             ft.add(R.id.container, showFragment);
         }
@@ -66,8 +67,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         bottomNavigationView = findViewById(R.id.bottom_navigation);
 
-        getSupportFragmentManager().beginTransaction().add(R.id.container, menu_home).commit();
-        currentFragment = menu_home;
+        getSupportFragmentManager().beginTransaction().add(R.id.container, student_home).commit();
+        currentFragment = student_home;
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 

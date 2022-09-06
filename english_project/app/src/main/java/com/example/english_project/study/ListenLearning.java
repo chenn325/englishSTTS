@@ -1,6 +1,5 @@
 package com.example.english_project.study;
 
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -11,19 +10,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.english_project.student.StudentMainActivity;
+import com.example.english_project.student.StudentStudy;
 import com.example.english_project.R;
 import com.example.english_project.net.*;
 import com.example.english_project.study.model.MyModel;
@@ -44,6 +40,8 @@ public class ListenLearning extends Fragment implements OnInitListener {
     private String category, type;
     private TextToSpeech tts;
     private String myText;
+    private Button sendBtn;
+    private EditText editText;
 
     JSONObject obj;
     private int currentNum = 0; //題號
@@ -71,14 +69,18 @@ public class ListenLearning extends Fragment implements OnInitListener {
         type = "vocabulary";
         GetText();
 
-        Button sendBtn = (Button) view.findViewById(R.id.send_btn);
-        EditText editText = (EditText) view.findViewById(R.id.content_input);
+        sendBtn = (Button) view.findViewById(R.id.send_btn);
+        editText = (EditText) view.findViewById(R.id.content_input);
 
         //receiveMessage2("listen question");
 
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(sendBtn.getText().equals("EXIT")){
+                    StudentMainActivity studentMainActivity = (StudentMainActivity)getActivity();
+                    studentMainActivity.changeFragment(new StudentStudy());
+                }
                 String msg = editText.getText().toString();
                 if(!msg.isEmpty()){
                     sendMessage(msg);
@@ -194,7 +196,7 @@ public class ListenLearning extends Fragment implements OnInitListener {
     void receiveMessage(int type, String message){
         MyModel myModel = myModel = new MyModel(message, MyModel.RECEIVE);;
         if(type==1){
-            myModel = new MyModel(currentNum, R.drawable.ic_baseline_emoji_people2_24, "大米", message, MyModel.RECEIVE);
+            myModel = new MyModel(R.drawable.ic_baseline_emoji_people2_24, "大米", message, MyModel.RECEIVE);
         }
         else if(type==2){
             myModel = new MyModel(message, MyModel.RECEIVE_2);
@@ -221,13 +223,21 @@ public class ListenLearning extends Fragment implements OnInitListener {
     public void compare(String myText, String msg) throws JSONException {
         if(msg.equals(myText)){
             receiveMessage(3,"you are right!");
-            receiveMessage(2,"next question");
+
             Log.d("msg", "correct");
-            setText(rowNum);
+            if(currentNum == rowNum){
+                receiveMessage(3, "完成!");
+                sendBtn.setText("EXIT");
+            }else{
+                receiveMessage(2,"next question");
+                setText(rowNum);
+            }
         }
         else{
             receiveMessage(3,"wrong answer");
         }
+
+
     }
     @Override
     public void onInit(int status) {

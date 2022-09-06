@@ -16,7 +16,7 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.show_personal);
+        setContentView(R.layout.fragment_student_profile);
         Log.d("Profile", "onCreate");
         //if the user is not logged in
         //starting the login activity

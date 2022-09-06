@@ -1,4 +1,4 @@
-package com.example.english_project;
+package com.example.english_project.student;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,15 +11,17 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.english_project.LoginActivity;
+import com.example.english_project.R;
 import com.example.english_project.net.SharedPrefManager;
 import com.example.english_project.net.User;
 
-public class Menu_Personal extends Fragment {
+public class StudentProfile extends Fragment {
 
     TextView textViewId, textViewUsername;
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        View view=inflater.inflate(R.layout.show_personal,container,false);
+        View view=inflater.inflate(R.layout.fragment_student_profile,container,false);
         Log.d("Profile", "onCreate");
 
         //if the user is not logged in
@@ -57,8 +59,8 @@ public class Menu_Personal extends Fragment {
         view.findViewById(R.id.buttonChoose).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MainActivity mainActivity = (MainActivity)getActivity();
-                mainActivity.changeFragment(new Choose_Partner());
+                StudentMainActivity studentMainActivity = (StudentMainActivity)getActivity();
+                studentMainActivity.changeFragment(new StudentChoosePartner());
             }
         });
         return view;

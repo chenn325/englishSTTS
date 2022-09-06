@@ -1,4 +1,4 @@
-package com.example.english_project;
+package com.example.english_project.student;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -11,8 +11,10 @@ import android.widget.ImageView;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.english_project.R;
 
-public class Choose_Partner extends Fragment {
+
+public class StudentChoosePartner extends Fragment {
     Button chooseBut1, chooseBut2, confirm_button;
     int choose = 0;
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {

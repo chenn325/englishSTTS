@@ -17,6 +17,7 @@ import com.example.english_project.net.RequestHandler;
 import com.example.english_project.net.SharedPrefManager;
 import com.example.english_project.net.URLs;
 import com.example.english_project.net.User;
+import com.example.english_project.student.StudentMainActivity;
 import com.example.english_project.teacher.TeacherMainActivity;
 
 import org.json.JSONException;
@@ -40,7 +41,7 @@ public class IndexActivity extends AppCompatActivity {
                 startActivity(new Intent(this, TeacherMainActivity.class));
             }
             else{
-                startActivity(new Intent(this, MainActivity.class));
+                startActivity(new Intent(this, StudentMainActivity.class));
             }
             return;
         }
