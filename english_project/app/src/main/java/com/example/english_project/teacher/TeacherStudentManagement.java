@@ -108,7 +108,7 @@ public class TeacherStudentManagement extends Fragment {
                     setHistory(rowNum);
                 }catch (JSONException e){
                     e.printStackTrace();
-                    Log.d("study frag","topic json error");
+                    Log.d("history frag","history json error");
                 };
 
             }
