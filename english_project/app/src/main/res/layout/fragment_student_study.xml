@@ -23,7 +23,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="300dp"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
@@ -37,15 +37,15 @@
                 android:scrollbars="vertical"
                 tools:ignore="MissingConstraints">
 
-                <LinearLayout
-                    android:id="@+id/showTextbook1"
+                <TableLayout
+                    android:id="@+id/showSchedule"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:paddingLeft="10dp"
                     android:paddingTop="5dp">
 
-                </LinearLayout>
+                </TableLayout>
             </ScrollView>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -61,5 +61,11 @@
         </TableRow>
 
 </TableLayout>
-
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="gone" />
 </RelativeLayout>

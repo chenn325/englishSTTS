@@ -14,6 +14,7 @@ public class URLs {
     public static final String URL_CHANGEDATE = ROOT_URL + "changeDate";
     public static final String URL_CHANGEPARTNER = ROOT_URL + "changePartner";
     public static final String URL_TESTSET = ROOT_URL + "testSet";
+    public static final String URL_SETSCHEDULE = ROOT_URL + "setSchedule"; //study學習進度
 
     public static final String URL_ListenLearning = ROOT_URL + "ListenLearning";
 }

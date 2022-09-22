@@ -179,6 +179,41 @@ if(isset($_GET['apicall'])){
 				$response['message'] = 'false';
 			}
 			break;
+
+		case 'setSchedule':
+			if(isTheseParametersAvailable(array('myclass'))){
+				$Myclass = $_POST['myclass'];
+
+				$stmt = $conn->prepare("SELECT unit, startYmd, endYmd FROM `date` WHERE class = ?");
+				$stmt->bind_param('s', $Myclass);
+				$stmt->execute();
+				$stmt->store_result();
+
+				if($stmt->num_rows > 0){
+					$response['row'] = $stmt->num_rows;
+					$count = $stmt->num_rows;
+					for($i=0; $i<$count; $i++){
+						$stmt->bind_result($unit, $startYmd, $endYmd);
+						$stmt->fetch();
+						$schedule = array(
+							'unit' => $unit,
+							'startYmd' => $startYmd,
+							'endYmd' => $endYmd
+						);
+
+						$response[$i] = $schedule;
+					}
+					
+				}
+				$response['error'] = false;
+				$response['message'] = 'setSchedule successsfull';
+			}
+			else{
+				$response['error'] = true;
+				$response['message'] = 'setSchedule unsuccesssfull';
+			}
+
+			break;
 		case 'addTextbook':
 			if(isTheseParametersAvailable(array('e', 'c', 'unit', 'class', 'category', 'type'))){
 				$E = $_POST['e'];

@@ -35,9 +35,12 @@ import java.util.Locale;
 public class ListenLearning extends Fragment implements OnInitListener {
 
     private ProgressBar progressBar;
+
+    //default
     private int rowNum = 0;
-    private int unit, myclass;
-    private String category, type;
+    private int unit = 1, myclass = 301;
+    private String category = "listen", type = "vocabulary";
+
     private TextToSpeech tts;
     private String myText;
     private Button sendBtn;
@@ -64,9 +67,6 @@ public class ListenLearning extends Fragment implements OnInitListener {
 
         //待設定
         myclass = user.getMyclass();
-        unit = 1;
-        category = "listen";
-        type = "vocabulary";
         GetText();
 
         sendBtn = (Button) view.findViewById(R.id.send_btn);
@@ -102,6 +102,12 @@ public class ListenLearning extends Fragment implements OnInitListener {
         return view;
     }
 
+    public void setInfo(int myClass, int Unit , String Category, String Type){
+        myclass = myClass;
+        unit = Unit;
+        category = Category;
+        type = Type;
+    }
     private void GetText(){
 
         class getText extends AsyncTask<Void, Void, String> {

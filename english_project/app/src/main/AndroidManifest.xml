@@ -31,7 +31,8 @@
             android:exported="false">
         </activity>
         <activity android:name=".ProfileActivity" />
-        <activity android:name=".student.StudentMainActivity" />
+        <activity android:name=".student.StudentMainActivity"
+            android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".teacher.TeacherMainActivity"/>
     </application>
 
