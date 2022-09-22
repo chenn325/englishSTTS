@@ -99,6 +99,27 @@ if(isset($_GET['apicall'])){
 				}
 			}
 			break;
+		
+		case 'changePartner':
+			if(isTheseParametersAvailable(array('id','partner'))){
+				$Id = $_POST['id'];
+				$Partner = $_POST['partner'];
+
+				$stmt = $conn->prepare("UPDATE users SET partner = ? WHERE id = ?");
+				$stmt->bind_param("ss", $Partner, $Id);
+				$stmt->execute();
+
+				$response['error'] = false;
+				$response['message'] = 'update partner successsfull';
+
+			}
+			else{
+				$response['error'] = true;
+				$response['message'] = 'update partner wrong';
+			}
+
+			break;
+		
 		case 'study' :
 			if(isTheseParametersAvailable(array('unit', 'class', 'category', 'type'))){
                 $Unit = $_POST['unit'];

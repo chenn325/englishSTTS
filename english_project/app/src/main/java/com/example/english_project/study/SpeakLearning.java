@@ -2,6 +2,8 @@ package com.example.english_project.study;
 
 import static android.app.Activity.RESULT_OK;
 
+import static java.lang.Character.isLetter;
+
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -37,6 +39,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 
 public class SpeakLearning extends Fragment {
 
@@ -77,7 +80,7 @@ public class SpeakLearning extends Fragment {
         mic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                //測試用
+                //測試用
 //                try {
 //                    JSONObject m = new JSONObject();
 //                    m.put("type", false);
@@ -85,7 +88,7 @@ public class SpeakLearning extends Fragment {
 //                    adapter.addItem(m);
 //                    recyclerView.scrollToPosition(adapter.getItemCount() - 1);
 //                    checkAnswer(ans[ansN++]);
-////                    setTopic();
+////                  setTopic();
 //                } catch (JSONException e) {
 //                    e.printStackTrace();
 //                }
@@ -123,6 +126,9 @@ public class SpeakLearning extends Fragment {
     }
 
     public void checkAnswer(String ans) throws JSONException {
+        if(isLetter(ans.charAt(0))) {
+            ans = ans.toLowerCase();
+        }
         if (ans.equals(nowTopic)) {
             new Handler().postDelayed(new Runnable() {
                 @Override

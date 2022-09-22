@@ -46,6 +46,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         //if user presses on not registered
+        /*
         findViewById(R.id.textViewRegister).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -54,6 +55,7 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), IndexActivity.class));
             }
         });
+         */
     }
 
     private void userLogin() {

@@ -54,5 +54,14 @@
                 android:layout_gravity="center"
                 android:text="確認"/>
         </TableRow>
+
+        <ProgressBar
+            android:visibility="gone"
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true" />
     </TableLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
