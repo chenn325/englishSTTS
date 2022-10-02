@@ -38,14 +38,18 @@
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_teacher_main.xml" value="0.19270833333333334" />
+        <entry key="app/src/main/res/layout/fragment_listen_learning.xml" value="0.27794871794871795" />
         <entry key="app/src/main/res/layout/fragment_speak_learning.xml" value="0.20989583333333334" />
         <entry key="app/src/main/res/layout/fragment_teacher_home.xml" value="0.19270833333333334" />
         <entry key="app/src/main/res/layout/fragment_teacher_student_management.xml" value="0.20989583333333334" />
         <entry key="app/src/main/res/layout/fragment_teacher_textbook.xml" value="0.25" />
         <entry key="app/src/main/res/layout/in_fab_dialog_layout.xml" value="0.28125" />
+        <entry key="app/src/main/res/layout/list_item.xml" value="0.6076232910156252" />
         <entry key="app/src/main/res/layout/show_home.xml" value="0.1" />
         <entry key="app/src/main/res/layout/show_personal.xml" value="0.2545289855072464" />
         <entry key="app/src/main/res/layout/show_study.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/student_txt.xml" value="0.4286270141601562" />
+        <entry key="app/src/main/res/layout/teacher_text.xml" value="0.25" />
       </map>
     </option>
   </component>
