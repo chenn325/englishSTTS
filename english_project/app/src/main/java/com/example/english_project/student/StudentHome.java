@@ -23,12 +23,19 @@ public class StudentHome extends Fragment {
         //getting the current user
         User user = SharedPrefManager.getInstance(getActivity()).getUser();
         int partner = user.getPartner();
-        if(partner == 1){
-            imagePartner.setImageResource(R.drawable.ic_baseline_emoji_people_24);
+
+        switch (partner){
+            case 1:
+                imagePartner.setImageResource(R.drawable.girl1);
+                break;
+            case 2:
+                imagePartner.setImageResource(R.drawable.girl2);
+                break;
+            case 3:
+                imagePartner.setImageResource(R.drawable.boy3);
+                break;
         }
-        else if(partner == 2){
-            imagePartner.setImageResource(R.drawable.ic_baseline_emoji_people2_24);
-        }
+
         return view;
     }
 

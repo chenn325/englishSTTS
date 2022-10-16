@@ -200,7 +200,7 @@ public class ListenLearning extends Fragment implements OnInitListener {
     }
 
     void receiveMessage(int type, String message){
-        MyModel myModel = myModel = new MyModel(message, MyModel.RECEIVE);;
+        MyModel myModel = new MyModel(message, MyModel.RECEIVE);
         if(type==1){
             myModel = new MyModel(R.drawable.ic_baseline_emoji_people2_24, "大米", message, MyModel.RECEIVE);
         }

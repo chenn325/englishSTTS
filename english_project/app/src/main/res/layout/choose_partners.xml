@@ -1,32 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
-
-    <TextView
-        android:id="@+id/textView"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="60dp"
-        android:text="choose your partner !"
-        android:textAlignment="center"
-        android:textSize="30dp" />
+        android:layout_height="match_parent">
 
     <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="60dp"
-        app:layout_constraintTop_toBottomOf="@+id/textView">
+        android:layout_height="match_parent">
 
         <TableRow>
 
             <ImageView
                 android:layout_width="200dp"
                 android:layout_height="200dp"
-                android:src="@drawable/ic_baseline_emoji_people_24" />
+                android:src="@drawable/girl1" />
 
             <Button
                 android:id="@+id/chooseBut1"
@@ -34,34 +25,47 @@
                 android:text="choose" />
 
         </TableRow>
-
         <TableRow>
-
             <ImageView
                 android:layout_width="200dp"
                 android:layout_height="200dp"
-                android:src="@drawable/ic_baseline_emoji_people2_24" />
+                android:src="@drawable/girl2" />
 
             <Button
                 android:id="@+id/chooseBut2"
                 android:layout_gravity="center"
                 android:text="choose" />
         </TableRow>
-
         <TableRow>
+
+            <ImageView
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:src="@drawable/boy3" />
+
+            <Button
+                android:id="@+id/chooseBut3"
+                android:layout_gravity="center"
+                android:text="choose" />
+        </TableRow>
+        <TableRow
+            android:gravity="center">
             <Button
                 android:id="@+id/confirm_button"
                 android:layout_gravity="center"
                 android:text="確認"/>
         </TableRow>
 
-        <ProgressBar
-            android:visibility="gone"
-            android:id="@+id/progressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true" />
+
     </TableLayout>
+
+    </ScrollView>
+    <ProgressBar
+        android:visibility="gone"
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

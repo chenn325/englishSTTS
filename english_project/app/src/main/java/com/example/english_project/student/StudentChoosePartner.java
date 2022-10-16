@@ -27,7 +27,7 @@ import java.util.HashMap;
 
 
 public class StudentChoosePartner extends Fragment {
-    Button chooseBut1, chooseBut2, confirm_button;
+    Button chooseBut1, chooseBut2, chooseBut3, confirm_button;
     ProgressBar progressBar;
     int choose = 0;
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -35,9 +35,11 @@ public class StudentChoosePartner extends Fragment {
 
         chooseBut1 = (Button) view.findViewById(R.id.chooseBut1);
         chooseBut2 = (Button) view.findViewById(R.id.chooseBut2);
+        chooseBut3 = (Button) view.findViewById(R.id.chooseBut3);
         confirm_button = (Button) view.findViewById(R.id.confirm_button);
         progressBar = view.findViewById(R.id.progressBar);
         ImageView imageView = (ImageView)getActivity().findViewById(R.id.ImagePartner);
+
 
         chooseBut1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,6 +47,8 @@ public class StudentChoosePartner extends Fragment {
                 if(choose!=0){
                     chooseBut2.setText("CHOOSE");
                     chooseBut2.setEnabled(true);
+                    chooseBut3.setText("CHOOSE");
+                    chooseBut3.setEnabled(true);
                 }
                 chooseBut1.setText("選擇他!");
                 chooseBut1.setEnabled(false);
@@ -60,6 +64,8 @@ public class StudentChoosePartner extends Fragment {
                 if(choose!=0){
                     chooseBut1.setText("CHOOSE");
                     chooseBut1.setEnabled(true);
+                    chooseBut3.setText("CHOOSE");
+                    chooseBut3.setEnabled(true);
                 }
                 chooseBut2.setText("選擇他!");
                 chooseBut2.setEnabled(false);
@@ -69,6 +75,24 @@ public class StudentChoosePartner extends Fragment {
             }
         });
 
+        chooseBut3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(choose!=0){
+                    chooseBut1.setText("CHOOSE");
+                    chooseBut1.setEnabled(true);
+                    chooseBut2.setText("CHOOSE");
+                    chooseBut2.setEnabled(true);
+                }
+                chooseBut3.setText("選擇他!");
+                chooseBut3.setEnabled(false);
+                choose = 3;
+
+                Log.d("choose", "3");
+            }
+        });
+
+
         confirm_button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -76,10 +100,13 @@ public class StudentChoosePartner extends Fragment {
                 confirm_button.setEnabled(false);
                 chooseBut1.setEnabled(false);
                 chooseBut2.setEnabled(false);
+                chooseBut3.setEnabled(false);
                 if(choose==1)
-                    imageView.setImageResource(R.drawable.ic_baseline_emoji_people_24);
+                    imageView.setImageResource(R.drawable.girl1);
                 else if(choose==2)
-                    imageView.setImageResource(R.drawable.ic_baseline_emoji_people2_24);
+                    imageView.setImageResource(R.drawable.girl2);
+                else if(choose==3)
+                    imageView.setImageResource(R.drawable.boy3);
 
                 User user = SharedPrefManager.getInstance(getActivity()).getUser();
                 changePartner(user.getId(), choose);

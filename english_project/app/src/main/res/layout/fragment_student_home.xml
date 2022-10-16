@@ -15,8 +15,9 @@
 
     <ImageView
         android:id="@+id/ImagePartner"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/ic_baseline_emoji_people_24"/>
+        android:layout_width="400dp"
+        android:layout_height="500dp"
+        android:layout_marginTop="150dp"
+        android:src="@drawable/girl1"/>
 
 </RelativeLayout>

@@ -17,7 +17,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".IndexActivity"
+            android:name=".LoginActivity"
             android:exported="true">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
@@ -26,10 +26,6 @@
         </intent-filter>
         </activity>
 
-        <activity
-            android:name=".LoginActivity"
-            android:exported="false">
-        </activity>
         <activity android:name=".ProfileActivity" />
         <activity android:name=".student.StudentMainActivity"
             android:windowSoftInputMode="adjustPan"/>

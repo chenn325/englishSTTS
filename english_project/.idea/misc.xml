@@ -6,6 +6,7 @@
         <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.151" />
         <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/drawable-v24/shape_corner_right.xml" value="0.1235" />
         <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/drawable/ic_add_circle.xml" value="0.151" />
+        <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/drawable/ic_baseline_emoji_people_24.xml" value="0.149" />
         <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/drawable/ic_remove_circle.xml" value="0.151" />
         <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/drawable/selected_menu_color.xml" value="0.1" />
         <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/drawable/shape_corner.xml" value="0.169" />
@@ -17,6 +18,7 @@
         <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/layout/choose_partners.xml" value="0.1765625" />
         <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/layout/fragment_listen_learning.xml" value="0.2" />
         <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/layout/fragment_speak_learning.xml" value="0.24094202898550723" />
+        <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/layout/fragment_student_home.xml" value="0.1796875" />
         <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/layout/fragment_student_study.xml" value="0.13632246376811594" />
         <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/layout/fragment_teacher_home.xml" value="0.16302083333333334" />
         <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/layout/fragment_teacher_profile.xml" value="0.1" />

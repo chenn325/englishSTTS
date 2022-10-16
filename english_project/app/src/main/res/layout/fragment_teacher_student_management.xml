@@ -76,11 +76,11 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:layout_weight="10"
             android:background="@drawable/framestyle"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp">
+            android:orientation="vertical">
 
             <ScrollView
                 android:layout_width="match_parent"
@@ -99,11 +99,11 @@
 
                     <TableLayout
                         android:id="@+id/showText"
-                        android:orientation="vertical"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-<!--                        android:background="#ffcccccc"-->
-<!--                        android:layout_margin="0.5dip"-->
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <!--                        android:background="#ffcccccc"-->
+                        <!--                        android:layout_margin="0.5dip"-->
 
                     </TableLayout>
 
