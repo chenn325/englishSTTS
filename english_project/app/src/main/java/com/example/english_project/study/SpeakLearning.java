@@ -51,7 +51,7 @@ public class SpeakLearning extends Fragment {
     String category = "listen";
     String studyType = "vocabulary";
     //測試用學生答案&counter
-    String ans[] = {"ball", "d", "desk",  "tiger", "d", "do", "dog"};
+    String ans[] = {"dog", "d", "desk",  "tiger", "d", "do", "dog"};
     int ansN = 0;
 
     String nowTopic = "";
@@ -65,7 +65,7 @@ public class SpeakLearning extends Fragment {
     private RecyclerView recyclerView;
     private ImageView mic;
     private ProgressBar progressBar;
-    private TextView topic;
+//    private TextView topic;
 
     private static final int RECOGNIZER_RESULT = 1;
 
@@ -75,7 +75,7 @@ public class SpeakLearning extends Fragment {
         View view = inflater.inflate(R.layout.fragment_speak_learning, container, false);
 
         progressBar = view.findViewById(R.id.progressBar);
-        topic = view.findViewById(R.id.topicTxt);
+//        topic = view.findViewById(R.id.topicTxt);
         mic = view.findViewById(R.id.mic);
         mic.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,10 +116,10 @@ public class SpeakLearning extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         //設置格線
-        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+//        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
 
         //將資料交給adapter
-        adapter = new SpeakAdapter(mData);
+        adapter = new SpeakAdapter(mData, user);
         recyclerView.setAdapter(adapter);
         getTopic();
         return view;
@@ -264,7 +264,7 @@ public class SpeakLearning extends Fragment {
         if (nowQNum < totalQNum) {
             JSONObject t = TextObj.getJSONObject(String.valueOf(nowQNum));
             nowTopic = t.getString("en");
-            topic.setText(nowTopic);
+//            topic.setText(nowTopic);
             nowQNum++;
             String s = "我要聽到你說： " + nowTopic;
             sendTeacherText(s);

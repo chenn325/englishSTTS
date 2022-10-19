@@ -5,12 +5,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.english_project.R;
+import com.example.english_project.net.User;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,20 +23,28 @@ public class SpeakAdapter extends RecyclerView.Adapter {
     public static final int TYPE_TEACHER_TXT = 0, TYPE_TEACHER_NEXT = 1, TYPE_STUDENT_TXT = 2;
 
     private List<JSONObject> mData;
+    User user;
+    String userName;
     int count = 0;
 
-    public SpeakAdapter(List<JSONObject> data){
+
+    public SpeakAdapter(List<JSONObject> data, User u){
         mData = data;
+        user = u;
+        userName = user.getName();
     }
 
     //建立ViewHolder
     class TeacherTxtViewHolder extends RecyclerView.ViewHolder{
         //宣告元件
-        private TextView txtItem;
+        private TextView txtItem, nameItem;
+        private ImageView stuPT;
 
         TeacherTxtViewHolder(View itemView){
             super(itemView);
-            txtItem = (TextView) itemView.findViewById(R.id.txtItem);
+            txtItem = (TextView) itemView.findViewById(R.id.left_txt);
+            nameItem = (TextView) itemView.findViewById(R.id.left_name);
+            stuPT = (ImageView) itemView.findViewById(R.id.left_image);
         }
     }
 
@@ -49,11 +59,14 @@ public class SpeakAdapter extends RecyclerView.Adapter {
     }
 
     class StudentTxtViewHolder extends RecyclerView.ViewHolder{
-        private TextView txtItem;
+        private TextView txtItem, nameItem;
+        private ImageView stuPT;
 
         StudentTxtViewHolder(View itemView){
             super(itemView);
-            txtItem = (TextView) itemView.findViewById(R.id.txtItem);
+            txtItem = (TextView) itemView.findViewById(R.id.right_txt);
+            nameItem = (TextView) itemView.findViewById(R.id.right_name);
+            stuPT = (ImageView) itemView.findViewById(R.id.right_image);
         }
 
     }
@@ -89,6 +102,8 @@ public class SpeakAdapter extends RecyclerView.Adapter {
                 if(m.getBoolean("isText")){
                     TeacherTxtViewHolder tvh = (TeacherTxtViewHolder) holder;
                     tvh.txtItem.setText(m.getString("text"));
+                    tvh.nameItem.setText("大米");
+                    tvh.stuPT.setImageResource(R.drawable.ic_baseline_emoji_people2_24);
                 }
                 else{
                     TeacherNextViewHolder tnvh = (TeacherNextViewHolder) holder;
@@ -98,6 +113,8 @@ public class SpeakAdapter extends RecyclerView.Adapter {
             else{
                 StudentTxtViewHolder svh = (StudentTxtViewHolder) holder;
                 svh.txtItem.setText(m.getString("text"));
+                svh.nameItem.setText(userName);
+                svh.stuPT.setImageResource(R.drawable.ic_baseline_emoji_people_24);
             }
         } catch (JSONException e) {
             e.printStackTrace();
