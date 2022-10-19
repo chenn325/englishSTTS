@@ -5,19 +5,39 @@
     android:layout_height="match_parent"
     tools:context=".student.StudentHome">
 
-    <TextView
-        android:id="@+id/todayText"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:gravity="center"
-        android:text="home page"
-        android:textSize="30dp" />
+        android:layout_marginTop="60dp"
+        >
+
+        <TextView
+            android:id="@+id/todayText"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:gravity="center"
+            android:text="home page"
+            android:textSize="25dp"
+            android:background="@drawable/student_home_todaywords" />
+
+    </LinearLayout>
+
 
     <ImageView
         android:id="@+id/ImagePartner"
-        android:layout_width="400dp"
+        android:layout_width="match_parent"
         android:layout_height="500dp"
         android:layout_marginTop="150dp"
-        android:src="@drawable/girl1"/>
+        android:src="@drawable/girl1" />
+
+    <ProgressBar
+        android:visibility="gone"
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
 
 </RelativeLayout>

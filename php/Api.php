@@ -235,13 +235,16 @@ if(isset($_GET['apicall'])){
 			}
 			break;
 		case 'readStudentHistory':
-			if(isTheseParametersAvailable(array('myClass','unit'))){
+			if(isTheseParametersAvailable(array('myClass','unit','type'))){
 				$myclass = $_POST['myClass'];
 				$unit = $_POST['unit'];
+				$type = $_POST['type'];
 
 				//creating the query
-				$stmt = $conn->prepare("SELECT users.name, history.listen_p, history.speak_p, history.listen_c, history.speak_c FROM users JOIN history ON users.id = history.user_id WHERE users.myclass = ? AND history.unit = ?");
-				$stmt->bind_param("ss", $myclass, $unit);
+				$stmt = $conn->prepare("SELECT users.id, users.name, history.listen_p, history.speak_p, history.listen_c, history.speak_c FROM users JOIN history ON users.id = history.user_id WHERE users.myclass = ? AND history.unit = ? AND history.type = ? ");
+				
+
+				$stmt->bind_param("sss", $myclass, $unit, $type);
 				$stmt->execute();
 				$stmt->store_result();
 
@@ -249,9 +252,10 @@ if(isset($_GET['apicall'])){
 					$response['row'] = $stmt->num_rows;
 					$count = $stmt->num_rows;
 					for($i=0; $i<$count; $i++){
-						$stmt->bind_result($name, $listen_p, $speak_p, $listen_c, $speak_c);
+						$stmt->bind_result($user_id, $name, $listen_p, $speak_p, $listen_c, $speak_c);
 						$stmt->fetch();
 						$score = array(
+							'user_id'=>$user_id,
 							'name'=>$name,
 							'listen_p' => $listen_p,
 							'speak_p' => $speak_p,
@@ -394,9 +398,142 @@ if(isset($_GET['apicall'])){
 				$response['message'] = 'ListenLearning have some problem.';
 			}
 			break;
+		case 'history_LP': //listen練習次數+1
+			if(isTheseParametersAvailable(array('user_id','unit'))){
+					$user_id = $_POST['user_id'];
+					$unit = $_POST['unit'];
+					//creating the query
+					$stmt = $conn->prepare("UPDATE history SET listen_p = listen_p + 1 WHERE user_id = ? AND unit = ?");
+					$stmt->bind_param("ss", $user_id, $unit);
+					$stmt->execute();
+					$stmt->store_result();
+
+					
+					$response['error'] = false;
+					$response['message'] = 'LP plus 1 successful';
+				}
+				else{
+					$response['error'] = true;
+					$response['message'] = 'LP have some problem.';
+				}
+				break;
+		case 'history_LC': //listen測驗成績
+			if(isTheseParametersAvailable(array('user_id','unit','score'))){
+					$user_id = $_POST['user_id'];
+					$unit = $_POST['unit'];
+					$score = $_POST['score'];
+
+					//creating the query
+					$stmt = $conn->prepare("UPDATE history SET listen_c = $score WHERE user_id = ? AND unit = ?");
+					$stmt->bind_param("ss", $user_id, $unit);
+					$stmt->execute();
+					$stmt->store_result();
+
+					
+					$response['error'] = false;
+					$response['message'] = 'LC successful';
+				}
+				else{
+					$response['error'] = true;
+					$response['message'] = 'LC have some problem.';
+				}
+				break;		
+		case 'todayText':
+			if(isTheseParametersAvailable(array('id'))){
+					$id = $_POST['id'];
+
+					//creating the query
+					$stmt = $conn->prepare("SELECT text FROM todaywords WHERE id = ? ");
+					$stmt->bind_param("s", $id);
+					$stmt->execute();
+					$stmt->store_result();
+
+					if($stmt->num_rows > 0){
+						$response['row'] = $stmt->num_rows;
+						
+						$stmt->bind_result($text);
+						$stmt->fetch();
+						$todayText = array(
+							'text' => $text
+						);
+
+						$response['text'] = $todayText;
+					}
+				
+					$response['error'] = false;
+					$response['message'] = 'get todayText successful';
+				}
+				else{
+					$response['error'] = true;
+					$response['message'] = 'todayText have some problem.';
+				}
+				break;
+
+		case 'uploadError':
+			if(isTheseParametersAvailable(array('user_id', 'category', 'type', 'unit', 'en'))){
+				$user_id = $_POST['user_id'];
+				$category = $_POST['category'];
+				$type = $_POST['type'];
+				$unit = $_POST['unit'];
+				$en = $_POST['en'];
+
+				$stmt = $conn->prepare("INSERT INTO error (user_id, category, type, unit, en) VALUES (?, ?, ?, ?, ?)");
+				$stmt->bind_param("sssss", $user_id, $category, $type, $unit, $en);
+				$stmt->execute();
+
+				$response['error'] = false;
+				$response['message'] = 'uploadError successful';
+			}
+			else{
+				$response['error'] = true;
+				$response['message'] = 'uploadError have some problem';
+			}
+			break;
+		case 'downloadError':
+			if(isTheseParametersAvailable(array('user_id', 'unit', 'category', 'type'))){
+				$user_id = $_POST['user_id'];
+				$unit = $_POST['unit'];
+				$category = $_POST['category'];
+				$type = $_POST['type'];
+				
+
+				$stmt = $conn->prepare("SELECT en FROM error WHERE user_id = ? AND unit = ? AND category = ? AND type = ?");
+				$stmt->bind_param("ssss", $user_id, $unit, $category, $type);
+				$stmt->execute();
+				$stmt->store_result();
+
+				if($stmt->num_rows > 0){
+					$response['row'] = $stmt->num_rows;
+					$count = $stmt->num_rows;
+					for($i=0; $i<$count; $i++){
+						$stmt->bind_result($en);
+						$stmt->fetch();
+						$errorText = array(
+							'text' => $en
+						);
+
+						$response[$i] = $errorText;
+					}
+
+				}
+				else{
+					$response[0] = "無";
+				}
+				
+
+				$response['error'] = false;
+				$response['message'] = 'downloadError successful';
+			}
+			else{
+				$response['error'] = true;
+				$response['message'] = 'downloadError have some problem';
+			}
+			break;
 		default:
 			$response['error'] = true;
 			$response['message'] = 'Invalid Operation Called';
+
+
 	}
 }
 else{

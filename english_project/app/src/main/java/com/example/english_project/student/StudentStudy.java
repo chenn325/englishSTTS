@@ -37,7 +37,6 @@ public class StudentStudy extends Fragment {
 
     private int rowNum, myclass;
     ProgressBar progressBar;
-    Button listen_but, speak_but;
     TableLayout showSchedule;
 
     JSONObject obj;
@@ -46,28 +45,11 @@ public class StudentStudy extends Fragment {
         View view=inflater.inflate(R.layout.fragment_student_study,container,false);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         showSchedule = (TableLayout) view.findViewById(R.id.showSchedule);
-        listen_but = (Button) view.findViewById(R.id.listen_but);
-        speak_but = (Button) view.findViewById(R.id.speak_but);
 
         User user = SharedPrefManager.getInstance(getActivity()).getUser();
         myclass = user.getMyclass();
         GetSchedule();
 
-        listen_but.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                StudentMainActivity studentMainActivity = (StudentMainActivity)getActivity();
-                studentMainActivity.changeFragment(new ListenLearning());
-            }
-        });
-
-        speak_but.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                StudentMainActivity studentMainActivity = (StudentMainActivity)getActivity();
-                studentMainActivity.changeFragment(new SpeakLearning());
-            }
-        });
         return view;
     }
 
@@ -132,9 +114,11 @@ public class StudentStudy extends Fragment {
 
     public void setSchedule(int rowNum) throws JSONException {
         Log.d("setSchedule","start");
+        //listen
         TableRow tableRow = new TableRow(getContext());
         TextView tv = new TextView(getContext());
         tv.setText("Listen");
+        tv.setTextSize(20);
         tableRow.addView(tv);
         showSchedule.addView(tableRow, new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT));
         for (int i=0; i<rowNum; i++){
@@ -154,7 +138,37 @@ public class StudentStudy extends Fragment {
                 }
             });
             tableRow.addView(but);
-            tv.setText(t.getString("startYmd")+"-"+t.getString("endYmd"));
+            tv.setText(t.getString("startYmd")+" - "+t.getString("endYmd"));
+            tv.setGravity(Gravity.CENTER);
+            tv.setTextSize(20);
+            tableRow.addView(tv);
+            showSchedule.addView(tableRow, new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT));
+        }
+        //speak
+        tableRow = new TableRow(getContext());
+       tv = new TextView(getContext());
+        tv.setText("Speak");
+        tv.setTextSize(20);
+        tableRow.addView(tv);
+        showSchedule.addView(tableRow, new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT));
+        for (int i=0; i<rowNum; i++){
+            JSONObject t = obj.getJSONObject(String.valueOf(i));
+            tableRow = new TableRow(getContext());
+            tv = new TextView(getContext());
+            Button but = new Button(getContext());
+            but.setText("Unit" + t.getString("unit"));
+            int u = Integer.parseInt(t.getString("unit"));
+            but.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    SpeakLearning speakLearning = new SpeakLearning();
+                    //speakLearning.setInfo(myclass, u, "speak", "vocabulary");
+                    StudentMainActivity studentMainActivity = (StudentMainActivity)getActivity();
+                    studentMainActivity.changeFragment(speakLearning);
+                }
+            });
+            tableRow.addView(but);
+            tv.setText(t.getString("startYmd")+" - "+t.getString("endYmd"));
             tv.setGravity(Gravity.CENTER);
             tv.setTextSize(20);
             tableRow.addView(tv);

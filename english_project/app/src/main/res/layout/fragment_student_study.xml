@@ -23,7 +23,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="500dp"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
@@ -49,16 +49,16 @@
             </ScrollView>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <TableRow>
-            <Button
-                android:id="@+id/listen_but"
-                android:layout_marginLeft="100dp"
-                android:text="聽力學習"/>
-            <Button
-                android:id="@+id/speak_but"
-                android:layout_marginLeft="10dp"
-                android:text="口說學習"/>
-        </TableRow>
+<!--        <TableRow>-->
+<!--            <Button-->
+<!--                android:id="@+id/listen_but"-->
+<!--                android:layout_marginLeft="100dp"-->
+<!--                android:text="聽力學習"/>-->
+<!--            <Button-->
+<!--                android:id="@+id/speak_but"-->
+<!--                android:layout_marginLeft="10dp"-->
+<!--                android:text="口說學習"/>-->
+<!--        </TableRow>-->
 
 </TableLayout>
     <ProgressBar

@@ -1,5 +1,12 @@
 package com.example.english_project.study.model;
 
+import static java.lang.Integer.parseInt;
+
+import android.content.Context;
+
+import com.example.english_project.study.ListenAdapter;
+import com.example.english_project.study.ListenLearning;
+
 public class MyModel {
     public static final int SEND = 0;
     public static final int RECEIVE = 1;
@@ -9,6 +16,7 @@ public class MyModel {
     private int imgId = 0;
     private String name = "test";
     private String content = "test";
+    private String imageName;
 
 
     //收發類型
@@ -26,7 +34,7 @@ public class MyModel {
     }
 
     public int getImgId(){
-        return imgId;
+       return imgId;
     }
 
     public String getName(){

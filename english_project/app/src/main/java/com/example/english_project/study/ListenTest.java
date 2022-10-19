@@ -27,12 +27,13 @@ import com.example.english_project.study.model.MyModel;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-public class ListenLearning extends Fragment implements OnInitListener {
+public class ListenTest extends Fragment implements OnInitListener {
 
     private ProgressBar progressBar;
 
@@ -47,7 +48,7 @@ public class ListenLearning extends Fragment implements OnInitListener {
     private String myText;
     private Button sendBtn;
     private EditText editText;
-
+    public int[] answer;
     JSONObject obj;
     private int currentNum = 0; //題號
 
@@ -101,9 +102,7 @@ public class ListenLearning extends Fragment implements OnInitListener {
                 String msg = editText.getText().toString();
                 if(!msg.isEmpty()){
                     sendMessage(msg);
-                    reply(msg);
                     editText.setText("");
-
                     try {
                         compare(myText, msg);
                     } catch (JSONException e) {
@@ -146,6 +145,10 @@ public class ListenLearning extends Fragment implements OnInitListener {
                     if (!obj.getBoolean("error")){
                         Toast.makeText(getActivity().getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
                         rowNum = obj.getInt("row");
+                        answer = new int[rowNum];
+                        for(int i=0; i<rowNum; i++){
+                            answer[0] = 0;
+                        }
                     }
                     else{
                         Toast.makeText(getActivity().getApplicationContext(), "Can't get ListenText", Toast.LENGTH_SHORT).show();
@@ -200,21 +203,7 @@ public class ListenLearning extends Fragment implements OnInitListener {
         listenAdapter.notifyItemInserted(myModelList.size() - 1);
         recyclerView.scrollToPosition(myModelList.size() - 1);
     }
-   //測試用
-    void reply(String msg){
-        String rMsg="";
-        switch(msg){
-            case "hello":
-                rMsg = "hello! How are you?";
-                break;
-            case "How old are you?":
-                rMsg = "22";
-                break;
-        }
-        if(!rMsg.isEmpty()){
-            receiveMessage(3,rMsg);
-        }
-    }
+
     //接收
     void receiveMessage(int type, String message){
         MyModel myModel = new MyModel(message, MyModel.RECEIVE);
@@ -243,26 +232,47 @@ public class ListenLearning extends Fragment implements OnInitListener {
             currentNum++;
     }
 
+    //漸進提示
     public void compare(String myText, String msg) throws JSONException {
-        if(msg.equals(myText)){
-            receiveMessage(3,"you are right!");
 
-            Log.d("msg", "correct");
+        if(msg.equals(myText)){
+            receiveMessage(3,"正確!");
             if(currentNum == rowNum){
-                receiveMessage(3, "恭喜你完成學習，請按右下角離開");
-                //完成紀錄+1次
-                Plus();
+                receiveMessage(3, "恭喜你完成測驗!");
+                //算成績
+                receiveMessage(2, "本次成績為: "+String.valueOf(Cal()));
                 sendBtn.setText("EXIT");
+                for(int i=0; i<rowNum; i++){
+                    if(answer[i]!=0){
+                        JSONObject t = obj.getJSONObject(String.valueOf(i));
+                        String errorText = t.getString("en");
+                        UploadError(errorText);
+                    }
+                }
             }else{
                 receiveMessage(2,"next question");
                 setText(rowNum);
             }
         }
         else{
-            receiveMessage(3,"wrong answer");
+            answer[currentNum]++;
+            switch(answer[currentNum]){
+                case 1://重複錯誤
+                    receiveMessage(3,"你的答案之發音為");
+                    receiveMessage(1,msg);
+                    receiveMessage(2,"再試一次吧!");
+                    break;
+                case 2://提問引導
+                    receiveMessage(3,"這題單字的長度是"+myText.length());
+                    receiveMessage(2,"最後你的答案是?");
+                    break;
+                case 3://明確校正
+                    receiveMessage(3,"可惜!最後答案是"+myText);
+                    receiveMessage(2,"讓我們進入下一題吧");
+                    setText(rowNum);
+                    break;
+            }
         }
-
-
     }
     @Override
     public void onInit(int status) {
@@ -277,10 +287,36 @@ public class ListenLearning extends Fragment implements OnInitListener {
         }
     }
 
-    //listen_p次數+1
-    private void Plus(){
+    //listen_c分數
+    //直接return score
+    private int Cal(){
 
-        class plus extends AsyncTask<Void, Void, String> {
+        int score = 0; //總分
+
+        float per_score = 100/rowNum; //一題的分數
+        BigDecimal bd = new BigDecimal((double) per_score);
+        bd = bd.setScale(2,4); //取後兩位，四捨五入
+        per_score = bd.floatValue();
+
+        for(int i=0; i<rowNum; i++){
+            switch(answer[i]){
+                case 0:
+                    score += per_score;
+                    break;
+                case 1:
+                    score += per_score*(2/3);
+                    break;
+                case 2:
+                    score += per_score*(1/3);
+                    break;
+                default: //3就0分
+                    break;
+            }
+        }
+        Log.d("score", String.valueOf(score));
+
+        int finalScore = score;
+        class cal extends AsyncTask<Void, Void, String> {
 
             @Override
             protected void onPreExecute() {
@@ -294,18 +330,18 @@ public class ListenLearning extends Fragment implements OnInitListener {
                 progressBar.setVisibility(View.GONE);
                 try {
                     obj = new JSONObject(s);
-                    Log.d("json", "LP");
+                    Log.d("json", "LC");
 
                     if (!obj.getBoolean("error")){
                         Toast.makeText(getActivity().getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
                         rowNum = obj.getInt("row");
                     }
                     else{
-                        Toast.makeText(getActivity().getApplicationContext(), "Can't plus", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity().getApplicationContext(), "Can't cal", Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Log.d("history_LP frag","LP json error");
+                    Log.d("history_LC frag","LC json error");
                 }
 
             }
@@ -318,13 +354,67 @@ public class ListenLearning extends Fragment implements OnInitListener {
                 //creating request parameters
                 HashMap<String, String> params = new HashMap<>();
                 params.put("user_id", String.valueOf(user.getId()));
-                params.put("user_id", String.valueOf(unit));
+                params.put("unit", String.valueOf(unit));
+                params.put("score", String.valueOf(finalScore));
                 //returing the response
-                return requestHandler.sendPostRequest(URLs.URL_HISTORY_LP, params);
+                return requestHandler.sendPostRequest(URLs.URL_HISTORY_LC, params);
             }
         }
 
-        plus ul = new plus();
+        cal ul = new cal();
         ul.execute();
+
+        return score;
+    }
+    //錯題上傳給老師
+    private void UploadError(String errorText){
+
+        class uploadError extends AsyncTask<Void, Void, String> {
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                progressBar.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                progressBar.setVisibility(View.GONE);
+                try {
+                    JSONObject UpLoadobj = new JSONObject(s);
+
+                    if (!UpLoadobj.getBoolean("error")){
+                        Toast.makeText(getActivity().getApplicationContext(), UpLoadobj.getString("message"), Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        Toast.makeText(getActivity().getApplicationContext(), "Can't upload", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.d("UploadError frag","UploadError json error");
+                }
+            }
+
+            @Override
+            protected String doInBackground(Void... voids) {
+                //creating request handler object
+                RequestHandler requestHandler = new RequestHandler();
+
+                //creating request parameters
+                HashMap<String, String> params = new HashMap<>();
+                params.put("user_id", String.valueOf(user.getId()));
+                params.put("category", category);
+                params.put("type", type);
+                params.put("unit", String.valueOf(unit));
+                params.put("en", errorText);
+                //returing the response
+                return requestHandler.sendPostRequest(URLs.URL_UPLOADERROR, params);
+            }
+        }
+
+        uploadError ul = new uploadError();
+        ul.execute();
+
     }
 }

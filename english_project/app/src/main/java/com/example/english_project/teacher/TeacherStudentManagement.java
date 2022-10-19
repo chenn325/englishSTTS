@@ -1,9 +1,11 @@
 package com.example.english_project.teacher;
 
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -26,18 +28,23 @@ import com.example.english_project.net.URLs;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 
 public class TeacherStudentManagement extends Fragment {
 
-    private Spinner spGrade, spUnit, spClass;
+    private Spinner spGrade, spUnit, spClass, spType;
     private Button searchBut;
     private ProgressBar progressBar;
-    private int unit, myclass, rowNum;
+    private int user_id, unit, myclass, rowNum;
+    private String type, errorText;
     private TableLayout showText;
+    private TextView showErrorText;
 
     JSONObject obj;
+    JSONObject TextObj;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,9 +53,11 @@ public class TeacherStudentManagement extends Fragment {
         spGrade = (Spinner) view.findViewById(R.id.spGrade);
         spClass = (Spinner) view.findViewById(R.id.spClass);
         spUnit = (Spinner) view.findViewById(R.id.spUnit);
+        spType = (Spinner) view.findViewById(R.id.spType);
         searchBut = (Button) view.findViewById(R.id.searchBut);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         showText = (TableLayout) view.findViewById(R.id.showText);
+        showErrorText = (TextView) view.findViewById(R.id.showErrorText);
 
         searchBut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,6 +65,7 @@ public class TeacherStudentManagement extends Fragment {
                 Log.d("searchBut", "onClick");
                 unit = Integer.parseInt(spUnit.getSelectedItem().toString());
                 myclass = (spGrade.getSelectedItemPosition()+3)*100 + spClass.getSelectedItemPosition()+1;
+                type = spType.getSelectedItem().toString();
                 showText.removeAllViewsInLayout();
                 GetHistory();
             }
@@ -113,6 +123,7 @@ public class TeacherStudentManagement extends Fragment {
                 HashMap<String, String> params = new HashMap<>();
                 params.put("myClass", String.valueOf(myclass));
                 params.put("unit", String.valueOf(unit));
+                params.put("type", String.valueOf(type));
 
                 //returing the response
                 return requestHandler.sendPostRequest(URLs.URL_HISTORY, params);
@@ -136,24 +147,112 @@ public class TeacherStudentManagement extends Fragment {
         }
         showText.addView(tableRow, new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT));
 
-
+        Button btn[] = new Button[rowNum*2];
+        int n = 0;
         for (int i=0; i<rowNum; i++){
             JSONObject t = obj.getJSONObject(String.valueOf(i));
             Log.d("obj", t.getString("name"));
 
             tableRow = new TableRow(getContext());
             String[] arr2 = {"name","listen_p","speak_p","listen_c","speak_c"};
-            for(int j=0; j<5; j++){
+            for(int j=0; j<=2; j++){
                 TextView tv = new TextView(getContext());
                 tv.setText(t.getString(arr2[j]));
                 tv.setBackgroundColor(Color.parseColor("#ffffff"));
                 tv.setGravity(Gravity.CENTER);
                 tableRow.addView(tv);
             }
+            int k;
+            for(k=3; k<5; k++){
+                btn[n] = new Button(getContext());
+                btn[n].setText(t.getString(arr2[k]));
+                btn[n].setGravity(Gravity.CENTER);
+                int finalK = k;
+                if(finalK == 3) {
+                    try {
+                        GetText("listen", t.getString("user_id"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else {
+                    try {
+                        GetText("speak", t.getString("user_id"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                btn[n].setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        showErrorText.setText(errorText);
+                    }
+                });
+                tableRow.addView(btn[n]);
+                n++;
+            }
             showText.addView(tableRow, new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT));
         }
+
     }
 
+    private void GetText(String category, String userId){
 
+        class getText extends AsyncTask<Void, Void, String> {
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                progressBar.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                progressBar.setVisibility(View.GONE);
+                try {
+                    TextObj = new JSONObject(s);
+                    Log.d("json", "get Text");
+
+                    if (!TextObj.getBoolean("error")){
+                        Toast.makeText(getActivity().getApplicationContext(), TextObj.getString("message"), Toast.LENGTH_SHORT).show();
+                        rowNum = TextObj.getInt("row");
+                        errorText = "";
+                        for(int i=0; i<rowNum; i++){
+                            JSONObject t = TextObj.getJSONObject(String.valueOf(i));
+                            errorText += t.getString("text") + ", ";
+                        }
+                        Log.d("errorText", errorText);
+                    }
+                    else{
+                        Toast.makeText(getActivity().getApplicationContext(), "Can't get ErrorText", Toast.LENGTH_SHORT).show();
+                        Log.d("ErrorText frag","ErrorText json error1");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.d("ErrorText frag","ErrorText json error2");
+                }
+
+            }
+
+            @Override
+            protected String doInBackground(Void... voids) {
+                //creating request handler object
+                RequestHandler requestHandler = new RequestHandler();
+                Log.d("variable", userId + String.valueOf(unit)+ category + type);
+                //creating request parameters
+                HashMap<String, String> params = new HashMap<>();
+                params.put("user_id", String.valueOf(userId));
+                params.put("unit", String.valueOf(unit));
+                params.put("category", category);
+                params.put("type",type);
+                //returing the response
+                return requestHandler.sendPostRequest(URLs.URL_DOWNLOADERROR, params);
+            }
+        }
+
+        getText ul = new getText();
+        ul.execute();
+    }
 
 }
