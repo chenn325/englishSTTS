@@ -152,14 +152,14 @@ public class ListenLearning extends Fragment implements OnInitListener {
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Log.d("ListenLearning frag","ListenLearning json error");
+                    Log.d("ListenLearning frag","ListenLearning json error1");
                 }
                 //set Text
                 try{
                     setText(rowNum);
                 }catch (JSONException e){
                     e.printStackTrace();
-                    Log.d("ListenLearning frag","ListenLearning json error");
+                    Log.d("ListenLearning frag","ListenLearning json error2");
                 };
 
             }

@@ -240,7 +240,7 @@ public class TeacherTextbook extends Fragment {
         for (int i = 0; i< totalQNum; i++){
             JSONObject t = TextObj.getJSONObject(String.valueOf(i));
             CheckBox cb = new CheckBox(getContext());
-            cb.setText( (i+1) + ". " + t.getString("en") + " " + t.getString("ch") );
+            cb.setText( (i+1) + ". " + t.getString("en") );
             cb.setTextColor(getResources().getColor(R.color.black));
             cb.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
             cb.setButtonTintList(ColorStateList.valueOf(Color.TRANSPARENT));
@@ -269,13 +269,11 @@ public class TeacherTextbook extends Fragment {
         View v = getLayoutInflater().inflate(R.layout.in_fab_dialog_layout, null);
         ad.setView(v);
         EditText edE = v.findViewById(R.id.edE);
-        EditText edC = v.findViewById(R.id.edC);
         ad.setPositiveButton("新增", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 String edtextE = edE.getText().toString();
-                String edtextC = edC.getText().toString();
-                addTextbook(edtextE, edtextC);
+                addTextbook(edtextE);
             }
         });
         ad.setNegativeButton("取消", null);
@@ -285,14 +283,14 @@ public class TeacherTextbook extends Fragment {
     private void fabDOnClick(){
         search.setEnabled(false);
         fabA.setEnabled(false);
-            delButLayout.setVisibility(View.VISIBLE);
-            for (int i = 0; i < totalQNum; i++) {
-                cbArray[i].setButtonTintList(ColorStateList.valueOf((getResources().getColor(R.color.dark_green))));
-                cbArray[i].setEnabled(true);
-            }
-            fabD.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.dark_green)));
-            fabD.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.white)));
-            fabD.setEnabled(false);
+        delButLayout.setVisibility(View.VISIBLE);
+        for (int i = 0; i < totalQNum; i++) {
+            cbArray[i].setButtonTintList(ColorStateList.valueOf((getResources().getColor(R.color.dark_green))));
+            cbArray[i].setEnabled(true);
+        }
+        fabD.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.dark_green)));
+        fabD.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.white)));
+        fabD.setEnabled(false);
     }
 
     private void delPosOnClick(){
@@ -338,12 +336,12 @@ public class TeacherTextbook extends Fragment {
         Toast.makeText(getActivity().getApplicationContext(), "cancel delete", Toast.LENGTH_SHORT).show();
     }
 
-    private void addTextbook(String e, String c){
-        if(e.equals("") || c.equals("")){
+    private void addTextbook(String e){
+        if(e.equals("")){
             Toast.makeText(getContext(), "請輸入內容！", Toast.LENGTH_SHORT).show();
             return;
         }
-        else if(!e.matches("[a-zA-Z]+") || !c.matches("[\\u4e00-\\u9fa5]+")){
+        else if(!e.matches("[a-zA-Z]+")){
             Toast.makeText(getContext(), "請輸入正確的語言！", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -370,8 +368,8 @@ public class TeacherTextbook extends Fragment {
                             Toast.makeText(getActivity().getApplicationContext(), "Can't add textbook", Toast.LENGTH_SHORT).show();
                             return;
                         }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                    } catch (JSONException exception) {
+                        exception.printStackTrace();
                         Log.d("add","add json error");
                         return;
                     }
@@ -387,7 +385,6 @@ public class TeacherTextbook extends Fragment {
                     params.put("unit", String.valueOf(unit));
                     params.put("class", String.valueOf(classForSearch));
                     params.put("e", e);
-                    params.put("c", c);
                     params.put("category", category);
                     params.put("type", type);
                     return requestHandler.sendPostRequest(URLs.URL_ADD, params);
@@ -496,9 +493,7 @@ public class TeacherTextbook extends Fragment {
                 try {
                     JSONObject t = TextObj.getJSONObject(String.valueOf(i));
                     String e = t.getString("en");
-                    String c = t.getString("ch");
                     params.put("e", e);
-                    params.put("c", c);
                 } catch (JSONException ex) {
                     ex.printStackTrace();
                 }

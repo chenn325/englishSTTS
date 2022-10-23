@@ -6,6 +6,7 @@ import static java.lang.Character.isLetter;
 
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.AsyncTask;
@@ -53,6 +54,7 @@ public class SpeakLearning extends Fragment {
     //測試用學生答案&counter
     String ans[] = {"dog", "d", "desk",  "tiger", "d", "do", "dog"};
     int ansN = 0;
+    int count=0;
 
     String nowTopic = "";
 
@@ -98,6 +100,7 @@ public class SpeakLearning extends Fragment {
                     intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en-US");
                     intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
                     intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "speech to text");
+//                    intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 3);
                     startActivityForResult(intent, RECOGNIZER_RESULT);
                 }catch(ActivityNotFoundException e){
                     Log.d("MainActivity", "沒谷哥哥ㄌㄚ");
@@ -264,7 +267,6 @@ public class SpeakLearning extends Fragment {
         if (nowQNum < totalQNum) {
             JSONObject t = TextObj.getJSONObject(String.valueOf(nowQNum));
             nowTopic = t.getString("en");
-//            topic.setText(nowTopic);
             nowQNum++;
             String s = "我要聽到你說： " + nowTopic;
             sendTeacherText(s);

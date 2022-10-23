@@ -127,7 +127,8 @@ if(isset($_GET['apicall'])){
 				$Category = $_POST['category'];
 				$Type = $_POST['type'];
 
-				$stmt = $conn->prepare("SELECT ch, en FROM textbook WHERE unit = ? AND class = ? AND category = ? AND type = ?");
+				// $stmt = $conn->prepare("SELECT ch, en FROM textbook WHERE unit = ? AND class = ? AND category = ? AND type = ?");
+				$stmt = $conn->prepare("SELECT en FROM textbook WHERE unit = ? AND class = ? AND category = ? AND type = ?");
 				$stmt->bind_param("ssss", $Unit, $Classnum, $Category, $Type);
 				$stmt->execute();
 				$stmt->store_result();
@@ -138,11 +139,12 @@ if(isset($_GET['apicall'])){
 					$response['message'] = 'get topic successful';
 					$response['rownum'] = $count;
 					for($i=0; $i<$count; $i++){
-						$stmt->bind_result($ch, $en);
+						// $stmt->bind_result($ch, $en);
+						$stmt->bind_result($en);
 						$stmt->fetch();
 
 						$topic = array(
-							'ch' => $ch,
+							// 'ch' => $ch,
 							'en' => $en
 						);
 		
@@ -215,17 +217,18 @@ if(isset($_GET['apicall'])){
 
 			break;
 		case 'addTextbook':
-			if(isTheseParametersAvailable(array('e', 'c', 'unit', 'class', 'category', 'type'))){
+			// if(isTheseParametersAvailable(array('e', 'c', 'unit', 'class', 'category', 'type'))){
+				if(isTheseParametersAvailable(array('e', 'unit', 'class', 'category', 'type'))){
 				$E = $_POST['e'];
-				$C = $_POST['c'];
+				// $C = $_POST['c'];
 				$Unit = $_POST['unit'];
 				$Class = $_POST['class'];
 				$Category = $_POST['category'];
 				$Type = $_POST['type'];
 
-				$stmt = $conn->prepare("INSERT INTO textbook (unit, class, category, type, ch, en) VALUES (?, ?, ?, ?, ?, ?)");
-				$stmt->bind_param("ssssss", $Unit, $Class, $Category, $Type, $C, $E);
-				//怪怪
+				// $stmt = $conn->prepare("INSERT INTO textbook (unit, class, category, type, ch, en) VALUES (?, ?, ?, ?, ?, ?)");
+				$stmt = $conn->prepare("INSERT INTO textbook (unit, class, category, type, en) VALUES (?, ?, ?, ?, ?)");
+				$stmt->bind_param("sssss", $Unit, $Class, $Category, $Type, $E);
 				$response['error'] = !($stmt->execute());
 				$response['message'] = '新增成功！';
 			}
@@ -306,14 +309,17 @@ if(isset($_GET['apicall'])){
 			}
 			break;
 		case 'deleteTextbook':
-			if(isTheseParametersAvailable(array('unit', 'class', 'e', 'c'))){
+			// if(isTheseParametersAvailable(array('unit', 'class', 'e', 'c'))){
+				if(isTheseParametersAvailable(array('unit', 'class', 'e'))){
 				$Unit = $_POST['unit'];
 				$Class = $_POST['class'];
 				$E = $_POST['e'];
-				$C = $_POST['c'];
+				// $C = $_POST['c'];
 
-				$stmt = $conn->prepare("DELETE FROM textbook WHERE unit = ? AND class = ? AND en = ? AND ch = ?");
-				$stmt->bind_param("ssss", $Unit, $Class, $E, $C);
+				// $stmt = $conn->prepare("DELETE FROM textbook WHERE unit = ? AND class = ? AND en = ? AND ch = ?");
+				$stmt = $conn->prepare("DELETE FROM textbook WHERE unit = ? AND class = ? AND en = ?");
+				// $stmt->bind_param("ssss", $Unit, $Class, $E, $C);
+				$stmt->bind_param("sss", $Unit, $Class, $E);
 				if($stmt->execute()){
 					$response['error'] = false;
 					$response['message'] = "delete textbook successful";
@@ -370,7 +376,7 @@ if(isset($_GET['apicall'])){
 				$type = $_POST['type'];
 
 				//creating the query
-				$stmt = $conn->prepare("SELECT ch, en FROM textbook WHERE unit = ? AND class = ? AND category = ? AND type = ?");
+				$stmt = $conn->prepare("SELECT en FROM textbook WHERE unit = ? AND class = ? AND category = ? AND type = ?");
 				$stmt->bind_param("ssss", $unit, $myclass, $category, $type);
 				$stmt->execute();
 				$stmt->store_result();
@@ -379,10 +385,11 @@ if(isset($_GET['apicall'])){
 					$response['row'] = $stmt->num_rows;
 					$count = $stmt->num_rows;
 					for($i=0; $i<$count; $i++){
-						$stmt->bind_result($ch, $en);
+						// $stmt->bind_result($ch, $en);
+						$stmt->bind_result($en);
 						$stmt->fetch();
 						$ListenText = array(
-							'ch' => $ch,
+							// 'ch' => $ch,
 							'en' => $en
 						);
 
