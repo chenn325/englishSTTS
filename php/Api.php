@@ -342,6 +342,7 @@ if(isset($_GET['apicall'])){
 				$count = $stmt->num_rows;
 
 				if($count==0){
+					$response['seted'] = false;
 					date_default_timezone_set('PRC');
 					$today = date("Y-m-d", time());
 					$tomarrow = date("Y-m-d", strtotime(" 1 day"));
@@ -361,11 +362,15 @@ if(isset($_GET['apicall'])){
 					
 				}
 				else{
-					//$response['test'] = "seted";
-					$response['error'] = true;
+					$response['seted'] = true;
+					$response['error'] = false;
 					$response['message'] = "show textbook";
 				}
 
+			}
+			else{
+				$response['error'] = true;
+				$response['message'] = "test set error";
 			}
 			break;
 		case 'ListenLearning':
@@ -536,6 +541,47 @@ if(isset($_GET['apicall'])){
 				$response['message'] = 'downloadError have some problem';
 			}
 			break;
+
+		case 'initStudentHistory' :
+			if(isTheseParametersAvailable(array('class', 'unit'))){
+				$classnum = $_POST['class'];
+				$unit = $_POST['unit'];
+
+				$stmt = $conn->prepare("SELECT id FROM users WHERE myclass = ?");
+				$stmt->bind_param('s', $classnum);
+				$stmt->execute();
+				$stmt->store_result();
+				$count = $stmt->num_rows;
+
+				if($count > 0){
+					$response['rownum'] = $count;
+					for($i=0; $i<$count; $i++){
+						// $stmt->bind_result($ch, $en);
+						$stmt->bind_result($stuID);
+						$stmt->fetch();
+		
+						// $response[$i] = $stuID;
+
+						$stmt2 = $conn->prepare("INSERT INTO `history` (`id`, `user_id`, `unit`, `listen_p`, `speak_p`, `listen_c`, `speak_c`, `type`) VALUES (NULL, ?, ?, '0', '0', '-1', '-1', 'vocabulary')");
+						$stmt2->bind_param('ss', $stuID, $unit);
+						$stmt2->execute();
+						// $stmt2->store_result();
+					}
+					$response['error'] = false;
+					$response['message'] = 'get student list successful';
+				}
+				else{
+					$response['error'] = true;
+					$response['message'] = 'init student history get list error';
+					$response['rownum'] = $count;
+				}
+			}
+			else{
+				$response['error'] = true;
+				$response['message'] = 'init student history error';
+			}
+			break;
+
 		default:
 			$response['error'] = true;
 			$response['message'] = 'Invalid Operation Called';

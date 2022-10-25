@@ -455,6 +455,44 @@ public class TeacherTextbook extends Fragment {
         showDateE.setText(e);
     }
 
+    private void initStudentHistory(){
+        class InitStudentHistory extends AsyncTask<Void, Void, String> {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                progressBar.setVisibility(View.VISIBLE);;
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                progressBar.setVisibility(View.GONE);
+                try {
+                    JSONObject json = new JSONObject(s);
+                    Toast.makeText(getActivity().getApplicationContext(), json.getString("message"), Toast.LENGTH_SHORT).show();
+                    return;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.d("init history","init history error");
+                    return;
+                }
+            }
+
+            @Override
+            protected String doInBackground(Void... voids) {
+                RequestHandler requestHandler = new RequestHandler();
+                HashMap<String, String> params = new HashMap<>();
+                params.put("unit", String.valueOf(unit));
+                params.put("class", String.valueOf(classForSearch));
+
+                return requestHandler.sendPostRequest(URLs.URL_INITSTUDENTHISTORY, params);
+            }
+        }
+
+        InitStudentHistory ish = new InitStudentHistory();
+        ish.execute();
+    }
+
     private void deleteFromDb(int i) {
         class DeleteFromDb extends AsyncTask<Void, Void, String> {
             @Override
@@ -522,13 +560,18 @@ public class TeacherTextbook extends Fragment {
                 try {
                     JSONObject testSetObj = new JSONObject(s);
                     Toast.makeText(getActivity().getApplicationContext(), testSetObj.getString("message"), Toast.LENGTH_SHORT).show();
-                    if (testSetObj.getBoolean("error")) {
-                        Log.d("test set", "has set");
-                        return;
+                    if(!testSetObj.getBoolean("error")) {
+                        if (testSetObj.getBoolean("seted")) {
+                            Log.d("test set", "has set");
+                            return;
+                        } else {
+                            initStudentHistory();
+                            setDateView(testSetObj.getString("startDate"), testSetObj.getString("endDate"));
+                            Log.d("test set", "set successful");
+                        }
                     }
                     else{
-                        setDateView(testSetObj.getString("startDate"), testSetObj.getString("endDate"));
-                        Log.d("test set", "set successful");
+                        Log.d("test set", "set error");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

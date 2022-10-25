@@ -19,8 +19,7 @@ public class URLs {
     public static final String URL_HISTORY_LC = ROOT_URL + "history_LC"; //listen_c++
     public static final String URL_UPLOADERROR = ROOT_URL + "uploadError"; //上傳錯題
     public static final String URL_DOWNLOADERROR = ROOT_URL + "downloadError"; //顯示錯題
-
-
+    public static final String URL_INITSTUDENTHISTORY = ROOT_URL + "initStudentHistory"; //顯示錯題
 
     public static final String URL_ListenLearning = ROOT_URL + "ListenLearning";
 }
