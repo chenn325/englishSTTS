@@ -39,9 +39,10 @@ public class TeacherStudentManagement extends Fragment {
     private Button searchBut;
     private ProgressBar progressBar;
     private int user_id, unit, myclass, rowNum;
-    private String type, errorText;
+    private String type;
     private TableLayout showText;
     private TextView showErrorText;
+    private String errorText[];
 
     JSONObject obj;
     JSONObject TextObj;
@@ -135,6 +136,10 @@ public class TeacherStudentManagement extends Fragment {
     }
 
     public void setHistory(int rowNum) throws JSONException {
+
+        Button btn[] = new Button[rowNum*2];
+        String errorText[] = new String[rowNum*2];
+
         Log.d("setHistory","start");
         TableRow tableRow = new TableRow(getContext());
         String[] arr = {"姓名","聽力練習","口說練習","聽力挑戰","口說挑戰"};
@@ -147,7 +152,7 @@ public class TeacherStudentManagement extends Fragment {
         }
         showText.addView(tableRow, new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT));
 
-        Button btn[] = new Button[rowNum*2];
+
         int n = 0;
         for (int i=0; i<rowNum; i++){
             JSONObject t = obj.getJSONObject(String.valueOf(i));
@@ -170,22 +175,24 @@ public class TeacherStudentManagement extends Fragment {
                 int finalK = k;
                 if(finalK == 3) {
                     try {
-                        GetText("listen", t.getString("user_id"));
+                        GetText("listen", t.getString("user_id"), errorText, n);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
                 else {
                     try {
-                        GetText("speak", t.getString("user_id"));
+                        GetText("speak", t.getString("user_id"), errorText, n);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
+                int finalN = n;
                 btn[n].setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        showErrorText.setText(errorText);
+                        showErrorText.setText(errorText[finalN]);
+                        Log.d("showErrorText", errorText[finalN]);
                     }
                 });
                 tableRow.addView(btn[n]);
@@ -196,7 +203,7 @@ public class TeacherStudentManagement extends Fragment {
 
     }
 
-    private void GetText(String category, String userId){
+    private void GetText(String category, String userId, String err[], int n){
 
         class getText extends AsyncTask<Void, Void, String> {
 
@@ -217,12 +224,18 @@ public class TeacherStudentManagement extends Fragment {
                     if (!TextObj.getBoolean("error")){
                         Toast.makeText(getActivity().getApplicationContext(), TextObj.getString("message"), Toast.LENGTH_SHORT).show();
                         rowNum = TextObj.getInt("row");
-                        errorText = "";
-                        for(int i=0; i<rowNum; i++){
-                            JSONObject t = TextObj.getJSONObject(String.valueOf(i));
-                            errorText += t.getString("text") + ", ";
+                        Log.d("rowNum", String.valueOf(rowNum));
+                        if(rowNum > 0){
+                            err[n] = "";
+                            for(int i=0; i<rowNum; i++){
+                                JSONObject t = TextObj.getJSONObject(String.valueOf(i));
+                                err[n] += t.getString("text") + ", ";
+                            }
                         }
-                        Log.d("errorText", errorText);
+                        else{
+                            err[n] = "無";
+                        }
+                        Log.d("errorText", err[n]);
                     }
                     else{
                         Toast.makeText(getActivity().getApplicationContext(), "Can't get ErrorText", Toast.LENGTH_SHORT).show();
@@ -232,7 +245,6 @@ public class TeacherStudentManagement extends Fragment {
                     e.printStackTrace();
                     Log.d("ErrorText frag","ErrorText json error2");
                 }
-
             }
 
             @Override
@@ -249,6 +261,8 @@ public class TeacherStudentManagement extends Fragment {
                 //returing the response
                 return requestHandler.sendPostRequest(URLs.URL_DOWNLOADERROR, params);
             }
+
+
         }
 
         getText ul = new getText();
