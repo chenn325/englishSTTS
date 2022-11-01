@@ -8,7 +8,6 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -42,12 +41,13 @@ import java.util.Locale;
 public class TeacherTextbook extends Fragment {
 
     int totalQNum, classForSearch, unit, nowSettingDate;
+    int preClassForSearch, preUnit;
     String category, type, date;
 
     ProgressBar progressBar;
     LinearLayout showTextLayout1, delButLayout;
     Button search, butSetDateS, butSetDateE, delPositive, delNegative;
-    Spinner SpGrade, SpClass, SPUnit, SPCategory, SPType;
+    Spinner spGrade, spClass, spUnit, spCategory, spType;
     FloatingActionButton fabA, fabD;
     TextView showDateS, showDateE;
     DatePickerDialog.OnDateSetListener datePicker;
@@ -71,9 +71,9 @@ public class TeacherTextbook extends Fragment {
         showTextLayout1 = view.findViewById(R.id.showTextbook1);
         delButLayout = view.findViewById(R.id.deleteButLayout);
         search = view.findViewById(R.id.ButSearch);
-        SpGrade = view.findViewById(R.id.SPgrade);
-        SpClass = view.findViewById(R.id.SPclass);
-        SPUnit = view.findViewById(R.id.SPunit);
+        spGrade = view.findViewById(R.id.SPgrade);
+        spClass = view.findViewById(R.id.SPclass);
+        spUnit = view.findViewById(R.id.SPunit);
         butSetDateS = view.findViewById(R.id.setDateS);
         butSetDateE = view.findViewById(R.id.setDateE);
         showDateS = view.findViewById(R.id.showDateS);
@@ -117,17 +117,19 @@ public class TeacherTextbook extends Fragment {
             }
         };
 
-        SPCategory = view.findViewById(R.id.SPcategory);
-        SPType = view.findViewById(R.id.SPtype);
+        spCategory = view.findViewById(R.id.SPcategory);
+        spType = view.findViewById(R.id.SPtype);
         fabA = view.findViewById(R.id.fabAdd);
         fabD = view.findViewById(R.id.fabDelete);
 
-        int pg = SpGrade.getSelectedItemPosition() + 3;
-        int pc = SpClass.getSelectedItemPosition() + 1;
+        int pg = spGrade.getSelectedItemPosition() + 3;
+        int pc = spClass.getSelectedItemPosition() + 1;
         classForSearch = pg*100 +pc;
-        unit = Integer.parseInt(SPUnit.getSelectedItem().toString());
-        category = SPCategory.getSelectedItem().toString();
-        type = SPType.getSelectedItem().toString();
+        preClassForSearch = classForSearch;
+        unit = Integer.parseInt(spUnit.getSelectedItem().toString());
+        preUnit = unit;
+        category = spCategory.getSelectedItem().toString();
+        type = spType.getSelectedItem().toString();
 
         search.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -169,7 +171,7 @@ public class TeacherTextbook extends Fragment {
         });
 
         testSet();
-        getTopic();
+//        getTopic();
         return view;
     }
 
@@ -231,6 +233,7 @@ public class TeacherTextbook extends Fragment {
             }
         }
 
+        showTextLayout1.removeAllViewsInLayout();
         GetTopic gt = new GetTopic();
         gt.execute();
     }
@@ -251,17 +254,17 @@ public class TeacherTextbook extends Fragment {
     }
 
     private void searchOnClick(){
-        int pg = SpGrade.getSelectedItemPosition() + 3;
-        int pc = SpClass.getSelectedItemPosition() + 1;
+        int pg = spGrade.getSelectedItemPosition() + 3;
+        int pc = spClass.getSelectedItemPosition() + 1;
         classForSearch = pg*100 +pc;
-        unit = Integer.parseInt(SPUnit.getSelectedItem().toString());
-        category = SPCategory.getSelectedItem().toString();
-        type = SPType.getSelectedItem().toString();
+        unit = Integer.parseInt(spUnit.getSelectedItem().toString());
+        category = spCategory.getSelectedItem().toString();
+        type = spType.getSelectedItem().toString();
 
         //先檢查是否有該班級單元日期資料 沒有則創建 有則進行顯示修改
         testSet();
-        showTextLayout1.removeAllViewsInLayout();
-        getTopic();
+        //showTextLayout1.removeAllViewsInLayout();
+        //getTopic();
     }
 
     private void fabAOnClick(){
@@ -374,7 +377,7 @@ public class TeacherTextbook extends Fragment {
                         return;
                     }
                     //刷新顯示區域
-                    showTextLayout1.removeAllViewsInLayout();
+                    //showTextLayout1.removeAllViewsInLayout();
                     getTopic();
                 }
 
@@ -550,7 +553,7 @@ public class TeacherTextbook extends Fragment {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                progressBar.setVisibility(View.VISIBLE);;
+                progressBar.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -563,11 +566,13 @@ public class TeacherTextbook extends Fragment {
                     if(!testSetObj.getBoolean("error")) {
                         if (testSetObj.getBoolean("seted")) {
                             Log.d("test set", "has set");
+                            getTopic();
+                            preClassForSearch = classForSearch;
+                            preUnit = unit;
                             return;
                         } else {
-                            initStudentHistory();
-                            setDateView(testSetObj.getString("startDate"), testSetObj.getString("endDate"));
-                            Log.d("test set", "set successful");
+                            setNewOrNot();
+                            Log.d("test set", "not seted");
                         }
                     }
                     else{
@@ -592,5 +597,79 @@ public class TeacherTextbook extends Fragment {
 
         TestSet ts = new TestSet();
         ts.execute();
+    }
+
+    private void setNewOrNot(){
+        AlertDialog.Builder ad = new AlertDialog.Builder(getActivity());
+        View v = getLayoutInflater().inflate(R.layout.unseted_textbook_dialog_layout, null);
+        ad.setView(v);
+        ad.setPositiveButton("新增", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                initStudentHistory();
+                setNewTextbook();
+                showTextLayout1.removeAllViewsInLayout();
+                preClassForSearch = classForSearch;
+                preUnit = unit;
+                Log.d("pre now", preClassForSearch + " " + classForSearch);
+            }
+        });
+        ad.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+//                int pg = preClassForSearch / 100 - 3;
+//                int pc = preClassForSearch % 100 - 1;
+                spGrade.setSelection(preClassForSearch / 100 - 3);
+                spClass.setSelection(preClassForSearch % 100 - 1);
+                spUnit.setSelection(preUnit-1);
+                Log.d("pre now unit", preClassForSearch + " " + classForSearch + " " + unit);
+                Toast.makeText(getActivity().getApplicationContext(), "未建立之單元不可查詢", Toast.LENGTH_SHORT).show();
+            }
+        });
+        ad.show();
+    }
+
+    private void setNewTextbook(){
+        class setNewTextbook extends AsyncTask<Void, Void, String> {
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                progressBar.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                progressBar.setVisibility(View.GONE);
+                try {
+                    JSONObject setNewTBObj = new JSONObject(s);
+                    Toast.makeText(getActivity().getApplicationContext(), setNewTBObj.getString("message"), Toast.LENGTH_SHORT).show();
+                    if(!setNewTBObj.getBoolean("error")) {
+                        setDateView(setNewTBObj.getString("startDate"), setNewTBObj.getString("endDate"));
+                        Log.d("test set", setNewTBObj.getString("message"));
+                    }
+                    else{
+                        Log.d("set new testbook", setNewTBObj.getString("message"));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.d("test set","test set json error");
+                    return;
+                }
+            }
+
+            @Override
+            protected String doInBackground(Void... voids) {
+                RequestHandler requestHandler = new RequestHandler();
+                HashMap<String, String> params = new HashMap<>();
+                params.put("unit", String.valueOf(unit));
+                params.put("class", String.valueOf(classForSearch));
+                return requestHandler.sendPostRequest(URLs.URL_SETNEWTESTBOOK, params);
+            }
+        }
+
+        setNewTextbook snt = new setNewTextbook();
+        snt.execute();
     }
 }

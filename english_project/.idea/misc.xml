@@ -44,6 +44,7 @@
         <entry key="app/src/main/res/layout/activity_teacher_main.xml" value="0.19270833333333334" />
         <entry key="app/src/main/res/layout/fragment_listen_learning.xml" value="0.27794871794871795" />
         <entry key="app/src/main/res/layout/fragment_speak_learning.xml" value="0.20989583333333334" />
+        <entry key="app/src/main/res/layout/fragment_student_study.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/fragment_teacher_home.xml" value="0.19270833333333334" />
         <entry key="app/src/main/res/layout/fragment_teacher_student_management.xml" value="0.20989583333333334" />
         <entry key="app/src/main/res/layout/fragment_teacher_textbook.xml" value="0.25" />
@@ -54,10 +55,11 @@
         <entry key="app/src/main/res/layout/show_study.xml" value="0.165" />
         <entry key="app/src/main/res/layout/student_txt.xml" value="0.4286270141601562" />
         <entry key="app/src/main/res/layout/teacher_text.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/unseted_textbook_dialog_layout.xml" value="0.4300974527994792" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
