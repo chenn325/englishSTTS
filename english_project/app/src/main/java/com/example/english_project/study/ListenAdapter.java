@@ -64,9 +64,7 @@ public class ListenAdapter extends RecyclerView.Adapter<ListenAdapter.ViewHolder
             holder.leftLayout.setVisibility(View.GONE);
             holder.leftOnlyContent.setVisibility(View.GONE);
             holder.rightLayout.setVisibility(View.VISIBLE);
-            holder.rightNameTextView.setText(myModel.getName());
             holder.rightContentTextView.setText(myModel.getContent());
-            holder.rightImageView.setImageResource(myModel.getImgId());
         }
         else if(myModel.getType() == MyModel.RECEIVE){
             holder.rightLayout.setVisibility(View.GONE);
@@ -120,8 +118,6 @@ public class ListenAdapter extends RecyclerView.Adapter<ListenAdapter.ViewHolder
         TextView leftContentTextView;
         LinearLayout leftLayout;
 
-        ImageView rightImageView;
-        TextView rightNameTextView;
         TextView rightContentTextView;
         LinearLayout rightLayout;
 
@@ -136,8 +132,6 @@ public class ListenAdapter extends RecyclerView.Adapter<ListenAdapter.ViewHolder
             leftContentTextView = (TextView) itemView.findViewById(R.id.left_content);
             leftLayout = (LinearLayout) itemView.findViewById(R.id.left_bubble);
 
-            rightImageView = (ImageView) itemView.findViewById(R.id.right_image);
-            rightNameTextView = (TextView) itemView.findViewById(R.id.right_name);
             rightContentTextView = (TextView) itemView.findViewById(R.id.right_content);
             rightLayout = (LinearLayout) itemView.findViewById(R.id.right_bubble);
 
