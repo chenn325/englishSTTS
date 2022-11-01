@@ -671,5 +671,6 @@ public class TeacherTextbook extends Fragment {
 
         setNewTextbook snt = new setNewTextbook();
         snt.execute();
+        getTopic();
     }
 }
