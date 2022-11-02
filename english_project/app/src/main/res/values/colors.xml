@@ -13,4 +13,11 @@
     <color name="dark_green">#FF3D7878</color>
     <color name="light_blue">#aad9ff</color>
     <color name="dark_red">#FFD9B3B3</color>
+    
+    
+    <color name="primary">#F2F9FF</color>
+    <color name="second">#B2C8E2</color>
+    <color name="third">#9BBCE2</color>
+    <color name="fourth">#4C6F99</color>
+
 </resources>

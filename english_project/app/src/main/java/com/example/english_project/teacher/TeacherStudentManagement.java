@@ -170,7 +170,12 @@ public class TeacherStudentManagement extends Fragment {
             int k;
             for(k=3; k<5; k++){
                 btn[n] = new Button(getContext());
-                btn[n].setText(t.getString(arr2[k]));
+                if(t.getString(arr2[k]).equals("-1")){
+                    btn[n].setText("未完成");
+                }
+                else{
+                    btn[n].setText(t.getString(arr2[k]));
+                }
                 btn[n].setGravity(Gravity.CENTER);
                 int finalK = k;
                 if(finalK == 3) {

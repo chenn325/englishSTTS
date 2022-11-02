@@ -137,6 +137,7 @@ public class StudentStudy extends Fragment {
                     studentMainActivity.changeFragment(listenLearning);
                 }
             });
+            //but.setBackground(this.getResources().getDrawable(R.color.third));
             tableRow.addView(but);
             tv.setText(t.getString("startYmd")+" - "+t.getString("endYmd"));
             tv.setGravity(Gravity.CENTER);

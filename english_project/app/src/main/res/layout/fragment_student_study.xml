@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".student.StudentStudy"
-
     android:orientation="vertical">
 
     <TableLayout
@@ -16,8 +15,17 @@
             <TextView
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
-                android:text="學習進度"
-                android:textSize="25dp" />
+                android:text="Study Plan"
+                android:textSize="50dp"
+                android:textColor="@color/third"/>
+            <ImageView
+                android:layout_width="180dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="50dp"
+                android:background="@drawable/oval_bgr_third">
+
+            </ImageView>
 
         </TableRow>
 
@@ -27,7 +35,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:background="@drawable/framestyle"
+            android:background="@drawable/oval_primary_with_stroke"
             android:orientation="vertical">
 
             <ScrollView
@@ -35,6 +43,7 @@
                 android:layout_height="match_parent"
                 android:fadingEdge="vertical"
                 android:scrollbars="vertical"
+                android:layout_margin="20dp"
                 tools:ignore="MissingConstraints">
 
                 <TableLayout
@@ -57,4 +66,4 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:visibility="gone" />
-</RelativeLayout>
+</LinearLayout>

@@ -13,23 +13,32 @@
             <TextView
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
-                android:text="測驗"
-                android:textSize="25dp" />
+                android:text="Test Plan"
+                android:textColor="@color/third"
+                android:textSize="50dp" />
+
+            <ImageView
+                android:layout_width="180dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="50dp"
+                android:background="@drawable/oval_bgr_third"></ImageView>
 
         </TableRow>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="500dp"
-            android:layout_marginTop="10dp"
             android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
             android:layout_marginRight="20dp"
-            android:background="@drawable/framestyle"
+            android:background="@drawable/oval_primary_with_stroke"
             android:orientation="vertical">
 
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_margin="20dp"
                 android:fadingEdge="vertical"
                 android:scrollbars="vertical"
                 tools:ignore="MissingConstraints">
