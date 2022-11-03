@@ -559,6 +559,7 @@ if(isset($_GET['apicall'])){
 
 				}
 				else{
+					$response['row'] = 0;
 					$response[0] = "無";
 				}
 				
