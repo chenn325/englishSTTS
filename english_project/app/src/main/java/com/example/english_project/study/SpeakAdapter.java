@@ -1,5 +1,7 @@
 package com.example.english_project.study;
 
+import android.content.Context;
+import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,20 +20,25 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
+import java.util.Locale;
 
 public class SpeakAdapter extends RecyclerView.Adapter {
-    public static final int TYPE_TEACHER_TXT = 0, TYPE_TEACHER_NEXT = 1, TYPE_STUDENT_TXT = 2;
+//    public static final int TYPE_TEACHER_TXT = 0, TYPE_TEACHER_NEXT = 1, TYPE_STUDENT_TXT = 2;
+    public static final int TYPE_TEACHER_TXT = 0, TYPE_TEACHER_TOPIC = 1, TYPE_STUDENT_TXT = 2;
 
     private List<JSONObject> mData;
     User user;
     String userName;
     int count = 0;
+    static private Context context;
 
+    TextToSpeech tts;
 
-    public SpeakAdapter(List<JSONObject> data, User u){
+    public SpeakAdapter(List<JSONObject> data, User u, Context c){
         mData = data;
         user = u;
         userName = user.getName();
+        context = c;
     }
 
     //建立ViewHolder
@@ -48,14 +55,28 @@ public class SpeakAdapter extends RecyclerView.Adapter {
         }
     }
 
-    class TeacherNextViewHolder extends RecyclerView.ViewHolder{
-        private Button butItem;
+//    class TeacherNextViewHolder extends RecyclerView.ViewHolder{
+//        private Button butItem;
+//
+//        TeacherNextViewHolder(View itemView){
+//            super(itemView);
+//            butItem = (Button) itemView.findViewById(R.id.butItem);
+//        }
+//
+//    }
 
-        TeacherNextViewHolder(View itemView){
+    class TeacherTopicViewHolder extends RecyclerView.ViewHolder{
+        //宣告元件
+        private TextView txtItem, nameItem;
+        private ImageView stuPT, playBut;
+
+        TeacherTopicViewHolder(View itemView){
             super(itemView);
-            butItem = (Button) itemView.findViewById(R.id.butItem);
+            txtItem = (TextView) itemView.findViewById(R.id.left_txt);
+            nameItem = (TextView) itemView.findViewById(R.id.left_name);
+            stuPT = (ImageView) itemView.findViewById(R.id.left_image);
+            playBut = (ImageView) itemView.findViewById(R.id.sound_play);
         }
-
     }
 
     class StudentTxtViewHolder extends RecyclerView.ViewHolder{
@@ -76,14 +97,31 @@ public class SpeakAdapter extends RecyclerView.Adapter {
         //連結項目佈局檔 teacher_text.xml
 //        Log.d("", "C " + count++);
 //        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.teacher_text, parent, false);
+        tts = new TextToSpeech(context, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if(status == TextToSpeech.SUCCESS){
+                    int result = tts.setLanguage(Locale.ENGLISH);
+                    if(result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED){
+                        Log.d("文字轉語音",  "不支援");
+                    }
+                }
+                else{
+                    Log.d("文字轉語音",  "初始化失敗");
+                }
+            }
+        });
         View view;
         switch(viewType){
             case TYPE_TEACHER_TXT:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.teacher_text, parent, false);
                 return new TeacherTxtViewHolder(view);
-            case TYPE_TEACHER_NEXT:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.teacher_next, parent, false);
-                return new TeacherNextViewHolder(view);
+//            case TYPE_TEACHER_NEXT:
+//                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.teacher_next, parent, false);
+//                return new TeacherNextViewHolder(view);
+            case TYPE_TEACHER_TOPIC:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.teacher_topictxt, parent, false);
+                return new TeacherTopicViewHolder(view);
             case TYPE_STUDENT_TXT:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.student_txt, parent, false);
                 return new StudentTxtViewHolder(view);
@@ -99,15 +137,34 @@ public class SpeakAdapter extends RecyclerView.Adapter {
         JSONObject m = mData.get(position);
         try {
             if(m.getBoolean("type")){
-                if(m.getBoolean("isText")){
+                if(!m.getBoolean("isTopic")){
                     TeacherTxtViewHolder tvh = (TeacherTxtViewHolder) holder;
                     tvh.txtItem.setText(m.getString("text"));
                     tvh.nameItem.setText("大米");
                     tvh.stuPT.setImageResource(R.drawable.ic_baseline_emoji_people2_24);
                 }
+//                else{
+//                    TeacherNextViewHolder tnvh = (TeacherNextViewHolder) holder;
+//                    tnvh.butItem.setText("Next topic?");
+//                }
                 else{
-                    TeacherNextViewHolder tnvh = (TeacherNextViewHolder) holder;
-                    tnvh.butItem.setText("Next topic?");
+                    TeacherTopicViewHolder t = (TeacherTopicViewHolder) holder;
+                    t.txtItem.setText(m.getString("text"));
+                    t.nameItem.setText("大米");
+                    t.stuPT.setImageResource(R.drawable.ic_baseline_emoji_people2_24);
+                    t.playBut.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            String s = null;
+                            try {
+                                s = m.getString("sound_text");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            tts.speak(s, TextToSpeech.QUEUE_FLUSH, null, null);
+                            Log.d("tts",s+" success");
+                        }
+                    });
                 }
             }
             else{
@@ -127,10 +184,6 @@ public class SpeakAdapter extends RecyclerView.Adapter {
     }
 
     public void addItem(JSONObject m) throws JSONException {
-//        JSONObject m = new JSONObject();
-        //先裝學生（？
-//        m.put("type", false);
-//        m.put("text", "hello");
         mData.add(mData.size(), m);
         notifyItemInserted(mData.size());
     }
@@ -141,12 +194,13 @@ public class SpeakAdapter extends RecyclerView.Adapter {
         try {
             Boolean type = m.getBoolean("type"); //0 t, 1 s
             if(type){
-                Boolean isText = m.getBoolean("isText");
-                if(isText){
+                Boolean isTopic = m.getBoolean("isTopic");
+                if(!isTopic){
                     return TYPE_TEACHER_TXT;
                 }
                 else{
-                    return TYPE_TEACHER_NEXT;
+//                    return TYPE_TEACHER_NEXT;
+                    return TYPE_TEACHER_TOPIC;
                 }
             }
             else{

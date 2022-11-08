@@ -147,7 +147,7 @@ public class StudentStudy extends Fragment {
         }
         //speak
         tableRow = new TableRow(getContext());
-       tv = new TextView(getContext());
+        tv = new TextView(getContext());
         tv.setText("Speak");
         tv.setTextSize(20);
         tableRow.addView(tv);

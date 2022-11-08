@@ -52,7 +52,7 @@ public class SpeakLearning extends Fragment {
     String category = "listen";
     String studyType = "vocabulary";
     //測試用學生答案&counter
-    String ans[] = {"dog", "d", "desk",  "tiger", "d", "do", "dog"};
+    String ans[] = {"apple", "ball", "c", "cat", "d", "desk", "tiger", "fox", "bubble"};
     int ansN = 0;
     int count=0;
 
@@ -83,32 +83,32 @@ public class SpeakLearning extends Fragment {
             @Override
             public void onClick(View view) {
                 //測試用
-//                try {
-//                    JSONObject m = new JSONObject();
-//                    m.put("type", false);
-//                    m.put("text", ans[ansN]);
-//                    adapter.addItem(m);
-//                    recyclerView.scrollToPosition(adapter.getItemCount() - 1);
-//                    checkAnswer(ans[ansN++]);
-////                  setTopic();
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-                //錄音
                 try {
-                    Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-                    intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en-US");
-                    intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-                    intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "speech to text");
-//                    intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 3);
-                    startActivityForResult(intent, RECOGNIZER_RESULT);
-                }catch(ActivityNotFoundException e){
-                    Log.d("MainActivity", "沒谷哥哥ㄌㄚ");
-                    AlertDialog.Builder ad = new AlertDialog.Builder(getContext());
-                    ad.setMessage("您未安裝google軟體\n請安裝後再試一次！");
-                    ad.setPositiveButton("好", null);
-                    ad.show();
+                    JSONObject m = new JSONObject();
+                    m.put("type", false);
+                    m.put("text", ans[ansN]);
+                    adapter.addItem(m);
+                    recyclerView.scrollToPosition(adapter.getItemCount() - 1);
+                    checkAnswer(ans[ansN++]);
+//                  setTopic();
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
+                //錄音
+//                try {
+//                    Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+//                    intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en-US");
+//                    intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+//                    intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "speech to text");
+////                    intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 3);
+//                    startActivityForResult(intent, RECOGNIZER_RESULT);
+//                }catch(ActivityNotFoundException e){
+//                    Log.d("MainActivity", "沒谷哥哥ㄌㄚ");
+//                    AlertDialog.Builder ad = new AlertDialog.Builder(getContext());
+//                    ad.setMessage("您未安裝google軟體\n請安裝後再試一次！");
+//                    ad.setPositiveButton("好", null);
+//                    ad.show();
+//                }
             }
         });
 
@@ -122,7 +122,7 @@ public class SpeakLearning extends Fragment {
 //        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
 
         //將資料交給adapter
-        adapter = new SpeakAdapter(mData, user);
+        adapter = new SpeakAdapter(mData, user, getContext());
         recyclerView.setAdapter(adapter);
         getTopic();
         return view;
@@ -133,29 +133,29 @@ public class SpeakLearning extends Fragment {
             ans = ans.toLowerCase();
         }
         if (ans.equals(nowTopic)) {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
+//            new Handler().postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
                     trueFeedback();
-                }
-            }, 1000);
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
+//                }
+//            }, 1000);
+//            new Handler().postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
                     try {
                         setTopic();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                }
-            }, 2000);
+//                }
+//            }, 2000);
         } else {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
+//            new Handler().postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
                     falseFeedback();
-                }
-            }, 1000);
+//                }
+//            }, 1000);
         }
     }
 
@@ -170,11 +170,24 @@ public class SpeakLearning extends Fragment {
     }
 
     //先廢掉 之後再來處理
-    public void showNextBut() {
+//    public void showNextBut() {
+//        try {
+//            JSONObject m = new JSONObject();
+//            m.put("type", true);
+//            m.put("isText", false);
+//            adapter.addItem(m);
+//            recyclerView.scrollToPosition(adapter.getItemCount() - 1);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
+    public void sendTeacherText(String s) {
         try {
             JSONObject m = new JSONObject();
             m.put("type", true);
-            m.put("isText", false);
+            m.put("isTopic", false);
+            m.put("text", s);
             adapter.addItem(m);
             recyclerView.scrollToPosition(adapter.getItemCount() - 1);
         } catch (JSONException e) {
@@ -182,12 +195,13 @@ public class SpeakLearning extends Fragment {
         }
     }
 
-    public void sendTeacherText(String s) {
+    public void sendTeacherTopic(String s) {
         try {
             JSONObject m = new JSONObject();
             m.put("type", true);
-            m.put("isText", true);
+            m.put("isTopic", true);
             m.put("text", s);
+            m.put("sound_text", nowTopic);
             adapter.addItem(m);
             recyclerView.scrollToPosition(adapter.getItemCount() - 1);
         } catch (JSONException e) {
@@ -213,7 +227,6 @@ public class SpeakLearning extends Fragment {
             protected void onPreExecute() {
                 super.onPreExecute();
                 progressBar.setVisibility(View.VISIBLE);
-                ;
             }
 
             @Override
@@ -243,7 +256,6 @@ public class SpeakLearning extends Fragment {
                     e.printStackTrace();
                     Log.d("study frag", "topic json error");
                 }
-                ;
             }
 
             @Override
@@ -267,9 +279,10 @@ public class SpeakLearning extends Fragment {
         if (nowQNum < totalQNum) {
             JSONObject t = TextObj.getJSONObject(String.valueOf(nowQNum));
             nowTopic = t.getString("en");
+            if(nowQNum!=0) {    sendTeacherText("下一個單字");   }
+             else {   sendTeacherText("跟著我一起念吧");     }
+            sendTeacherTopic(nowTopic);
             nowQNum++;
-            String s = "我要聽到你說： " + nowTopic;
-            sendTeacherText(s);
         }
         else{
             mic.setEnabled(false);

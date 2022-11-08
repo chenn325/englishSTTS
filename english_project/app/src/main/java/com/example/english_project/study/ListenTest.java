@@ -297,6 +297,8 @@ public class ListenTest extends Fragment implements OnInitListener {
         BigDecimal bd = new BigDecimal((double) per_score);
         bd = bd.setScale(2,4); //取後兩位，四捨五入
         per_score = bd.floatValue();
+        if(per_score*rowNum<100)
+            score += 100 - per_score*rowNum;
 
         for(int i=0; i<rowNum; i++){
             switch(answer[i]){
@@ -304,10 +306,10 @@ public class ListenTest extends Fragment implements OnInitListener {
                     score += per_score;
                     break;
                 case 1:
-                    score += per_score*(2/3);
+                    score += per_score*2/3;
                     break;
                 case 2:
-                    score += per_score*(1/3);
+                    score += per_score/3;
                     break;
                 default: //3就0分
                     break;
