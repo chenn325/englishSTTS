@@ -1,5 +1,7 @@
 package com.example.english_project.net;
 
+import android.util.Log;
+
 public class User {
 
     private int id, myclass, partner;
@@ -37,6 +39,8 @@ public class User {
     public String getGender() { return gender; }
 
     public int getPartner() { return partner; }
+
+    public void updatePartner(int num) { partner = num; Log.d("nowPartner", String.valueOf(partner));}
 
 
 }

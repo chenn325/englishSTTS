@@ -29,6 +29,7 @@ public class StudentMainActivity extends AppCompatActivity {
     StudentProfile studentProfile = new StudentProfile();
     StudentChoosePartner studentChoose_partner = new StudentChoosePartner();
     Fragment currentFragment = student_home;
+
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
