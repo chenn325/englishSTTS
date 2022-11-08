@@ -43,8 +43,7 @@ public class StudentHome extends Fragment {
         GetText();
         //getting the current user
         User user = SharedPrefManager.getInstance(getActivity()).getUser();
-        int partner = user.getPartner();
-        switch (partner){
+        switch (user.getPartner()){
             case 1:
                 imagePartner.setImageResource(R.drawable.girl1);
                 break;
@@ -55,7 +54,6 @@ public class StudentHome extends Fragment {
                 imagePartner.setImageResource(R.drawable.boy3);
                 break;
         }
-
         return view;
     }
 

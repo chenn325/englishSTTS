@@ -25,7 +25,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_weight="1.6"
             android:orientation="horizontal">
 
             <EditText
@@ -33,7 +33,8 @@
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:layout_marginLeft="10dp"></EditText>
+                android:layout_marginLeft="10dp"
+                android:singleLine="true"></EditText>
 
             <Button
                 android:id="@+id/send_btn"
@@ -43,6 +44,7 @@
                 android:text="send"></Button>
         </LinearLayout>
     </LinearLayout>
+
     <ProgressBar
         android:visibility="gone"
         android:id="@+id/progressBar"

@@ -19,6 +19,7 @@ import com.example.english_project.net.RequestHandler;
 import com.example.english_project.net.SharedPrefManager;
 import com.example.english_project.net.URLs;
 import com.example.english_project.net.User;
+import com.example.english_project.study.ListenLearning;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,6 +40,7 @@ public class StudentChoosePartner extends Fragment {
         confirm_button = (Button) view.findViewById(R.id.confirm_button);
         progressBar = view.findViewById(R.id.progressBar);
         ImageView imageView = (ImageView)getActivity().findViewById(R.id.ImagePartner);
+
 
 
         chooseBut1.setOnClickListener(new View.OnClickListener() {
@@ -96,11 +98,17 @@ public class StudentChoosePartner extends Fragment {
         confirm_button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                confirm_button.setText("已更改");
-                confirm_button.setEnabled(false);
-                chooseBut1.setEnabled(false);
-                chooseBut2.setEnabled(false);
-                chooseBut3.setEnabled(false);
+                if(choose!=0){
+                    confirm_button.setText("已更改");
+                    confirm_button.setEnabled(false);
+                    chooseBut1.setEnabled(false);
+                    chooseBut2.setEnabled(false);
+                    chooseBut3.setEnabled(false);
+                }
+                else{
+                    Toast.makeText(getActivity().getApplicationContext(), "請選擇", Toast.LENGTH_SHORT).show();
+                }
+
                 if(choose==1)
                     imageView.setImageResource(R.drawable.girl1);
                 else if(choose==2)
@@ -108,7 +116,9 @@ public class StudentChoosePartner extends Fragment {
                 else if(choose==3)
                     imageView.setImageResource(R.drawable.boy3);
 
+
                 User user = SharedPrefManager.getInstance(getActivity()).getUser();
+                user.updatePartner(choose);
                 changePartner(user.getId(), choose);
 
             }

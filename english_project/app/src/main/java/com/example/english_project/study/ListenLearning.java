@@ -1,5 +1,6 @@
 package com.example.english_project.study;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -11,10 +12,13 @@ import android.speech.tts.TextToSpeech.OnInitListener;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -23,6 +27,7 @@ import com.example.english_project.student.StudentStudy;
 import com.example.english_project.R;
 import com.example.english_project.net.*;
 import com.example.english_project.study.model.MyModel;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,7 +45,7 @@ public class ListenLearning extends Fragment implements OnInitListener {
     private int rowNum = 0;
     private int unit = 1, myclass = 301;
     private String category = "listen", type = "vocabulary";
-    private String partnerImage;
+    private String partnerImage = "girl1";
     private int resID; //紀錄imageId
 
     private TextToSpeech tts;
@@ -79,17 +84,14 @@ public class ListenLearning extends Fragment implements OnInitListener {
             case 3:
                 partnerImage = "boy3";
                 break;
-            default:
-                partnerImage = "girl1";
-                break;
         }
+
         resID = getResources().getIdentifier(partnerImage , "drawable", getActivity().getPackageName());
+        Log.d("parterImageRESID", String.valueOf(resID));
         GetText();
 
         sendBtn = (Button) view.findViewById(R.id.send_btn);
         editText = (EditText) view.findViewById(R.id.content_input);
-
-        //receiveMessage2("listen question");
 
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,8 +118,12 @@ public class ListenLearning extends Fragment implements OnInitListener {
             }
         });
 
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) getActivity().findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setVisibility(View.GONE);
+
         return view;
     }
+
 
     public void setInfo(int myClass, int Unit , String Category, String Type){
         myclass = myClass;
@@ -188,8 +194,8 @@ public class ListenLearning extends Fragment implements OnInitListener {
         myModelList.clear();
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        //layoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
-
         listenAdapter = new ListenAdapter(getContext(),myModelList);
         recyclerView.setAdapter(listenAdapter);
     }
@@ -228,7 +234,6 @@ public class ListenLearning extends Fragment implements OnInitListener {
             myModel = new MyModel(resID, "大米", message, MyModel.RECEIVE_3);
         }
         myModelList.add(myModel);
-        Log.d("image", String.valueOf(resID));
         listenAdapter.notifyItemInserted(myModelList.size()-1);
         recyclerView.scrollToPosition(myModelList.size()-1);
     }
