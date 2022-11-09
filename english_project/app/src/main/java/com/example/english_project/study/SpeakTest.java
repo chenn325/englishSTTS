@@ -24,7 +24,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +36,9 @@ import com.example.english_project.net.RequestHandler;
 import com.example.english_project.net.SharedPrefManager;
 import com.example.english_project.net.URLs;
 import com.example.english_project.net.User;
+import com.example.english_project.student.StudentMainActivity;
+import com.example.english_project.student.StudentStudy;
+import com.example.english_project.student.StudentTest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -69,6 +74,7 @@ public class SpeakTest extends Fragment {
     private RecyclerView recyclerView;
     private ImageView mic;
     private ProgressBar progressBar;
+    private LinearLayout butArea;
 //    private TextView topic;
 
     private static final int RECOGNIZER_RESULT = 1;
@@ -79,6 +85,7 @@ public class SpeakTest extends Fragment {
         View view = inflater.inflate(R.layout.fragment_speak_learning, container, false);
 
         progressBar = view.findViewById(R.id.progressBar);
+        butArea = view.findViewById(R.id.buttonArea);
 //        topic = view.findViewById(R.id.topicTxt);
         mic = view.findViewById(R.id.mic);
         mic.setOnClickListener(new View.OnClickListener() {
@@ -295,8 +302,15 @@ public class SpeakTest extends Fragment {
             sendTeacherText(nowTopic);
         }
         else{
-            mic.setEnabled(false);
-            mic.setImageTintList(ColorStateList.valueOf((getResources().getColor(R.color.gray))));
+//            mic.setEnabled(false);
+//            mic.setImageTintList(ColorStateList.valueOf((getResources().getColor(R.color.gray))));
+
+            mic.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            });
             sendTeacherText("恭喜你完成測驗!");
             //算分
             sendTeacherText("本次成績為： " + String.valueOf(Cal()));
@@ -305,6 +319,22 @@ public class SpeakTest extends Fragment {
                     UploadError( (TextObj.getJSONObject(String.valueOf(i))).getString("en") );
                 }
             }
+            butArea.removeAllViewsInLayout();
+            Button exitBtn = new Button(getContext());
+            exitBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    StudentMainActivity studentMainActivity = (StudentMainActivity)getActivity();
+                    studentMainActivity.changeFragment(new StudentTest());
+                }
+            });
+            exitBtn.setText("EXIT");
+            exitBtn.setTextSize(25);
+            exitBtn.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            butArea.addView(exitBtn);
+//            String s = "題目已全作答完畢";
+            sendTeacherText("題目已全作答完畢");
+            sendTeacherText("請按下方EXIT鍵離開");
         }
     }
 
@@ -369,18 +399,17 @@ public class SpeakTest extends Fragment {
                 progressBar.setVisibility(View.GONE);
                 try {
                     JSONObject obj = new JSONObject(s);
-                    Log.d("json", "LC");
+                    Log.d("json", "SC");
 
                     if (!obj.getBoolean("error")){
                         Toast.makeText(getActivity().getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
-//                        rowNum = obj.getInt("row");
                     }
                     else{
                         Toast.makeText(getActivity().getApplicationContext(), "Can't cal", Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Log.d("history_LC frag","LC json error");
+                    Log.d("history_SC frag","SC json error");
                 }
 
             }
@@ -396,7 +425,7 @@ public class SpeakTest extends Fragment {
                 params.put("unit", String.valueOf(unit));
                 params.put("score", String.valueOf(finalScore));
                 //returing the response
-                return requestHandler.sendPostRequest(URLs.URL_HISTORY_LC, params);
+                return requestHandler.sendPostRequest(URLs.URL_HISTORY_SC, params);
             }
         }
 
@@ -443,7 +472,7 @@ public class SpeakTest extends Fragment {
                 //creating request parameters
                 HashMap<String, String> params = new HashMap<>();
                 params.put("user_id", String.valueOf(user.getId()));
-                params.put("category", category);
+                params.put("category", "speak");
                 params.put("type", studyType);
                 params.put("unit", String.valueOf(unit));
                 params.put("en", errorText);

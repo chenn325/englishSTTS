@@ -18,6 +18,8 @@ public class URLs {
     public static final String URL_SETTODAYTEXT = ROOT_URL + "todayText";
     public static final String URL_HISTORY_LP = ROOT_URL + "history_LP"; //listen_p++
     public static final String URL_HISTORY_LC = ROOT_URL + "history_LC"; //listen_c++
+    public static final String URL_HISTORY_SP = ROOT_URL + "history_SP"; //speak_p++
+    public static final String URL_HISTORY_SC = ROOT_URL + "history_SC"; //speak_score set
     public static final String URL_UPLOADERROR = ROOT_URL + "uploadError"; //上傳錯題
     public static final String URL_DOWNLOADERROR = ROOT_URL + "downloadError"; //顯示錯題
     public static final String URL_INITSTUDENTHISTORY = ROOT_URL + "initStudentHistory"; //初始化學生學習記錄

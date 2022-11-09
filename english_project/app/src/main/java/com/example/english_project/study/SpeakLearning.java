@@ -24,7 +24,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +36,8 @@ import com.example.english_project.net.RequestHandler;
 import com.example.english_project.net.SharedPrefManager;
 import com.example.english_project.net.URLs;
 import com.example.english_project.net.User;
+import com.example.english_project.student.StudentMainActivity;
+import com.example.english_project.student.StudentStudy;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -67,6 +71,7 @@ public class SpeakLearning extends Fragment {
     private RecyclerView recyclerView;
     private ImageView mic;
     private ProgressBar progressBar;
+    private LinearLayout butArea;
 //    private TextView topic;
 
     private static final int RECOGNIZER_RESULT = 1;
@@ -77,6 +82,7 @@ public class SpeakLearning extends Fragment {
         View view = inflater.inflate(R.layout.fragment_speak_learning, container, false);
 
         progressBar = view.findViewById(R.id.progressBar);
+        butArea = view.findViewById(R.id.buttonArea);
 //        topic = view.findViewById(R.id.topicTxt);
         mic = view.findViewById(R.id.mic);
         mic.setOnClickListener(new View.OnClickListener() {
@@ -285,11 +291,76 @@ public class SpeakLearning extends Fragment {
             nowQNum++;
         }
         else{
-            mic.setEnabled(false);
-            mic.setImageTintList(ColorStateList.valueOf((getResources().getColor(R.color.gray))));
-            String s = "題目已全作答完畢";
-            sendTeacherText(s);
+//            mic.setEnabled(false);
+//            mic.setImageTintList(ColorStateList.valueOf((getResources().getColor(R.color.gray))));
+            butArea.removeAllViewsInLayout();
+            Button exitBtn = new Button(getContext());
+            exitBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    StudentMainActivity studentMainActivity = (StudentMainActivity)getActivity();
+                    studentMainActivity.changeFragment(new StudentStudy());
+                }
+            });
+            exitBtn.setText("EXIT");
+            exitBtn.setTextSize(25);
+            exitBtn.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            butArea.addView(exitBtn);
+//            String s = "題目已全作答完畢";
+            sendTeacherText("題目已全作答完畢");
+            sendTeacherText("請按下方EXIT鍵離開");
+            plus();
         }
+    }
+
+    //listen_p次數+1
+    private void plus(){
+
+        class Plus extends AsyncTask<Void, Void, String> {
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                progressBar.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                progressBar.setVisibility(View.GONE);
+                try {
+                    JSONObject tempObj = new JSONObject(s);
+                    Log.d("json", "LP");
+
+                    if (!tempObj.getBoolean("error")){
+                        Toast.makeText(getActivity().getApplicationContext(), tempObj.getString("message"), Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        Toast.makeText(getActivity().getApplicationContext(), "Can't plus", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.d("history_LP frag","LP json error");
+                }
+
+            }
+
+            @Override
+            protected String doInBackground(Void... voids) {
+                //creating request handler object
+                RequestHandler requestHandler = new RequestHandler();
+
+                //creating request parameters
+                HashMap<String, String> params = new HashMap<>();
+                params.put("user_id", String.valueOf(user.getId()));
+                params.put("unit", String.valueOf(unit));
+                //returing the response
+                return requestHandler.sendPostRequest(URLs.URL_HISTORY_SP, params);
+            }
+        }
+
+        Plus p = new Plus();
+        p.execute();
     }
 
     @Override

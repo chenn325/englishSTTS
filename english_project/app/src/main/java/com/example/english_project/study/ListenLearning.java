@@ -323,7 +323,7 @@ public class ListenLearning extends Fragment implements OnInitListener {
                 //creating request parameters
                 HashMap<String, String> params = new HashMap<>();
                 params.put("user_id", String.valueOf(user.getId()));
-                params.put("user_id", String.valueOf(unit));
+                params.put("unit", String.valueOf(unit));
                 //returing the response
                 return requestHandler.sendPostRequest(URLs.URL_HISTORY_LP, params);
             }
