@@ -176,7 +176,7 @@ public class SpeakTest extends Fragment {
                             sendTeacherText("最後你的答案是？");
                             break;
                         case 3://明確校正
-                            sendTeacherText("正確的發音應該是" + nowTopic);
+                            sendTeacherSound("正確的發音應該是" + nowTopic, nowTopic);
                             //加入tts
                             sendTeacherText("讓我們進入下一題吧！");
                             try {
@@ -204,13 +204,13 @@ public class SpeakTest extends Fragment {
         }
     }
 
-    public void sendTeacherSound(String s, String userAns) {//sendTeacherTopic
+    public void sendTeacherSound(String s, String strSpeak) {//sendTeacherTopic
         try {
             JSONObject m = new JSONObject();
             m.put("type", true);
             m.put("isTopic", true);
             m.put("text", s);
-            m.put("sound_text", userAns);
+            m.put("sound_text", strSpeak);
             adapter.addItem(m);
             recyclerView.scrollToPosition(adapter.getItemCount() - 1);
         } catch (JSONException e) {
@@ -483,6 +483,12 @@ public class SpeakTest extends Fragment {
 
         uploadError ul = new uploadError();
         ul.execute();
+    }
 
+    public void setInfo(int myClass, int unit , String category, String type){
+        this.myClass = String.valueOf(myClass);
+        this.unit = String.valueOf(unit);
+        this.category = category;
+        this.studyType = type;
     }
 }

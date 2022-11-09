@@ -161,7 +161,7 @@ public class StudentTest extends Fragment {
                 @Override
                 public void onClick(View view) {
                     SpeakTest speakTest = new SpeakTest();
-                    //speakLearning.setInfo(myclass, u, "speak", "vocabulary");
+                    speakTest.setInfo(myclass, u, "listen", "vocabulary");
                     StudentMainActivity studentMainActivity = (StudentMainActivity)getActivity();
                     studentMainActivity.changeFragment(speakTest);
                 }

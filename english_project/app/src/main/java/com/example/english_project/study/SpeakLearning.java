@@ -363,6 +363,14 @@ public class SpeakLearning extends Fragment {
         p.execute();
     }
 
+
+    public void setInfo(int myClass, int unit , String category, String type){
+        this.myClass = String.valueOf(myClass);
+        this.unit = String.valueOf(unit);
+        this.category = category;
+        this.studyType = type;
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 
