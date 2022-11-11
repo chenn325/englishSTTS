@@ -89,32 +89,31 @@ public class SpeakLearning extends Fragment {
             @Override
             public void onClick(View view) {
                 //測試用
-                try {
-                    JSONObject m = new JSONObject();
-                    m.put("type", false);
-                    m.put("text", ans[ansN]);
-                    adapter.addItem(m);
-                    recyclerView.scrollToPosition(adapter.getItemCount() - 1);
-                    checkAnswer(ans[ansN++]);
-//                  setTopic();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                //錄音
 //                try {
-//                    Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-//                    intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en-US");
-//                    intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-//                    intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "speech to text");
-////                    intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 3);
-//                    startActivityForResult(intent, RECOGNIZER_RESULT);
-//                }catch(ActivityNotFoundException e){
-//                    Log.d("MainActivity", "沒谷哥哥ㄌㄚ");
-//                    AlertDialog.Builder ad = new AlertDialog.Builder(getContext());
-//                    ad.setMessage("您未安裝google軟體\n請安裝後再試一次！");
-//                    ad.setPositiveButton("好", null);
-//                    ad.show();
+//                    JSONObject m = new JSONObject();
+//                    m.put("type", false);
+//                    m.put("text", ans[ansN]);
+//                    adapter.addItem(m);
+//                    recyclerView.scrollToPosition(adapter.getItemCount() - 1);
+//                    checkAnswer(ans[ansN++]);
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
 //                }
+                //錄音
+                try {
+                    Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+                    intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en-US");
+                    intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+                    intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "speech to text");
+//                    intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 3);
+                    startActivityForResult(intent, RECOGNIZER_RESULT);
+                }catch(ActivityNotFoundException e){
+                    Log.d("MainActivity", "沒谷哥哥ㄌㄚ");
+                    AlertDialog.Builder ad = new AlertDialog.Builder(getContext());
+                    ad.setMessage("您未安裝google軟體\n請安裝後再試一次！");
+                    ad.setPositiveButton("好", null);
+                    ad.show();
+                }
             }
         });
 
