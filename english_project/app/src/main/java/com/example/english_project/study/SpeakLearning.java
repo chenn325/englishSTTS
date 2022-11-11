@@ -24,7 +24,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +36,8 @@ import com.example.english_project.net.RequestHandler;
 import com.example.english_project.net.SharedPrefManager;
 import com.example.english_project.net.URLs;
 import com.example.english_project.net.User;
+import com.example.english_project.student.StudentMainActivity;
+import com.example.english_project.student.StudentStudy;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -52,7 +56,7 @@ public class SpeakLearning extends Fragment {
     String category = "listen";
     String studyType = "vocabulary";
     //測試用學生答案&counter
-    String ans[] = {"dog", "d", "desk",  "tiger", "d", "do", "dog"};
+    String ans[] = {"apple", "ball", "c", "cat", "d", "desk", "tiger", "fox", "bubble"};
     int ansN = 0;
     int count=0;
 
@@ -67,6 +71,7 @@ public class SpeakLearning extends Fragment {
     private RecyclerView recyclerView;
     private ImageView mic;
     private ProgressBar progressBar;
+    private LinearLayout butArea;
 //    private TextView topic;
 
     private static final int RECOGNIZER_RESULT = 1;
@@ -77,6 +82,7 @@ public class SpeakLearning extends Fragment {
         View view = inflater.inflate(R.layout.fragment_speak_learning, container, false);
 
         progressBar = view.findViewById(R.id.progressBar);
+        butArea = view.findViewById(R.id.buttonArea);
 //        topic = view.findViewById(R.id.topicTxt);
         mic = view.findViewById(R.id.mic);
         mic.setOnClickListener(new View.OnClickListener() {
@@ -90,7 +96,6 @@ public class SpeakLearning extends Fragment {
 //                    adapter.addItem(m);
 //                    recyclerView.scrollToPosition(adapter.getItemCount() - 1);
 //                    checkAnswer(ans[ansN++]);
-////                  setTopic();
 //                } catch (JSONException e) {
 //                    e.printStackTrace();
 //                }
@@ -122,7 +127,7 @@ public class SpeakLearning extends Fragment {
 //        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
 
         //將資料交給adapter
-        adapter = new SpeakAdapter(mData, user);
+        adapter = new SpeakAdapter(mData, user, getContext());
         recyclerView.setAdapter(adapter);
         getTopic();
         return view;
@@ -133,29 +138,29 @@ public class SpeakLearning extends Fragment {
             ans = ans.toLowerCase();
         }
         if (ans.equals(nowTopic)) {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
+//            new Handler().postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
                     trueFeedback();
-                }
-            }, 1000);
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
+//                }
+//            }, 1000);
+//            new Handler().postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
                     try {
                         setTopic();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                }
-            }, 2000);
+//                }
+//            }, 2000);
         } else {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
+//            new Handler().postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
                     falseFeedback();
-                }
-            }, 1000);
+//                }
+//            }, 1000);
         }
     }
 
@@ -170,11 +175,24 @@ public class SpeakLearning extends Fragment {
     }
 
     //先廢掉 之後再來處理
-    public void showNextBut() {
+//    public void showNextBut() {
+//        try {
+//            JSONObject m = new JSONObject();
+//            m.put("type", true);
+//            m.put("isText", false);
+//            adapter.addItem(m);
+//            recyclerView.scrollToPosition(adapter.getItemCount() - 1);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
+    public void sendTeacherText(String s) {
         try {
             JSONObject m = new JSONObject();
             m.put("type", true);
-            m.put("isText", false);
+            m.put("isTopic", false);
+            m.put("text", s);
             adapter.addItem(m);
             recyclerView.scrollToPosition(adapter.getItemCount() - 1);
         } catch (JSONException e) {
@@ -182,12 +200,13 @@ public class SpeakLearning extends Fragment {
         }
     }
 
-    public void sendTeacherText(String s) {
+    public void sendTeacherTopic(String s) {
         try {
             JSONObject m = new JSONObject();
             m.put("type", true);
-            m.put("isText", true);
+            m.put("isTopic", true);
             m.put("text", s);
+            m.put("sound_text", nowTopic);
             adapter.addItem(m);
             recyclerView.scrollToPosition(adapter.getItemCount() - 1);
         } catch (JSONException e) {
@@ -213,7 +232,6 @@ public class SpeakLearning extends Fragment {
             protected void onPreExecute() {
                 super.onPreExecute();
                 progressBar.setVisibility(View.VISIBLE);
-                ;
             }
 
             @Override
@@ -243,7 +261,6 @@ public class SpeakLearning extends Fragment {
                     e.printStackTrace();
                     Log.d("study frag", "topic json error");
                 }
-                ;
             }
 
             @Override
@@ -267,16 +284,90 @@ public class SpeakLearning extends Fragment {
         if (nowQNum < totalQNum) {
             JSONObject t = TextObj.getJSONObject(String.valueOf(nowQNum));
             nowTopic = t.getString("en");
+            if(nowQNum!=0) {    sendTeacherText("下一個單字");   }
+             else {   sendTeacherText("跟著我一起念吧");     }
+            sendTeacherTopic(nowTopic);
             nowQNum++;
-            String s = "我要聽到你說： " + nowTopic;
-            sendTeacherText(s);
         }
         else{
-            mic.setEnabled(false);
-            mic.setImageTintList(ColorStateList.valueOf((getResources().getColor(R.color.gray))));
-            String s = "題目已全作答完畢";
-            sendTeacherText(s);
+//            mic.setEnabled(false);
+//            mic.setImageTintList(ColorStateList.valueOf((getResources().getColor(R.color.gray))));
+            butArea.removeAllViewsInLayout();
+            Button exitBtn = new Button(getContext());
+            exitBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    StudentMainActivity studentMainActivity = (StudentMainActivity)getActivity();
+                    studentMainActivity.changeFragment(new StudentStudy());
+                }
+            });
+            exitBtn.setText("EXIT");
+            exitBtn.setTextSize(25);
+            exitBtn.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            butArea.addView(exitBtn);
+//            String s = "題目已全作答完畢";
+            sendTeacherText("題目已全作答完畢");
+            sendTeacherText("請按下方EXIT鍵離開");
+            plus();
         }
+    }
+
+    //listen_p次數+1
+    private void plus(){
+
+        class Plus extends AsyncTask<Void, Void, String> {
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                progressBar.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                progressBar.setVisibility(View.GONE);
+                try {
+                    JSONObject tempObj = new JSONObject(s);
+                    Log.d("json", "LP");
+
+                    if (!tempObj.getBoolean("error")){
+                        Toast.makeText(getActivity().getApplicationContext(), tempObj.getString("message"), Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        Toast.makeText(getActivity().getApplicationContext(), "Can't plus", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.d("history_LP frag","LP json error");
+                }
+
+            }
+
+            @Override
+            protected String doInBackground(Void... voids) {
+                //creating request handler object
+                RequestHandler requestHandler = new RequestHandler();
+
+                //creating request parameters
+                HashMap<String, String> params = new HashMap<>();
+                params.put("user_id", String.valueOf(user.getId()));
+                params.put("unit", String.valueOf(unit));
+                //returing the response
+                return requestHandler.sendPostRequest(URLs.URL_HISTORY_SP, params);
+            }
+        }
+
+        Plus p = new Plus();
+        p.execute();
+    }
+
+
+    public void setInfo(int myClass, int unit , String category, String type){
+        this.myClass = String.valueOf(myClass);
+        this.unit = String.valueOf(unit);
+        this.category = category;
+        this.studyType = type;
     }
 
     @Override

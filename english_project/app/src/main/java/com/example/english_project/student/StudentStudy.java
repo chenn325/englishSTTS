@@ -147,7 +147,7 @@ public class StudentStudy extends Fragment {
         }
         //speak
         tableRow = new TableRow(getContext());
-       tv = new TextView(getContext());
+        tv = new TextView(getContext());
         tv.setText("Speak");
         tv.setTextSize(20);
         tableRow.addView(tv);
@@ -163,7 +163,7 @@ public class StudentStudy extends Fragment {
                 @Override
                 public void onClick(View view) {
                     SpeakLearning speakLearning = new SpeakLearning();
-                    //speakLearning.setInfo(myclass, u, "speak", "vocabulary");
+                    speakLearning.setInfo(myclass, u, "listen", "vocabulary");
                     StudentMainActivity studentMainActivity = (StudentMainActivity)getActivity();
                     studentMainActivity.changeFragment(speakLearning);
                 }

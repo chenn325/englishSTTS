@@ -25,6 +25,7 @@ import com.example.english_project.net.User;
 import com.example.english_project.study.ListenLearning;
 import com.example.english_project.study.ListenTest;
 import com.example.english_project.study.SpeakLearning;
+import com.example.english_project.study.SpeakTest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -159,10 +160,10 @@ public class StudentTest extends Fragment {
             but.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    SpeakLearning speakLearning = new SpeakLearning();
-                    //speakLearning.setInfo(myclass, u, "speak", "vocabulary");
+                    SpeakTest speakTest = new SpeakTest();
+                    speakTest.setInfo(myclass, u, "listen", "vocabulary");
                     StudentMainActivity studentMainActivity = (StudentMainActivity)getActivity();
-                    studentMainActivity.changeFragment(speakLearning);
+                    studentMainActivity.changeFragment(speakTest);
                 }
             });
             tableRow.addView(but);
