@@ -99,6 +99,8 @@ public class ListenLearning extends Fragment implements OnInitListener {
                 if(sendBtn.getText().equals("EXIT")){
                     StudentMainActivity studentMainActivity = (StudentMainActivity)getActivity();
                     studentMainActivity.changeFragment(new StudentStudy());
+                    BottomNavigationView bottomNavigationView = (BottomNavigationView) getActivity().findViewById(R.id.bottom_navigation);
+                    bottomNavigationView.setVisibility(View.VISIBLE);
                 }
                 String msg = editText.getText().toString();
                 if(!msg.isEmpty()){
@@ -290,29 +292,6 @@ public class ListenLearning extends Fragment implements OnInitListener {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                progressBar.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            protected void onPostExecute(String s) {
-                super.onPostExecute(s);
-                progressBar.setVisibility(View.GONE);
-                try {
-                    obj = new JSONObject(s);
-                    Log.d("json", "LP");
-
-                    if (!obj.getBoolean("error")){
-                        Toast.makeText(getActivity().getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
-                        rowNum = obj.getInt("row");
-                    }
-                    else{
-                        Toast.makeText(getActivity().getApplicationContext(), "Can't plus", Toast.LENGTH_SHORT).show();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    Log.d("history_LP frag","LP json error");
-                }
-
             }
 
             @Override
@@ -323,7 +302,7 @@ public class ListenLearning extends Fragment implements OnInitListener {
                 //creating request parameters
                 HashMap<String, String> params = new HashMap<>();
                 params.put("user_id", String.valueOf(user.getId()));
-                params.put("user_id", String.valueOf(unit));
+                params.put("unit", String.valueOf(unit));
                 //returing the response
                 return requestHandler.sendPostRequest(URLs.URL_HISTORY_LP, params);
             }
