@@ -50,7 +50,7 @@ public class ListenLearning extends Fragment implements OnInitListener {
 
     private TextToSpeech tts;
     private String myText;
-    private Button sendBtn;
+    private Button sendBtn, backBtn;
     private EditText editText;
 
     JSONObject obj;
@@ -91,6 +91,7 @@ public class ListenLearning extends Fragment implements OnInitListener {
         GetText();
 
         sendBtn = (Button) view.findViewById(R.id.send_btn);
+        backBtn = (Button) view.findViewById(R.id.backBtn);
         editText = (EditText) view.findViewById(R.id.content_input);
 
         sendBtn.setOnClickListener(new View.OnClickListener() {
@@ -117,6 +118,16 @@ public class ListenLearning extends Fragment implements OnInitListener {
                 else{
                     Toast.makeText(getActivity(), "Cant be empty! ", Toast.LENGTH_SHORT);
                 }
+            }
+        });
+
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                StudentMainActivity studentMainActivity = (StudentMainActivity)getActivity();
+                studentMainActivity.changeFragment(new StudentStudy());
+                BottomNavigationView bottomNavigationView = (BottomNavigationView) getActivity().findViewById(R.id.bottom_navigation);
+                bottomNavigationView.setVisibility(View.VISIBLE);
             }
         });
 

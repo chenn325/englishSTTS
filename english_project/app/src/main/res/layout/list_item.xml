@@ -25,7 +25,10 @@
                 android:id="@+id/left_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="fitXY"></ImageView>
+                android:scaleType="fitXY"
+                android:adjustViewBounds="true"
+                android:maxHeight="50dp"
+                android:maxWidth="50dp"></ImageView>
         </androidx.cardview.widget.CardView>
 
         <LinearLayout

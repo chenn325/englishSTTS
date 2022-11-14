@@ -18,7 +18,7 @@ import com.example.english_project.net.User;
 
 public class StudentProfile extends Fragment {
 
-    TextView textViewId, textViewUsername;
+    TextView textViewName, textViewUsername;
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         View view=inflater.inflate(R.layout.fragment_student_profile,container,false);
@@ -32,7 +32,7 @@ public class StudentProfile extends Fragment {
         }
 
 
-        textViewId = (TextView) view.findViewById(R.id.textViewId);
+        textViewName = (TextView) view.findViewById(R.id.textViewName);
         textViewUsername = (TextView) view.findViewById(R.id.textViewUsername);
 
 
@@ -40,7 +40,7 @@ public class StudentProfile extends Fragment {
         User user = SharedPrefManager.getInstance(getActivity()).getUser();
 
         //setting the values to the textviews
-        textViewId.setText(String.valueOf(user.getId()));
+        textViewName.setText(String.valueOf(user.getName()));
         textViewUsername.setText(user.getUsername());
 
         //when the user presses logout button
