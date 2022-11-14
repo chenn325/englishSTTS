@@ -59,7 +59,11 @@ public class TeacherStudentManagement extends Fragment {
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         showText = (TableLayout) view.findViewById(R.id.showText);
         showErrorText = (TextView) view.findViewById(R.id.showErrorText);
-
+        //default
+        unit = 1;
+        myclass = 301;
+        type = "vocabulary";
+        GetHistory();
         searchBut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -71,6 +75,7 @@ public class TeacherStudentManagement extends Fragment {
                 GetHistory();
             }
         });
+
 
         return view;
     }
@@ -147,7 +152,7 @@ public class TeacherStudentManagement extends Fragment {
             TextView tv = new TextView(getContext());
             tv.setText(arr[k]);
             tv.setGravity(Gravity.CENTER);
-            tv.setWidth(180);
+            tv.setWidth(110);
             tableRow.addView(tv);
         }
         showText.addView(tableRow, new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT));

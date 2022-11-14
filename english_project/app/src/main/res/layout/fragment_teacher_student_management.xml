@@ -6,146 +6,162 @@
     android:layout_height="match_parent"
     tools:context=".teacher.TeacherStudentManagement">
 
-    <TableLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <TableRow
-            android:gravity="center">
-            <TextView
-                android:text="學生歷程記錄"/>
-        </TableRow>
-        <TableRow
+        <TextView
+            android:layout_margin="20dp"
+            android:textSize="20dp"
+            android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center">
+            android:text="學生歷程記錄"/>
 
-            <TextView
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:background="@drawable/oval_primary"
+            android:orientation="vertical">
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="年級" />
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="horizontal"
+                android:layout_gravity="center">
 
-            <Spinner
-                android:id="@+id/spGrade"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="年級" />
+
+                <Spinner
+                    android:id="@+id/spGrade"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/dataYear"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="班級" />
+
+                <Spinner
+                    android:id="@+id/spClass"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/dataClass"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="unit" />
+
+                <Spinner
+                    android:id="@+id/spUnit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/dataUnit"/>
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:entries="@array/dataYear"/>
+                android:layout_gravity="center">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="類型" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="班級" />
-
-            <Spinner
-                android:id="@+id/spClass"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:entries="@array/dataClass"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="unit" />
-
-            <Spinner
-                android:id="@+id/spUnit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:entries="@array/dataUnit"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="type" />
-
-            <Spinner
-                android:id="@+id/spType"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:entries="@array/dataType"/>
+                <Spinner
+                    android:id="@+id/spType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/dataType"/>
+            </LinearLayout>
+        </LinearLayout>
+        <Button
+            android:layout_gravity="center"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:layout_margin="10dp"
+            android:id="@+id/searchBut"
+            android:background="@drawable/oval_third"
+            android:text="查詢"/>
 
 
-        </TableRow>
-        <TableRow
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center">
-            <Button
-                android:id="@+id/searchBut"
-                android:layout_height="40dp"
-                android:text="查詢"/>
-        </TableRow>
-
-    <LinearLayout
-
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        android:layout_weight="10">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="400dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_weight="10"
-            android:background="@drawable/framestyle"
-            android:orientation="vertical">
+            android:background="@drawable/oval_second"
+            android:layout_weight="10">
 
-            <ScrollView
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fadingEdge="vertical"
-                android:scrollbars="vertical"
-                tools:ignore="MissingConstraints">
+                android:layout_height="match_parent"
+                android:layout_margin="20dp"
+                android:layout_weight="10"
+                android:background="@drawable/framestyle"
+                android:orientation="vertical">
 
-                <TableLayout
-                    android:id="@+id/showStudentHistory"
+                <ScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:paddingLeft="10dp"
-                    android:paddingTop="5dp">
+                    android:layout_height="wrap_content"
+                    android:fadingEdge="vertical"
+                    android:scrollbars="vertical"
+                    tools:ignore="MissingConstraints">
 
                     <TableLayout
-                        android:id="@+id/showText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-                        <!--                        android:background="#ffcccccc"-->
-                        <!--                        android:layout_margin="0.5dip"-->
+                        android:id="@+id/showStudentHistory"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="5dp">
+
+                        <TableLayout
+                            android:id="@+id/showText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+                        </TableLayout>
+
 
                     </TableLayout>
+                </ScrollView>
 
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
 
-                </TableLayout>
-            </ScrollView>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </LinearLayout>
-    <TableRow>
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="錯題一覽："
             android:textSize="20dp"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"/>
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"/>
 
-    </TableRow>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        android:layout_weight="5">
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/showErrorText">
-        </TextView>
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:layout_weight="5">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/showErrorText">
+            </TextView>
+        </LinearLayout>
     </LinearLayout>
-
-    </TableLayout>
 
     <ProgressBar
         android:visibility="gone"

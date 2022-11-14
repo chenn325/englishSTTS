@@ -10,92 +10,106 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="30dp"
         android:gravity="center"
         android:orientation="vertical">
 
-        <LinearLayout
+        <TextView
+            android:layout_marginBottom="10dp"
+            android:textSize="20dp"
+            android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center">
+            android:text="教材管理"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="年級" />
-
-            <Spinner
-                android:id="@+id/SPgrade"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:entries="@array/dataYear" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="班級" />
-
-            <Spinner
-                android:id="@+id/SPclass"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:entries="@array/dataClass" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="unit" />
-
-            <Spinner
-                android:id="@+id/SPunit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:entries="@array/dataUnit" />
-        </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center">
-
-            <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:orientation="vertical"
+            android:background="@drawable/oval_primary">
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="類型" />
+                android:gravity="center">
 
-            <Spinner
-                android:id="@+id/SPcategory"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:entries="@array/dataCategory" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="年級" />
 
-            <Spinner
-                android:id="@+id/SPtype"
-                android:layout_width="100dp"
+                <Spinner
+                    android:id="@+id/SPgrade"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/dataYear" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="班級" />
+
+                <Spinner
+                    android:id="@+id/SPclass"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/dataClass" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="unit" />
+
+                <Spinner
+                    android:id="@+id/SPunit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/dataUnit" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:entries="@array/dataType" />
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="類型" />
+
+                <Spinner
+                    android:id="@+id/SPcategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/dataCategory" />
+
+                <Spinner
+                    android:id="@+id/SPtype"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/dataType" />
+            </LinearLayout>
+
         </LinearLayout>
+
+
 
         <Button
             android:id="@+id/ButSearch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_marginTop="10dp"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:background="@drawable/oval_third"
             android:text="查詢" />
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="@color/gray" />
-
-        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:background="@drawable/oval_second"
             android:id="@+id/showLayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -104,58 +118,70 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center">
+                android:orientation="vertical">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="開放日期："
-                    android:textColor="@color/black" />
+                    android:gravity="center">
 
-                <TextView
-                    android:id="@+id/showDateS"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="開放日期："
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/showDateS"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textColor="@color/black" />
+
+                    <Button
+                        android:id="@+id/setDateS"
+                        android:layout_width="60dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/oval_primary"
+                        android:layout_marginLeft="10dp"
+                        android:text="設定" />
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=""
-                    android:textColor="@color/black" />
+                    android:layout_weight="1"
+                    android:gravity="center">
 
-                <Button
-                    android:id="@+id/setDateS"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="設定" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="結束日期："
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/showDateE"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textColor="@color/black" />
+
+                    <Button
+                        android:id="@+id/setDateE"
+                        android:background="@drawable/oval_primary"
+                        android:layout_width="60dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="10dp"
+                        android:text="設定" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="結束日期："
-                    android:textColor="@color/black" />
-
-                <TextView
-                    android:id="@+id/showDateE"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=""
-                    android:textColor="@color/black" />
-
-                <Button
-                    android:id="@+id/setDateE"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="設定" />
-
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -165,11 +191,13 @@
                 android:gravity="center">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="99"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
+                    android:layout_marginBottom="20dp"
                     android:background="@drawable/framestyle"
                     android:orientation="vertical">
 
@@ -220,20 +248,22 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
                 <LinearLayout
                     android:id="@+id/deleteButLayout"
+                    android:layout_marginBottom="10dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1">
+                    android:layout_height="wrap_content">
                     <Button
                         android:id="@+id/deleteNegative"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="60dp"
+                        android:layout_height="30dp"
                         android:layout_marginRight="10dp"
+                        android:background="@drawable/oval_primary"
                         android:text="取消" />
 
                     <Button
                         android:id="@+id/deletePositive"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="60dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/oval_primary"
                         android:text="刪除" />
                 </LinearLayout>
             </LinearLayout>
