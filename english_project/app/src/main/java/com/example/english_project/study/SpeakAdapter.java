@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.english_project.R;
 import com.example.english_project.net.User;
+import com.example.english_project.study.model.MyModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,16 +30,18 @@ public class SpeakAdapter extends RecyclerView.Adapter {
     private List<JSONObject> mData;
     User user;
     String userName;
+    int resID;
     int count = 0;
     static private Context context;
 
     TextToSpeech tts;
 
-    public SpeakAdapter(List<JSONObject> data, User u, Context c){
+    public SpeakAdapter(List<JSONObject> data, User u, Context c, int r){
         mData = data;
         user = u;
         userName = user.getName();
         context = c;
+        resID = r;
     }
 
     //建立ViewHolder
@@ -141,7 +144,7 @@ public class SpeakAdapter extends RecyclerView.Adapter {
                     TeacherTxtViewHolder tvh = (TeacherTxtViewHolder) holder;
                     tvh.txtItem.setText(m.getString("text"));
                     tvh.nameItem.setText("大米");
-                    tvh.stuPT.setImageResource(R.drawable.ic_baseline_emoji_people2_24);
+                    tvh.stuPT.setImageResource(resID);
                 }
 //                else{
 //                    TeacherNextViewHolder tnvh = (TeacherNextViewHolder) holder;
@@ -151,7 +154,7 @@ public class SpeakAdapter extends RecyclerView.Adapter {
                     TeacherTopicViewHolder t = (TeacherTopicViewHolder) holder;
                     t.txtItem.setText(m.getString("text"));
                     t.nameItem.setText("大米");
-                    t.stuPT.setImageResource(R.drawable.ic_baseline_emoji_people2_24);
+                    t.stuPT.setImageResource(resID);
                     t.playBut.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -171,7 +174,7 @@ public class SpeakAdapter extends RecyclerView.Adapter {
                 StudentTxtViewHolder svh = (StudentTxtViewHolder) holder;
                 svh.txtItem.setText(m.getString("text"));
                 svh.nameItem.setText(userName);
-                svh.stuPT.setImageResource(R.drawable.ic_baseline_emoji_people_24);
+                svh.stuPT.setImageResource(resID);
             }
         } catch (JSONException e) {
             e.printStackTrace();

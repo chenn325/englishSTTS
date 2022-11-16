@@ -87,6 +87,7 @@ public class ListenLearning extends Fragment implements OnInitListener {
         }
 
         resID = getResources().getIdentifier(partnerImage , "drawable", getActivity().getPackageName());
+
         Log.d("parterImageRESID", String.valueOf(resID));
         GetText();
 

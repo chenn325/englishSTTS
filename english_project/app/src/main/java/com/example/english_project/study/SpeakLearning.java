@@ -38,12 +38,14 @@ import com.example.english_project.net.URLs;
 import com.example.english_project.net.User;
 import com.example.english_project.student.StudentMainActivity;
 import com.example.english_project.student.StudentStudy;
+import com.example.english_project.study.model.MyModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 public class SpeakLearning extends Fragment {
@@ -55,11 +57,12 @@ public class SpeakLearning extends Fragment {
     String unit = "1";
     String category = "listen";
     String studyType = "vocabulary";
+    String partnerImage = "girl1";
     //測試用學生答案&counter
     String ans[] = {"apple", "ball", "c", "cat", "d", "desk", "tiger", "fox", "bubble"};
     int ansN = 0;
     int count=0;
-
+    int resID = 0;
     String nowTopic = "";
 
     int totalQNum, nowQNum = 0;
@@ -67,6 +70,7 @@ public class SpeakLearning extends Fragment {
     private JSONObject TextObj;
     private SpeakAdapter adapter;
     private ArrayList<JSONObject> mData = new ArrayList<>();
+    private List<MyModel> myModelList = new ArrayList<MyModel>();
 
     private RecyclerView recyclerView;
     private ImageView mic;
@@ -117,6 +121,19 @@ public class SpeakLearning extends Fragment {
             }
         });
 
+        //設定partner頭像
+        switch(user.getPartner()){
+            case 1:
+                partnerImage = "girl1";
+                break;
+            case 2:
+                partnerImage = "girl2";
+                break;
+            case 3:
+                partnerImage = "boy3";
+                break;
+        }
+        resID = getResources().getIdentifier(partnerImage , "drawable", getActivity().getPackageName());
         //連接元件
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewItem);
 
@@ -127,7 +144,7 @@ public class SpeakLearning extends Fragment {
 //        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
 
         //將資料交給adapter
-        adapter = new SpeakAdapter(mData, user, getContext());
+        adapter = new SpeakAdapter(mData, user, getContext(), resID);
         recyclerView.setAdapter(adapter);
         getTopic();
         return view;
@@ -186,6 +203,7 @@ public class SpeakLearning extends Fragment {
 //            e.printStackTrace();
 //        }
 //    }
+
 
     public void sendTeacherText(String s) {
         try {

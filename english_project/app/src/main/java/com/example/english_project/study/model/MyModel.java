@@ -8,10 +8,15 @@ import com.example.english_project.study.ListenAdapter;
 import com.example.english_project.study.ListenLearning;
 
 public class MyModel {
+    //listenAdapter
     public static final int SEND = 0;
     public static final int RECEIVE = 1;
     public static final int RECEIVE_2 = 2;  //只有文字
     public static final int RECEIVE_3 = 3;  //沒有播放鈕
+    //speakAdapter
+    public static final int TeacherText = 4;
+    public static final int TeacherTopic = 5;
+    public static final int StudentText = 6;
 
     private int imgId = 0;
     private String name = "test";

@@ -31,7 +31,6 @@ public class ListenAdapter extends RecyclerView.Adapter<ListenAdapter.ViewHolder
         this.myModelList = datalist;
     }
 
-
     @NonNull
     @Override
     public ListenAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
