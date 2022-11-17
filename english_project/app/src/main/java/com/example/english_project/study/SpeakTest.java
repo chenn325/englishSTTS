@@ -61,7 +61,7 @@ public class SpeakTest extends Fragment {
     String studyType = "vocabulary";
     String partnerImage = "girl1";
     //測試用學生答案&counter
-    String ans[] = {"apple", "ball", "c", "cat", "d", "desk", "tiger", "fox", "bubble"};
+    String ans[] = {"apple", "ball", "cat", "d", "desk", "tiger", "fox", "b", "b", "b"};
     int ansN = 0;
     int count=0;
     int resID;
@@ -80,6 +80,7 @@ public class SpeakTest extends Fragment {
     private ImageView mic;
     private ProgressBar progressBar;
     private LinearLayout butArea;
+    private Button backBtn;
 //    private TextView topic;
 
     private static final int RECOGNIZER_RESULT = 1;
@@ -91,6 +92,7 @@ public class SpeakTest extends Fragment {
 
         progressBar = view.findViewById(R.id.progressBar);
         butArea = view.findViewById(R.id.buttonArea);
+        backBtn = view.findViewById(R.id.backBtn);
 //        topic = view.findViewById(R.id.topicTxt);
         mic = view.findViewById(R.id.mic);
         mic.setOnClickListener(new View.OnClickListener() {
@@ -123,6 +125,15 @@ public class SpeakTest extends Fragment {
                 }
             }
         });
+
+        backBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                StudentMainActivity studentMainActivity = (StudentMainActivity)getActivity();
+                studentMainActivity.changeFragment(new StudentTest());
+            }
+        });
+
         //設定partner頭像
         switch(user.getPartner()){
             case 1:
@@ -158,27 +169,27 @@ public class SpeakTest extends Fragment {
         if(isLetter(userAns.charAt(0))) { fUserAns = userAns.toLowerCase(); }
             else { fUserAns = userAns; }
         if (fUserAns.equals(nowTopic)) {
-//            new Handler().postDelayed(new Runnable() {
-//                @Override
-//                public void run() {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
 //                    trueFeedback();
                     sendTeacherText("正確！");
-//                }
-//            }, 1000);
-//            new Handler().postDelayed(new Runnable() {
-//                @Override
-//                public void run() {
+                }
+            }, 1000);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
                     try {
                         setTopic();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-//                }
-//            }, 2000);
+                }
+            }, 2000);
         } else {
-//            new Handler().postDelayed(new Runnable() {
-//                @Override
-//                public void run() {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
 //                    falseFeedback();
                     answer[nowQNum]++;
                     switch(answer[nowQNum]){
@@ -193,7 +204,8 @@ public class SpeakTest extends Fragment {
                         case 3://明確校正
                             sendTeacherSound("正確的發音應該是" + nowTopic, nowTopic);
                             //加入tts
-                            sendTeacherText("讓我們進入下一題吧！");
+                            if(nowQNum<totalQNum-1)
+                                sendTeacherText("讓我們進入下一題吧！");
                             try {
                                 setTopic();
                             } catch (JSONException e) {
@@ -201,8 +213,8 @@ public class SpeakTest extends Fragment {
                             }
                             break;
                     }
-//                }
-//            }, 1000);
+                }
+            }, 1000);
         }
     }
 

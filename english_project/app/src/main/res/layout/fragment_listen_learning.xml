@@ -13,19 +13,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/backBtn"
-        android:text="Back">
+        android:text="Back"
+        android:background="@drawable/but_third"
+        android:textColor="@color/white"
+        android:layout_margin="10dp">
     </Button>
     <LinearLayout
-        android:layout_marginTop="50dp"
+        android:layout_below="@id/backBtn"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/my_recyclerView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="8"
-            android:id="@+id/my_recyclerView">
+            android:layout_weight="8">
 
         </androidx.recyclerview.widget.RecyclerView>
 
@@ -37,7 +40,8 @@
 
             <EditText
                 android:id="@+id/content_input"
-                android:layout_width="300dp"
+                android:layout_width="0dp"
+                android:layout_weight="8"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginLeft="10dp"
@@ -45,10 +49,14 @@
 
             <Button
                 android:id="@+id/send_btn"
-                android:layout_width="100dp"
+                android:layout_width="0dp"
+                android:layout_weight="2"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
-                android:text="send"></Button>
+                android:text="send"
+                android:background="@drawable/but_third"
+                android:textColor="@color/white"
+                android:layout_margin="10dp"></Button>
         </LinearLayout>
     </LinearLayout>
 

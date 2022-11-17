@@ -12,6 +12,7 @@ import android.content.res.ColorStateList;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -76,6 +77,7 @@ public class SpeakLearning extends Fragment {
     private ImageView mic;
     private ProgressBar progressBar;
     private LinearLayout butArea;
+    private Button backBtn;
 //    private TextView topic;
 
     private static final int RECOGNIZER_RESULT = 1;
@@ -87,6 +89,7 @@ public class SpeakLearning extends Fragment {
 
         progressBar = view.findViewById(R.id.progressBar);
         butArea = view.findViewById(R.id.buttonArea);
+        backBtn = (Button) view.findViewById(R.id.backBtn);
 //        topic = view.findViewById(R.id.topicTxt);
         mic = view.findViewById(R.id.mic);
         mic.setOnClickListener(new View.OnClickListener() {
@@ -118,6 +121,14 @@ public class SpeakLearning extends Fragment {
                     ad.setPositiveButton("好", null);
                     ad.show();
                 }
+            }
+        });
+
+        backBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                StudentMainActivity studentMainActivity = (StudentMainActivity)getActivity();
+                studentMainActivity.changeFragment(new StudentStudy());
             }
         });
 
