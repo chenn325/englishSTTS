@@ -66,6 +66,7 @@ public class SpeakTest extends Fragment {
     int count=0;
     int resID;
     public int[] answer;
+    Boolean lastSaying = false;  //1 teacher, 0 student
 
     String nowTopic = "";
 
@@ -99,30 +100,31 @@ public class SpeakTest extends Fragment {
             @Override
             public void onClick(View view) {
                 //測試用
-//                try {
+                sendStudentText(ans[ansN]);
+                try {
 //                    JSONObject m = new JSONObject();
 //                    m.put("type", false);
 //                    m.put("text", ans[ansN]);
 //                    adapter.addItem(m);
 //                    recyclerView.scrollToPosition(adapter.getItemCount() - 1);
-//                    checkAnswer(ans[ansN++]);
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-                //錄音
-                try {
-                    Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-                    intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en-US");
-                    intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-                    intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "speech to text");
-                    startActivityForResult(intent, RECOGNIZER_RESULT);
-                }catch(ActivityNotFoundException e){
-                    Log.d("MainActivity", "沒谷哥哥ㄌㄚ");
-                    AlertDialog.Builder ad = new AlertDialog.Builder(getContext());
-                    ad.setMessage("您未安裝google軟體\n請安裝後再試一次！");
-                    ad.setPositiveButton("好", null);
-                    ad.show();
+                    checkAnswer(ans[ansN++]);
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
+                //錄音
+//                try {
+//                    Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+//                    intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en-US");
+//                    intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+//                    intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "speech to text");
+//                    startActivityForResult(intent, RECOGNIZER_RESULT);
+//                }catch(ActivityNotFoundException e){
+//                    Log.d("MainActivity", "沒谷哥哥ㄌㄚ");
+//                    AlertDialog.Builder ad = new AlertDialog.Builder(getContext());
+//                    ad.setMessage("您未安裝google軟體\n請安裝後再試一次！");
+//                    ad.setPositiveButton("好", null);
+//                    ad.show();
+//                }
             }
         });
 
@@ -224,8 +226,10 @@ public class SpeakTest extends Fragment {
             m.put("type", true);
             m.put("isTopic", false);
             m.put("text", s);
+            m.put("lastSay", lastSaying);
             adapter.addItem(m);
             recyclerView.scrollToPosition(adapter.getItemCount() - 1);
+            lastSaying = true;
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -238,8 +242,10 @@ public class SpeakTest extends Fragment {
             m.put("isTopic", true);
             m.put("text", s);
             m.put("sound_text", strSpeak);
+            m.put("lastSay", lastSaying);
             adapter.addItem(m);
             recyclerView.scrollToPosition(adapter.getItemCount() - 1);
+            lastSaying = true;
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -250,8 +256,10 @@ public class SpeakTest extends Fragment {
             JSONObject m = new JSONObject();
             m.put("type", false);
             m.put("text", s);
+            m.put("lastSay", lastSaying);
             adapter.addItem(m);
             recyclerView.scrollToPosition(adapter.getItemCount() - 1);
+            lastSaying = false;
         } catch (JSONException e) {
             e.printStackTrace();
         }
