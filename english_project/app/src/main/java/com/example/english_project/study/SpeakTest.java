@@ -61,10 +61,10 @@ public class SpeakTest extends Fragment {
     String studyType = "vocabulary";
     String partnerImage = "girl1";
     //測試用學生答案&counter
-    String ans[] = {"apple", "ball", "cat", "d", "desk", "tiger", "fox", "b", "b", "b"};
+    String ans[] = {"apple", "ball", "cat", "desk", "tiger", "fox", "bubble"};
     int ansN = 0;
-    int count=0;
     int resID;
+    int delay_time = 1000;
     public int[] answer;
     Boolean lastSaying = false;  //1 teacher, 0 student
 
@@ -82,7 +82,6 @@ public class SpeakTest extends Fragment {
     private ProgressBar progressBar;
     private LinearLayout butArea;
     private Button backBtn;
-//    private TextView topic;
 
     private static final int RECOGNIZER_RESULT = 1;
 
@@ -94,24 +93,18 @@ public class SpeakTest extends Fragment {
         progressBar = view.findViewById(R.id.progressBar);
         butArea = view.findViewById(R.id.buttonArea);
         backBtn = view.findViewById(R.id.backBtn);
-//        topic = view.findViewById(R.id.topicTxt);
         mic = view.findViewById(R.id.mic);
         mic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //測試用
+                //測試用 DON'T DELETE ME!!
                 sendStudentText(ans[ansN]);
                 try {
-//                    JSONObject m = new JSONObject();
-//                    m.put("type", false);
-//                    m.put("text", ans[ansN]);
-//                    adapter.addItem(m);
-//                    recyclerView.scrollToPosition(adapter.getItemCount() - 1);
                     checkAnswer(ans[ansN++]);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                //錄音
+                //錄音 DON'T DELETE ME!!
 //                try {
 //                    Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
 //                    intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en-US");
@@ -127,6 +120,9 @@ public class SpeakTest extends Fragment {
 //                }
             }
         });
+
+        mic.setEnabled(false);
+        mic.setImageTintList(ColorStateList.valueOf((getResources().getColor(R.color.gray))));
 
         backBtn.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -155,9 +151,6 @@ public class SpeakTest extends Fragment {
         //設置RecyclerView 為列表型態
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        //設置格線
-//        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-
         //將資料交給adapter
         adapter = new SpeakAdapter(mData, user, getContext(), resID);
         recyclerView.setAdapter(adapter);
@@ -167,88 +160,103 @@ public class SpeakTest extends Fragment {
     }
 
     public void checkAnswer(String userAns) throws JSONException {
+        mic.setEnabled(false);
+        mic.setImageTintList(ColorStateList.valueOf((getResources().getColor(R.color.gray))));
+        final int Ftime = delay_time;
         final String fUserAns;
         if(isLetter(userAns.charAt(0))) { fUserAns = userAns.toLowerCase(); }
-            else { fUserAns = userAns; }
+        else { fUserAns = userAns; }
         if (fUserAns.equals(nowTopic)) {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-//                    trueFeedback();
-                    sendTeacherText("正確！");
-                }
-            }, 1000);
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
+            sendTeacherText("正確！", Ftime);
+            int time = Ftime+delay_time;
+            try {
+                setTopic(time);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            int time = Ftime;
+            answer[nowQNum]++;
+            switch(answer[nowQNum]){
+                case 1://重複錯誤
+                    sendTeacherSound("你的答案發音比較像" + fUserAns, fUserAns, time);
+                    time += delay_time;
+                    sendTeacherText("再試一次吧！", time);
+                    setMicEnable(time);
+                    break;
+                case 2://提問引導
+                    sendTeacherText("要不要試著回想學習模式時教的發音呢？", time);
+                    time += delay_time;
+                    sendTeacherText("最後你的答案是？", time);
+                    setMicEnable(time);
+                    break;
+                case 3://明確校正
+                    sendTeacherSound("正確的發音應該是" + nowTopic, nowTopic, time);
+                    time +=delay_time;
+                    if(nowQNum<totalQNum-1)
+                        sendTeacherText("讓我們進入下一題吧！", time);
+                    time += delay_time;
                     try {
-                        setTopic();
+                        setTopic(time);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                }
-            }, 2000);
-        } else {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-//                    falseFeedback();
-                    answer[nowQNum]++;
-                    switch(answer[nowQNum]){
-                        case 1://重複錯誤
-                            sendTeacherSound("你的答案發音比較像" + fUserAns, fUserAns);
-                            sendTeacherText("再試一次吧！");
-                            break;
-                        case 2://提問引導
-                            sendTeacherText("要不要試著回想學習模式時教的發音呢？");
-                            sendTeacherText("最後你的答案是？");
-                            break;
-                        case 3://明確校正
-                            sendTeacherSound("正確的發音應該是" + nowTopic, nowTopic);
-                            //加入tts
-                            if(nowQNum<totalQNum-1)
-                                sendTeacherText("讓我們進入下一題吧！");
-                            try {
-                                setTopic();
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                            break;
-                    }
-                }
-            }, 1000);
+                    setMicEnable(time);
+                    break;
+            }
         }
     }
 
-    public void sendTeacherText(String s) {
-        try {
-            JSONObject m = new JSONObject();
-            m.put("type", true);
-            m.put("isTopic", false);
-            m.put("text", s);
-            m.put("lastSay", lastSaying);
-            adapter.addItem(m);
-            recyclerView.scrollToPosition(adapter.getItemCount() - 1);
-            lastSaying = true;
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+    public void setMicEnable(int t){
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mic.setEnabled(true);
+                mic.setImageTintList(ColorStateList.valueOf((getResources().getColor(R.color.black))));
+            }
+        }, t);
     }
 
-    public void sendTeacherSound(String s, String strSpeak) {//sendTeacherTopic
-        try {
-            JSONObject m = new JSONObject();
-            m.put("type", true);
-            m.put("isTopic", true);
-            m.put("text", s);
-            m.put("sound_text", strSpeak);
-            m.put("lastSay", lastSaying);
-            adapter.addItem(m);
-            recyclerView.scrollToPosition(adapter.getItemCount() - 1);
-            lastSaying = true;
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+    public void sendTeacherText(String s, int t) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    JSONObject m = new JSONObject();
+                    m.put("type", true);
+                    m.put("isTopic", false);
+                    m.put("text", s);
+                    m.put("lastSay", lastSaying);
+                    adapter.addItem(m);
+                    recyclerView.scrollToPosition(adapter.getItemCount() - 1);
+                    lastSaying = true;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, t);
+    }
+
+    public void sendTeacherSound(String s, String strSpeak, int t) {//sendTeacherTopic
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    JSONObject m = new JSONObject();
+                    m.put("type", true);
+                    m.put("isTopic", true);
+                    m.put("text", s);
+                    m.put("sound_text", strSpeak);
+                    m.put("lastSay", lastSaying);
+                    adapter.addItem(m);
+                    recyclerView.scrollToPosition(adapter.getItemCount() - 1);
+                    lastSaying = true;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, t);
     }
 
     public void sendStudentText(String s) {
@@ -299,14 +307,16 @@ public class SpeakTest extends Fragment {
                 }
                 //設置題目
                 try {
-                    sendTeacherText("總共有"+totalQNum+"題");
-                    sendTeacherText("測驗開始！");
-                    setTopic();
+                    int time = 100;
+                    sendTeacherText("總共有"+totalQNum+"題", time);
+                    time+=delay_time;
+                    sendTeacherText("測驗開始！", time);
+                    time+=delay_time;
+                    setTopic(time);
                 } catch (JSONException e) {
                     e.printStackTrace();
                     Log.d("study frag", "topic json error");
                 }
-                ;
             }
 
             @Override
@@ -321,34 +331,31 @@ public class SpeakTest extends Fragment {
                 return requestHandler.sendPostRequest(URLs.URL_STUDY, params);
             }
         }
-
         GetTopic gt = new GetTopic();
         gt.execute();
     }
 
-    public void setTopic() throws JSONException {
+    public void setTopic(int t) throws JSONException {
         nowQNum++;
         if (nowQNum < totalQNum) {
-            JSONObject t = TextObj.getJSONObject(String.valueOf(nowQNum));
-            nowTopic = t.getString("en");
-//            String s = "我要聽到你說： " + nowTopic;
-//            String s = nowTopic;
-            sendTeacherText("第"+(nowQNum+1)+"題");
-            sendTeacherText(nowTopic);
+            JSONObject tObj = TextObj.getJSONObject(String.valueOf(nowQNum));
+            nowTopic = tObj.getString("en");
+            sendTeacherText("第"+(nowQNum+1)+"題", t);
+            t+=delay_time;
+            sendTeacherText(nowTopic, t);
+            setMicEnable(t);
         }
         else{
-//            mic.setEnabled(false);
-//            mic.setImageTintList(ColorStateList.valueOf((getResources().getColor(R.color.gray))));
-
             mic.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
                 }
             });
-            sendTeacherText("恭喜你完成測驗!");
+            sendTeacherText("恭喜你完成測驗!", t);
+            t+=delay_time;
             //算分
-            sendTeacherText("本次成績為： " + String.valueOf(Cal()));
+            sendTeacherText("本次成績為： " + String.valueOf(Cal()), t);
             for(int i=0; i<totalQNum; i++){
                 if(answer[i]!=0){
                     UploadError( (TextObj.getJSONObject(String.valueOf(i))).getString("en") );
@@ -367,9 +374,10 @@ public class SpeakTest extends Fragment {
             exitBtn.setTextSize(25);
             exitBtn.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             butArea.addView(exitBtn);
-//            String s = "題目已全作答完畢";
-            sendTeacherText("題目已全作答完畢");
-            sendTeacherText("請按下方EXIT鍵離開");
+            t+=delay_time;
+            sendTeacherText("題目已全作答完畢", t);
+            t+=delay_time;
+            sendTeacherText("請按下方EXIT鍵離開", t);
         }
     }
 
