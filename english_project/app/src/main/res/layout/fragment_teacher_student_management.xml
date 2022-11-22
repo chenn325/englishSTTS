@@ -12,12 +12,13 @@
         android:orientation="vertical">
 
         <TextView
-            android:layout_margin="20dp"
-            android:textSize="20dp"
-            android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="學生歷程記錄"/>
+            android:layout_gravity="center"
+            android:layout_margin="20dp"
+            android:text="學生歷程記錄"
+            android:textColor="@color/black"
+            android:textSize="20dp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -25,82 +26,91 @@
             android:layout_gravity="center"
             android:background="@drawable/oval_primary"
             android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_gravity="center"
                 android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginRight="10dp"
-                android:orientation="horizontal"
-                android:layout_gravity="center">
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="年級" />
+                    android:text="年級"
+                    android:textColor="@color/black" />
 
                 <Spinner
                     android:id="@+id/spGrade"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:entries="@array/dataYear"/>
+                    android:entries="@array/dataYear" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="班級" />
+                    android:text="班級"
+                    android:textColor="@color/black" />
 
                 <Spinner
                     android:id="@+id/spClass"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:entries="@array/dataClass"/>
+                    android:entries="@array/dataClass" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="unit" />
+                    android:text="unit"
+                    android:textColor="@color/black" />
 
                 <Spinner
                     android:id="@+id/spUnit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:entries="@array/dataUnit"/>
+                    android:entries="@array/dataUnit" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="類型" />
+                    android:text="類型"
+                    android:textColor="@color/black" />
 
                 <Spinner
                     android:id="@+id/spType"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:entries="@array/dataType"/>
+                    android:entries="@array/dataType" />
             </LinearLayout>
         </LinearLayout>
+
         <Button
-            android:layout_gravity="center"
+            android:id="@+id/searchBut"
             android:layout_width="60dp"
             android:layout_height="30dp"
+            android:layout_gravity="center"
             android:layout_margin="10dp"
-            android:id="@+id/searchBut"
             android:background="@drawable/oval_third"
-            android:text="查詢"/>
+            android:text="查詢"
+            android:textColor="@color/white" />
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:orientation="vertical"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
+            android:layout_weight="10"
             android:background="@drawable/oval_second"
-            android:layout_weight="10">
+            android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -129,8 +139,7 @@
                             android:id="@+id/showText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical">
-                        </TableLayout>
+                            android:orientation="vertical"></TableLayout>
 
 
                     </TableLayout>
@@ -142,24 +151,26 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="錯題一覽："
-            android:textSize="20dp"
             android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
             android:layout_marginRight="20dp"
-            android:layout_marginTop="10dp"/>
+            android:text="錯題一覽："
+            android:textColor="@color/black"
+            android:textSize="20dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_height="0dp"
-            android:orientation="vertical"
-            android:layout_weight="5">
+            android:layout_weight="5"
+            android:orientation="vertical">
+
             <TextView
+                android:id="@+id/showErrorText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/showErrorText">
-            </TextView>
+                android:textColor="@color/black"></TextView>
         </LinearLayout>
     </LinearLayout>
 

@@ -2,6 +2,7 @@ package com.example.english_project.student;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -118,8 +119,12 @@ public class StudentTest extends Fragment {
         TextView tv = new TextView(getContext());
         tv.setText("Listen");
         tv.setTextSize(20);
+        tv.setTextColor(getResources().getColor(R.color.black));
         tableRow.addView(tv);
         showSchedule.addView(tableRow, new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT));
+        DisplayMetrics metrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        int cusTextSize = metrics.widthPixels/60;
         for (int i=0; i<rowNum; i++){
             JSONObject t = obj.getJSONObject(String.valueOf(i));
             tableRow = new TableRow(getContext());
@@ -136,10 +141,13 @@ public class StudentTest extends Fragment {
                     studentMainActivity.changeFragment(listenTest);
                 }
             });
+            but.setTextSize(cusTextSize);
             tableRow.addView(but);
             tv.setText(t.getString("startYmd")+" - "+t.getString("endYmd"));
             tv.setGravity(Gravity.CENTER);
-            tv.setTextSize(20);
+            tv.setTextSize(cusTextSize);
+//            tv.setTextSize(20);
+            tv.setTextColor(getResources().getColor(R.color.black));
             tableRow.addView(tv);
             showSchedule.addView(tableRow, new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT));
         }
@@ -148,6 +156,7 @@ public class StudentTest extends Fragment {
         tv = new TextView(getContext());
         tv.setText("Speak");
         tv.setTextSize(20);
+        tv.setTextColor(getResources().getColor(R.color.black));
         tableRow.addView(tv);
         showSchedule.addView(tableRow, new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT));
         for (int i=0; i<rowNum; i++){
@@ -166,10 +175,13 @@ public class StudentTest extends Fragment {
                     studentMainActivity.changeFragment(speakTest);
                 }
             });
+            but.setTextSize(cusTextSize);
             tableRow.addView(but);
             tv.setText(t.getString("startYmd")+" - "+t.getString("endYmd"));
             tv.setGravity(Gravity.CENTER);
-            tv.setTextSize(20);
+            tv.setTextSize(cusTextSize);
+//            tv.setTextSize(20);
+            tv.setTextColor(getResources().getColor(R.color.black));
             tableRow.addView(tv);
             showSchedule.addView(tableRow, new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT));
         }

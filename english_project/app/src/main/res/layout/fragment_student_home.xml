@@ -58,7 +58,8 @@
         android:layout_height="100dp"
         android:background="@drawable/oval_primary"
         android:text="home page"
-        android:textSize="25dp" />
+        android:textSize="25dp"
+        android:textColor="@color/black"/>
 
 
     <LinearLayout
