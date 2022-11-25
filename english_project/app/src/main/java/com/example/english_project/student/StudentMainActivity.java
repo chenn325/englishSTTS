@@ -78,6 +78,7 @@ public class StudentMainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().add(R.id.container, student_home).commit();
         currentFragment = student_home;
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
     }
 
     @Override

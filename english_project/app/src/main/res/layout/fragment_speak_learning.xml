@@ -14,7 +14,7 @@
         android:id="@+id/backBtn"
         android:text="Back"
         android:background="@drawable/but_third"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:layout_margin="10dp"/>
     <LinearLayout
         android:layout_width="match_parent"

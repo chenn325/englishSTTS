@@ -35,7 +35,7 @@ public class StudentHome extends Fragment {
     private JSONObject obj;
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_student_home,container,false);
-        ImageView imagePartner = (ImageView) view.findViewById(R.id.ImagePartner);
+        ImageView imagePartner = (ImageView) view.findViewById(R.id.partnerImage);
         todayText = (TextView) view.findViewById(R.id.todayText);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
 

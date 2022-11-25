@@ -10,14 +10,16 @@
     android:background="@color/primary">
 
     <Button
+        android:id="@+id/backBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/backBtn"
-        android:text="Back"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/but_third"
-        android:textColor="@color/white"
-        android:layout_margin="10dp">
-    </Button>
+        android:text="Back"
+        android:textColor="@color/black"></Button>
     <LinearLayout
         android:layout_below="@id/backBtn"
         android:layout_width="match_parent"
@@ -55,7 +57,7 @@
                 android:layout_marginTop="20dp"
                 android:text="send"
                 android:background="@drawable/but_third"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:layout_margin="10dp"></Button>
         </LinearLayout>
     </LinearLayout>

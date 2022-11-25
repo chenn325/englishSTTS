@@ -1,5 +1,6 @@
 package com.example.english_project.student;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -117,7 +118,7 @@ public class StudentStudy extends Fragment {
         ul.execute();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    @SuppressLint("ResourceAsColor")
     public void setSchedule(int rowNum) throws JSONException {
         Log.d("setSchedule","start");
         //listen
@@ -125,6 +126,7 @@ public class StudentStudy extends Fragment {
         TextView tv = new TextView(getContext());
         tv.setText("Listen");
         tv.setTextSize(20);
+        tv.setTextColor(R.color.font_purple);
         tv.setTextColor(getResources().getColor(R.color.black));
         tableRow.addView(tv);
         showSchedule.addView(tableRow, new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -152,6 +154,7 @@ public class StudentStudy extends Fragment {
             tableRow.addView(but);
             tv.setText(t.getString("startYmd")+" - "+t.getString("endYmd"));
             tv.setGravity(Gravity.CENTER);
+            tv.setTextSize(17);
             tv.setTextSize(cusTextSize);
             tv.setTextColor(getResources().getColor(R.color.black));
             tableRow.addView(tv);
@@ -162,6 +165,7 @@ public class StudentStudy extends Fragment {
         tv = new TextView(getContext());
         tv.setText("Speak");
         tv.setTextSize(20);
+        tv.setTextColor(R.color.font_purple);
         tv.setTextColor(getResources().getColor(R.color.black));
         tableRow.addView(tv);
         showSchedule.addView(tableRow, new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -185,6 +189,7 @@ public class StudentStudy extends Fragment {
             tableRow.addView(but);
             tv.setText(t.getString("startYmd")+" - "+t.getString("endYmd"));
             tv.setGravity(Gravity.CENTER);
+            tv.setTextSize(17);
             tv.setTextSize(cusTextSize);
             tv.setTextColor(getResources().getColor(R.color.black));
             tableRow.addView(tv);

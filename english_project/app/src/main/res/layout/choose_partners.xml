@@ -27,7 +27,7 @@
                 android:layout_gravity="center"
                 android:text="choose"
                 android:background="@drawable/but_third"
-                android:textColor="@color/white"/>
+                android:textColor="@color/black"/>
 
         </TableRow>
         <TableRow
@@ -44,7 +44,7 @@
                 android:layout_gravity="center"
                 android:text="choose"
                 android:background="@drawable/but_third"
-                android:textColor="@color/white"/>
+                android:textColor="@color/black"/>
         </TableRow>
         <TableRow
             android:gravity="center_horizontal">
@@ -60,7 +60,7 @@
                 android:layout_gravity="center"
                 android:text="choose"
                 android:background="@drawable/but_third"
-                android:textColor="@color/white"/>
+                android:textColor="@color/black"/>
         </TableRow>
         <TableRow
             android:gravity="center">

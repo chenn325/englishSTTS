@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="#E5EDF9"
+        android:background="@color/primary"
         app:labelVisibilityMode="labeled"
         app:menu="@menu/teacher_menu"/>
 
