@@ -373,6 +373,7 @@ public class SpeakTest extends Fragment {
             exitBtn.setText("EXIT");
             exitBtn.setTextSize(25);
             exitBtn.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            exitBtn.setBackground(getResources().getDrawable(R.drawable.but_third));
             butArea.addView(exitBtn);
             t+=delay_time;
             sendTeacherText("題目已全作答完畢", t);
