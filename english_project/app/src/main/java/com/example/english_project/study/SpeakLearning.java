@@ -61,7 +61,7 @@ public class SpeakLearning extends Fragment {
     String studyType = "vocabulary";
     String partnerImage = "girl1";
     //測試用學生答案&counter
-    String ans[] = {"apple", "ball", "c", "cat", "d", "desk", "tiger", "fox", "bubble"};
+    String ans[] = {"apple", "ball", "cat", "date", "duck", "dark", "tiger", "fox", "bubble"};
     int ansN = 0;
     int resID = 0;
     String nowTopic = "";
