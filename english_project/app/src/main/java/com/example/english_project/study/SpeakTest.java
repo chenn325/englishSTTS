@@ -40,6 +40,7 @@ import com.example.english_project.student.StudentMainActivity;
 import com.example.english_project.student.StudentStudy;
 import com.example.english_project.student.StudentTest;
 import com.example.english_project.study.model.MyModel;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -129,6 +130,8 @@ public class SpeakTest extends Fragment {
             public void onClick(View view) {
                 StudentMainActivity studentMainActivity = (StudentMainActivity)getActivity();
                 studentMainActivity.changeFragment(new StudentTest());
+                BottomNavigationView bottomNavigationView = (BottomNavigationView) getActivity().findViewById(R.id.bottom_navigation);
+                bottomNavigationView.setVisibility(View.VISIBLE);
             }
         });
 
@@ -156,6 +159,10 @@ public class SpeakTest extends Fragment {
         recyclerView.setAdapter(adapter);
         getTopic();
         Log.d("study test", "study test hello");
+
+        //隱藏menu
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) getActivity().findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setVisibility(View.GONE);
         return view;
     }
 
