@@ -70,8 +70,8 @@ public class ListenAdapter extends RecyclerView.Adapter<ListenAdapter.ViewHolder
             holder.leftOnlyContent.setVisibility(View.GONE);
             holder.leftLayout.setVisibility(View.VISIBLE);
             holder.leftNameTextView.setText(myModel.getName());
-            //holder.leftContentTextView.setText(myModel.getContent());
-            holder.leftContentTextView.setText("");
+            holder.leftContentTextView.setText(myModel.getContent());
+            holder.leftContentTextView.setVisibility(View.GONE);
             holder.leftImageView.setImageResource(myModel.getImgId());
             holder.leftPlay.setVisibility(View.VISIBLE);
         }
@@ -96,8 +96,7 @@ public class ListenAdapter extends RecyclerView.Adapter<ListenAdapter.ViewHolder
         holder.leftPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //String s = holder.leftContentTextView.getText().toString();
-                String s = myModel.getContent();
+                String s = holder.leftContentTextView.getText().toString();
                 tts.speak(s, TextToSpeech.QUEUE_FLUSH, null, null);
                 Log.d("tts",s+" success");
             }
