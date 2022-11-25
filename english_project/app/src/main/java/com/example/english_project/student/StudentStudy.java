@@ -154,7 +154,7 @@ public class StudentStudy extends Fragment {
             tableRow.addView(but);
             tv.setText(t.getString("startYmd")+" - "+t.getString("endYmd"));
             tv.setGravity(Gravity.CENTER);
-            tv.setTextSize(17);
+//            tv.setTextSize(17);
             tv.setTextSize(cusTextSize);
             tv.setTextColor(getResources().getColor(R.color.black));
             tableRow.addView(tv);
@@ -189,7 +189,7 @@ public class StudentStudy extends Fragment {
             tableRow.addView(but);
             tv.setText(t.getString("startYmd")+" - "+t.getString("endYmd"));
             tv.setGravity(Gravity.CENTER);
-            tv.setTextSize(17);
+//            tv.setTextSize(17);
             tv.setTextSize(cusTextSize);
             tv.setTextColor(getResources().getColor(R.color.black));
             tableRow.addView(tv);
