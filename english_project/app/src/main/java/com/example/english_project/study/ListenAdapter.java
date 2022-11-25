@@ -64,6 +64,7 @@ public class ListenAdapter extends RecyclerView.Adapter<ListenAdapter.ViewHolder
             holder.leftOnlyContent.setVisibility(View.GONE);
             holder.rightLayout.setVisibility(View.VISIBLE);
             holder.rightContentTextView.setText(myModel.getContent());
+            holder.leftContentTextView.setVisibility(View.VISIBLE);
         }
         else if(myModel.getType() == MyModel.RECEIVE){
             holder.rightLayout.setVisibility(View.GONE);
@@ -80,6 +81,7 @@ public class ListenAdapter extends RecyclerView.Adapter<ListenAdapter.ViewHolder
             holder.leftLayout.setVisibility(View.GONE);
             holder.leftOnlyContent.setVisibility(View.VISIBLE);
             holder.leftText.setText(myModel.getContent());
+            holder.leftContentTextView.setVisibility(View.VISIBLE);
         }
         else if(myModel.getType() == MyModel.RECEIVE_3){
             holder.rightLayout.setVisibility(View.GONE);
@@ -89,6 +91,7 @@ public class ListenAdapter extends RecyclerView.Adapter<ListenAdapter.ViewHolder
             holder.leftContentTextView.setText(myModel.getContent());
             holder.leftImageView.setImageResource(myModel.getImgId());
             holder.leftPlay.setVisibility(View.GONE);
+            holder.leftContentTextView.setVisibility(View.VISIBLE);
         }
 
 

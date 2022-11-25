@@ -22,6 +22,7 @@ import com.example.english_project.student.StudentMainActivity;
 import com.example.english_project.student.StudentStudy;
 import com.example.english_project.R;
 import com.example.english_project.net.*;
+import com.example.english_project.student.StudentTest;
 import com.example.english_project.study.model.MyModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -120,7 +121,7 @@ public class ListenTest extends Fragment implements OnInitListener {
             @Override
             public void onClick(View view) {
                 StudentMainActivity studentMainActivity = (StudentMainActivity)getActivity();
-                studentMainActivity.changeFragment(new StudentStudy());
+                studentMainActivity.changeFragment(new StudentTest());
                 BottomNavigationView bottomNavigationView = (BottomNavigationView) getActivity().findViewById(R.id.bottom_navigation);
                 bottomNavigationView.setVisibility(View.VISIBLE);
             }
