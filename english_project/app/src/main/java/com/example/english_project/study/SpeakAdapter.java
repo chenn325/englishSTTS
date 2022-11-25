@@ -24,14 +24,12 @@ import java.util.List;
 import java.util.Locale;
 
 public class SpeakAdapter extends RecyclerView.Adapter {
-//    public static final int TYPE_TEACHER_TXT = 0, TYPE_TEACHER_NEXT = 1, TYPE_STUDENT_TXT = 2;
     public static final int TYPE_TEACHER_TXT = 0, TYPE_TEACHER_TOPIC = 1, TYPE_STUDENT_TXT = 2;
 
     private List<JSONObject> mData;
     User user;
     String userName;
     int resID;
-    int count = 0;
     static private Context context;
 
     TextToSpeech tts;
@@ -49,29 +47,22 @@ public class SpeakAdapter extends RecyclerView.Adapter {
         //宣告元件
         private TextView txtItem, nameItem;
         private ImageView stuPT;
+        private View imageCon;
 
         TeacherTxtViewHolder(View itemView){
             super(itemView);
             txtItem = (TextView) itemView.findViewById(R.id.left_txt);
             nameItem = (TextView) itemView.findViewById(R.id.left_name);
             stuPT = (ImageView) itemView.findViewById(R.id.left_image);
+            imageCon = (View) itemView.findViewById(R.id.imageCon);
         }
     }
-
-//    class TeacherNextViewHolder extends RecyclerView.ViewHolder{
-//        private Button butItem;
-//
-//        TeacherNextViewHolder(View itemView){
-//            super(itemView);
-//            butItem = (Button) itemView.findViewById(R.id.butItem);
-//        }
-//
-//    }
 
     class TeacherTopicViewHolder extends RecyclerView.ViewHolder{
         //宣告元件
         private TextView txtItem, nameItem;
         private ImageView stuPT, playBut;
+        private View imageCon;
 
         TeacherTopicViewHolder(View itemView){
             super(itemView);
@@ -79,18 +70,16 @@ public class SpeakAdapter extends RecyclerView.Adapter {
             nameItem = (TextView) itemView.findViewById(R.id.left_name);
             stuPT = (ImageView) itemView.findViewById(R.id.left_image);
             playBut = (ImageView) itemView.findViewById(R.id.sound_play);
+            imageCon = (View) itemView.findViewById(R.id.imageCon);
         }
     }
 
     class StudentTxtViewHolder extends RecyclerView.ViewHolder{
-        private TextView txtItem, nameItem;
-        private ImageView stuPT;
+        private TextView txtItem;
 
         StudentTxtViewHolder(View itemView){
             super(itemView);
             txtItem = (TextView) itemView.findViewById(R.id.right_txt);
-            nameItem = (TextView) itemView.findViewById(R.id.right_name);
-            stuPT = (ImageView) itemView.findViewById(R.id.right_image);
         }
 
     }
@@ -98,8 +87,6 @@ public class SpeakAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder (ViewGroup parent, int viewType){
         //連結項目佈局檔 teacher_text.xml
-//        Log.d("", "C " + count++);
-//        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.teacher_text, parent, false);
         tts = new TextToSpeech(context, new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
@@ -119,9 +106,6 @@ public class SpeakAdapter extends RecyclerView.Adapter {
             case TYPE_TEACHER_TXT:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.teacher_text, parent, false);
                 return new TeacherTxtViewHolder(view);
-//            case TYPE_TEACHER_NEXT:
-//                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.teacher_next, parent, false);
-//                return new TeacherNextViewHolder(view);
             case TYPE_TEACHER_TOPIC:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.teacher_topictxt, parent, false);
                 return new TeacherTopicViewHolder(view);
@@ -143,18 +127,34 @@ public class SpeakAdapter extends RecyclerView.Adapter {
                 if(!m.getBoolean("isTopic")){
                     TeacherTxtViewHolder tvh = (TeacherTxtViewHolder) holder;
                     tvh.txtItem.setText(m.getString("text"));
-                    tvh.nameItem.setText("大米");
-                    tvh.stuPT.setImageResource(resID);
+                    if(!m.getBoolean("lastSay")) {
+                        tvh.nameItem.setText("大米");
+                        tvh.stuPT.setImageResource(resID);
+                        tvh.nameItem.setVisibility(View.VISIBLE);
+                        tvh.imageCon.setVisibility(View.VISIBLE);
+                        Log.d("adp t", "set");
+                    }
+                    else{
+                        tvh.nameItem.setVisibility(View.INVISIBLE);
+                        tvh.imageCon.setVisibility(View.INVISIBLE);
+                        Log.d("adp t", "unset");
+                    }
                 }
-//                else{
-//                    TeacherNextViewHolder tnvh = (TeacherNextViewHolder) holder;
-//                    tnvh.butItem.setText("Next topic?");
-//                }
                 else{
                     TeacherTopicViewHolder t = (TeacherTopicViewHolder) holder;
                     t.txtItem.setText(m.getString("text"));
-                    t.nameItem.setText("大米");
-                    t.stuPT.setImageResource(resID);
+                    if(!m.getBoolean("lastSay")) {
+                        t.nameItem.setText("大米");
+                        t.stuPT.setImageResource(resID);
+                        t.nameItem.setVisibility(View.VISIBLE);
+                        t.imageCon.setVisibility(View.VISIBLE);
+                        Log.d("adp p", "set");
+                    }
+                    else{
+                        t.nameItem.setVisibility(View.INVISIBLE);
+                        t.imageCon.setVisibility(View.INVISIBLE);
+                        Log.d("adp p", "unset");
+                    }
                     t.playBut.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -173,8 +173,6 @@ public class SpeakAdapter extends RecyclerView.Adapter {
             else{
                 StudentTxtViewHolder svh = (StudentTxtViewHolder) holder;
                 svh.txtItem.setText(m.getString("text"));
-                svh.nameItem.setText(userName);
-                svh.stuPT.setImageResource(resID);
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -202,7 +200,6 @@ public class SpeakAdapter extends RecyclerView.Adapter {
                     return TYPE_TEACHER_TXT;
                 }
                 else{
-//                    return TYPE_TEACHER_NEXT;
                     return TYPE_TEACHER_TOPIC;
                 }
             }

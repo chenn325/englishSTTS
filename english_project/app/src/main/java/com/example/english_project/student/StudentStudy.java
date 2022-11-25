@@ -3,13 +3,16 @@ package com.example.english_project.student;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TableLayout;
@@ -18,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import com.example.english_project.R;
@@ -65,6 +69,7 @@ public class StudentStudy extends Fragment {
                 progressBar.setVisibility(View.VISIBLE);
             }
 
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
@@ -122,8 +127,12 @@ public class StudentStudy extends Fragment {
         tv.setText("Listen");
         tv.setTextSize(20);
         tv.setTextColor(R.color.font_purple);
+        tv.setTextColor(getResources().getColor(R.color.black));
         tableRow.addView(tv);
         showSchedule.addView(tableRow, new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT));
+        DisplayMetrics metrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        int cusTextSize = metrics.widthPixels/60;
         for (int i=0; i<rowNum; i++){
             JSONObject t = obj.getJSONObject(String.valueOf(i));
             tableRow = new TableRow(getContext());
@@ -141,10 +150,13 @@ public class StudentStudy extends Fragment {
                 }
             });
             //but.setBackground(this.getResources().getDrawable(R.color.third));
+            but.setTextSize(cusTextSize);
             tableRow.addView(but);
             tv.setText(t.getString("startYmd")+" - "+t.getString("endYmd"));
             tv.setGravity(Gravity.CENTER);
             tv.setTextSize(17);
+            tv.setTextSize(cusTextSize);
+            tv.setTextColor(getResources().getColor(R.color.black));
             tableRow.addView(tv);
             showSchedule.addView(tableRow, new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT));
         }
@@ -154,6 +166,7 @@ public class StudentStudy extends Fragment {
         tv.setText("Speak");
         tv.setTextSize(20);
         tv.setTextColor(R.color.font_purple);
+        tv.setTextColor(getResources().getColor(R.color.black));
         tableRow.addView(tv);
         showSchedule.addView(tableRow, new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT));
         for (int i=0; i<rowNum; i++){
@@ -172,10 +185,13 @@ public class StudentStudy extends Fragment {
                     studentMainActivity.changeFragment(speakLearning);
                 }
             });
+            but.setTextSize(cusTextSize);
             tableRow.addView(but);
             tv.setText(t.getString("startYmd")+" - "+t.getString("endYmd"));
             tv.setGravity(Gravity.CENTER);
             tv.setTextSize(17);
+            tv.setTextSize(cusTextSize);
+            tv.setTextColor(getResources().getColor(R.color.black));
             tableRow.addView(tv);
             showSchedule.addView(tableRow, new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT));
         }

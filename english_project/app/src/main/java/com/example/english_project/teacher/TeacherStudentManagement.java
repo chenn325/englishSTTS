@@ -153,6 +153,7 @@ public class TeacherStudentManagement extends Fragment {
             tv.setText(arr[k]);
             tv.setGravity(Gravity.CENTER);
             tv.setWidth(110);
+            tv.setTextColor(getResources().getColor(R.color.black));
             tableRow.addView(tv);
         }
         showText.addView(tableRow, new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -170,6 +171,7 @@ public class TeacherStudentManagement extends Fragment {
                 tv.setText(t.getString(arr2[j]));
                 tv.setBackgroundColor(Color.parseColor("#ffffff"));
                 tv.setGravity(Gravity.CENTER);
+                tv.setTextColor(getResources().getColor(R.color.black));
                 tableRow.addView(tv);
             }
             int k;
