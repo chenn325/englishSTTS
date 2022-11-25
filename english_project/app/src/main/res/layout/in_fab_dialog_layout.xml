@@ -28,7 +28,8 @@
             android:id="@+id/edE"
             android:layout_width="150dp"
             android:layout_height="50dp"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:singleLine="true"/>
     </LinearLayout>
 
 <!--    <LinearLayout-->
