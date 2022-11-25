@@ -1,54 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".LoginActivity">
+    tools:context=".LoginActivity"
+    android:background="#E7E0EB">
 
     <ImageView
-        android:layout_gravity="right"
-        android:layout_width="300dp"
-        android:layout_height="70dp"
-        android:background="@drawable/oval_bgr_third"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="10dp">
-    </ImageView>
-
-    <ImageView
-        android:layout_gravity="right"
-        android:layout_width="200dp"
-        android:layout_height="20dp"
-        android:background="@drawable/oval_bgr_second"
-        android:layout_marginBottom="40dp">
-    </ImageView>
-
-    <TextView
+        android:id="@+id/logo"
+        android:layout_marginTop="80dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:text="Login"
+        android:src="@drawable/logo_corner"
+        android:background="@drawable/logo"
+        android:layout_centerHorizontal="true"
+        />
+    <TextView
+        android:id="@+id/Persist"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/logo"
+        android:layout_centerHorizontal="true"
+        android:text="Persist"
+        android:textStyle="bold"
         android:textSize="50dp"
-        android:textColor="@color/third"></TextView>
+        android:textColor="@color/font_purple"></TextView>
 
     <LinearLayout
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/Persist"
         android:layout_centerVertical="true"
-        android:orientation="vertical"
-        android:padding="10dp"
+        android:background="@drawable/login_corner"
         android:gravity="center"
-        android:background="@drawable/oval_primary">
+        android:orientation="vertical"
+        android:padding="10dp">
 
 
         <EditText
             android:id="@+id/editTextUsername"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:hint="Username"
             android:inputType="text" />
 
@@ -56,40 +55,28 @@
             android:id="@+id/editTextPassword"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:fontFamily="sans-serif"
             android:hint="Password"
             android:inputType="textPassword" />
 
         <Button
             android:id="@+id/buttonLogin"
-            android:background="@drawable/oval_second"
             android:layout_width="250dp"
             android:layout_height="50dp"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
-            android:text="登入"
-            android:textSize="20dp"/>
+            android:background="@drawable/oval_primary"
+            android:text="LOGIN"
+            android:textColor="@color/font_purple"
+            android:textSize="25dp"
+            android:textStyle="bold"/>
 
 
     </LinearLayout>
 
-    <ImageView
-        android:layout_gravity="left"
-        android:layout_width="300dp"
-        android:layout_height="70dp"
-        android:background="@drawable/oval_bgl_third"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="50dp">
-    </ImageView>
-    <ImageView
-        android:layout_gravity="left"
-        android:layout_width="200dp"
-        android:layout_height="20dp"
-        android:background="@drawable/oval_bgl_second"
-        android:layout_marginBottom="50dp">
-    </ImageView>
+
 
     <ProgressBar
         android:visibility="gone"
@@ -98,4 +85,4 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true" />
-</LinearLayout>
+</RelativeLayout>

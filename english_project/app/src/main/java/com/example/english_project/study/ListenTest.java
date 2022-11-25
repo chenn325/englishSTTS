@@ -23,6 +23,7 @@ import com.example.english_project.student.StudentStudy;
 import com.example.english_project.R;
 import com.example.english_project.net.*;
 import com.example.english_project.study.model.MyModel;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,7 +47,7 @@ public class ListenTest extends Fragment implements OnInitListener {
 
     private TextToSpeech tts;
     private String myText;
-    private Button sendBtn;
+    private Button sendBtn, backBtn;
     private EditText editText;
     public int[] answer;
     JSONObject obj;
@@ -88,6 +89,7 @@ public class ListenTest extends Fragment implements OnInitListener {
         GetText();
 
         sendBtn = (Button) view.findViewById(R.id.send_btn);
+        backBtn = (Button) view.findViewById(R.id.backBtn);
         editText = (EditText) view.findViewById(R.id.content_input);
 
         //receiveMessage2("listen question");
@@ -114,6 +116,18 @@ public class ListenTest extends Fragment implements OnInitListener {
                 }
             }
         });
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                StudentMainActivity studentMainActivity = (StudentMainActivity)getActivity();
+                studentMainActivity.changeFragment(new StudentStudy());
+                BottomNavigationView bottomNavigationView = (BottomNavigationView) getActivity().findViewById(R.id.bottom_navigation);
+                bottomNavigationView.setVisibility(View.VISIBLE);
+            }
+        });
+
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) getActivity().findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setVisibility(View.GONE);
 
         return view;
     }

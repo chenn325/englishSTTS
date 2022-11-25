@@ -15,9 +15,10 @@
     <color name="dark_red">#FFD9B3B3</color>
     
     
-    <color name="primary">#C1D0EB</color>
-    <color name="second">#92A8D1</color>
-    <color name="third">#7086b4</color>
+    <color name="primary">#E7E0EB</color>
+    <color name="second">#9A8DBC</color>
+    <color name="third">#FFFBFF</color>
     <color name="fourth">#4C6F99</color>
 
+    <color name="font_purple">#6750A4</color>
 </resources>

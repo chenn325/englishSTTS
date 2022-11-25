@@ -5,6 +5,7 @@
       <map>
         <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.151" />
         <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/drawable-v24/shape_corner_right.xml" value="0.1235" />
+        <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/drawable/bubble_third.xml" value="0.2105" />
         <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/drawable/but_third.xml" value="0.1" />
         <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/drawable/circle.xml" value="0.139" />
         <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/drawable/circle_primary.xml" value="0.1" />
@@ -13,6 +14,8 @@
         <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/drawable/ic_add_circle.xml" value="0.151" />
         <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/drawable/ic_baseline_emoji_people_24.xml" value="0.149" />
         <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/drawable/ic_remove_circle.xml" value="0.151" />
+        <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/drawable/login_corner.xml" value="0.121" />
+        <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/drawable/logo_corner.xml" value="0.1755" />
         <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/drawable/oval_bg_second.xml" value="0.139" />
         <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/drawable/oval_bg_third.xml" value="0.139" />
         <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/drawable/oval_bgl_second.xml" value="0.139" />
@@ -24,6 +27,7 @@
         <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/drawable/selected_menu_color.xml" value="0.1" />
         <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/drawable/shape_corner.xml" value="0.169" />
         <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/drawable/student_home_todaywords.xml" value="0.119" />
+        <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/drawable/triangle.xml" value="0.1" />
         <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/layout/activity_index.xml" value="0.24947916666666667" />
         <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/layout/activity_login.xml" value="0.24947916666666667" />
         <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/layout/activity_main.xml" value="0.2" />

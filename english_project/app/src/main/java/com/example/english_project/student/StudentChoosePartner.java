@@ -39,7 +39,7 @@ public class StudentChoosePartner extends Fragment {
         chooseBut3 = (Button) view.findViewById(R.id.chooseBut3);
         confirm_button = (Button) view.findViewById(R.id.confirm_button);
         progressBar = view.findViewById(R.id.progressBar);
-        ImageView imageView = (ImageView)getActivity().findViewById(R.id.ImagePartner);
+        ImageView imageView = (ImageView)getActivity().findViewById(R.id.partnerImage);
 
 
 
