@@ -18,59 +18,79 @@
         android:textSize="50dp" />
 
     <RelativeLayout
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:layout_below="@+id/aboutMe"
-        android:layout_marginTop="50dp"
-        android:background="@drawable/oval_third"
         android:layout_width="300dp"
         android:layout_height="220dp"
+        android:layout_below="@+id/aboutMe"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/oval_third"
+        android:gravity="center"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textViewName"
+        <RelativeLayout
+            android:gravity="center"
+            android:id="@+id/textNameAndNum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="none"
-            android:textColor="@color/black"
-            android:textSize="30dp"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+            android:layout_centerHorizontal="true">
 
-        <TextView
-            android:id="@+id/textViewUsername"
-            android:layout_toRightOf="@id/textViewName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:padding="10dp"
-            android:text="none"
-            android:textColor="@color/black"
-            android:textSize="20dp"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+            <TextView
+                android:id="@+id/textViewName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="none"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                android:textColor="@color/black"
+                android:textSize="30dp" />
+
+            <TextView
+                android:id="@+id/textViewUsername"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/textViewName"
+                android:padding="10dp"
+                android:text="none"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                android:textColor="@color/black"
+                android:textSize="30dp" />
+
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_centerHorizontal="true"
+            android:id="@+id/line"
+            android:layout_width="250dp"
+            android:layout_height="5dp"
+            android:layout_below="@id/textNameAndNum"
+            android:layout_gravity="center"
+            android:background="@drawable/oval_second"></ImageView>
 
         <Button
-            android:gravity="center"
-            android:layout_below="@id/textViewName"
-            android:background="@drawable/oval_second"
-            android:layout_margin="10dp"
+            android:layout_centerHorizontal="true"
             android:id="@+id/buttonChoose"
             android:layout_width="150dp"
             android:layout_height="50dp"
+            android:layout_below="@id/line"
+            android:layout_margin="10dp"
+            android:background="@drawable/oval_second"
+            android:gravity="center"
             android:text="學習夥伴"
             android:textColor="@color/white"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
+
         <Button
-            android:gravity="center"
-            android:layout_below="@id/buttonChoose"
-            android:background="@drawable/oval_second"
+            android:layout_centerHorizontal="true"
             android:id="@+id/buttonLogout"
-            android:layout_marginLeft="10dp"
             android:layout_width="150dp"
             android:layout_height="50dp"
+            android:layout_below="@id/buttonChoose"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/oval_second"
+            android:gravity="center"
             android:text="Logout"
             android:textColor="@color/white"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
     </RelativeLayout>
 

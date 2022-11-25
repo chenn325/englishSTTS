@@ -111,7 +111,7 @@
             android:layout_height="30dp"
             android:background="@drawable/oval_third"
             android:text="查詢"
-            android:textColor="@color/white"/>
+            android:textColor="@color/black"/>
 
         <LinearLayout
             android:layout_marginTop="20dp"
