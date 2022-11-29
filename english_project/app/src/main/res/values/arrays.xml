@@ -14,25 +14,27 @@
         <item>3</item>
     </string-array>
 
-    <string-array name="dateYear">
-        <item>2022</item>
-    </string-array>
+<!--    <string-array name="dateYear">-->
+<!--        <item>2022</item>-->
+<!--    </string-array>-->
 
-    <string-array name="dateMonth">
-        <item>8</item>
-        <item>9</item>
-        <item>10</item>
-    </string-array>
+<!--    <string-array name="dateMonth">-->
+<!--        <item>8</item>-->
+<!--        <item>9</item>-->
+<!--        <item>10</item>-->
+<!--    </string-array>-->
 
-    <string-array name="dateDay">
-        <item>01</item>
-        <item>02</item>
-        <item>03</item>
-    </string-array>
+<!--    <string-array name="dateDay">-->
+<!--        <item>01</item>-->
+<!--        <item>02</item>-->
+<!--        <item>03</item>-->
+<!--    </string-array>-->
 
     <string-array name="dataUnit">
         <item>1</item>
         <item>2</item>
+        <item>3</item>
+        <item>4</item>
     </string-array>
 
     <string-array name="dataCategory">
