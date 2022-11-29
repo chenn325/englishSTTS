@@ -23,12 +23,13 @@ import java.util.Locale;
 public class ListenAdapter extends RecyclerView.Adapter<ListenAdapter.ViewHolder> {
     //存放數據
     List<MyModel> myModelList;
+    String type; //learning or test
     static private Context context;
     TextToSpeech tts;
-
-    public ListenAdapter(Context context, List<MyModel> datalist){
+    public ListenAdapter(Context context, List<MyModel> datalist, String type){
         this.context = context;
         this.myModelList = datalist;
+        this.type = type;
     }
 
     @NonNull
@@ -72,7 +73,12 @@ public class ListenAdapter extends RecyclerView.Adapter<ListenAdapter.ViewHolder
             holder.leftLayout.setVisibility(View.VISIBLE);
             holder.leftNameTextView.setText(myModel.getName());
             holder.leftContentTextView.setText(myModel.getContent());
-            holder.leftContentTextView.setVisibility(View.GONE);
+            if(type.equals("test")){
+                holder.leftContentTextView.setVisibility(View.GONE);
+            }
+            else{
+                holder.leftContentTextView.setVisibility(View.VISIBLE);
+            }
             holder.leftImageView.setImageResource(myModel.getImgId());
             holder.leftPlay.setVisibility(View.VISIBLE);
         }

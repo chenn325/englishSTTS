@@ -99,7 +99,43 @@ if(isset($_GET['apicall'])){
 				}
 			}
 			break;
-		
+		case 'keepLogin':
+			if(isTheseParametersAvailable(array('username'))){
+				//getting values
+				$username = $_POST['username'];
+
+				//creating the query
+				$stmt = $conn->prepare("SELECT id,  username, password, identity, name, myclass, gender, partner FROM users WHERE username = ?");
+				$stmt->bind_param("s",$username);
+				$stmt->execute();
+				$stmt->store_result();
+
+				//if the user exist
+				if($stmt->num_rows > 0){
+					$stmt->bind_result($id, $username, $password, $identity, $name, $myclass, $gender, $partner);
+					$stmt->fetch();
+
+					$user = array(
+						'id' => $id,
+						'username' => $username,
+						'identity' => $identity,
+						'name' => $name,
+						'myclass' => $myclass,
+						'gender' => $gender,
+						'partner' => $partner
+					);
+
+					$response['error'] = false;
+					$response['message'] = 'Keep Login successsfull';
+					$response['user'] = $user;
+				}
+				else{
+					//if the user not found
+					$response['error'] = true;
+					$response['message'] = 'Keep Login unsuccesssfull';
+				}
+			}
+			break;
 		case 'changePartner':
 			if(isTheseParametersAvailable(array('id','partner'))){
 				$Id = $_POST['id'];
@@ -478,46 +514,6 @@ if(isset($_GET['apicall'])){
 				else{
 					$response['error'] = true;
 					$response['message'] = 'LC have some problem.';
-				}
-				break;		
-		case 'history_SP': //speak練習次數+1
-			if(isTheseParametersAvailable(array('user_id','unit'))){
-					$user_id = $_POST['user_id'];
-					$unit = $_POST['unit'];
-					//creating the query
-					$stmt = $conn->prepare("UPDATE history SET speak_p = speak_p + 1 WHERE user_id = ? AND unit = ?");
-					$stmt->bind_param("ss", $user_id, $unit);
-					$stmt->execute();
-					$stmt->store_result();
-
-					
-					$response['error'] = false;
-					$response['message'] = 'SP plus 1 successful';
-				}
-				else{
-					$response['error'] = true;
-					$response['message'] = 'SP have some problem.';
-				}
-				break;
-		case 'history_SC': //speak測驗成績
-			if(isTheseParametersAvailable(array('user_id','unit','score'))){
-					$user_id = $_POST['user_id'];
-					$unit = $_POST['unit'];
-					$score = $_POST['score'];
-
-					//creating the query
-					$stmt = $conn->prepare("UPDATE history SET speak_c = $score WHERE user_id = ? AND unit = ?");
-					$stmt->bind_param("ss", $user_id, $unit);
-					$stmt->execute();
-					$stmt->store_result();
-
-					
-					$response['error'] = false;
-					$response['message'] = 'SC successful';
-				}
-				else{
-					$response['error'] = true;
-					$response['message'] = 'SC have some problem.';
 				}
 				break;		
 		case 'todayText':

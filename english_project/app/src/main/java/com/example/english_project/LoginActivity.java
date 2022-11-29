@@ -26,7 +26,7 @@ import java.util.HashMap;
 public class LoginActivity extends AppCompatActivity {
 
     EditText editTextUsername, editTextPassword;
-
+    String username;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +35,8 @@ public class LoginActivity extends AppCompatActivity {
         if(SharedPrefManager.getInstance(this).isLoggedIn()){
             finish();
             String identity = SharedPrefManager.getIdentity();
+            username = SharedPrefManager.getUsername();
+            keepLogin();
             if(identity.equals("teacher")){
                 startActivity(new Intent(this, TeacherMainActivity.class));
             }
@@ -168,6 +170,75 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         UserLogin ul = new UserLogin();
+        ul.execute();
+    }
+
+    private void keepLogin(){
+        class KeepLogin extends AsyncTask<Void, Void, String> {
+
+            ProgressBar progressBar;
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                progressBar = (ProgressBar) findViewById(R.id.progressBar);
+                progressBar.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                progressBar.setVisibility(View.GONE);
+
+                try {
+                    //converting response to json object
+                    JSONObject obj = new JSONObject(s);
+
+                    //if no error in response
+                    if (!obj.getBoolean("error")) {
+                        Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+
+                        //getting the user from the response
+                        JSONObject userJson = obj.getJSONObject("user");
+
+                        //creating a new user object
+                        User user = new User(
+                                userJson.getInt("id"),
+                                userJson.getString("username"),
+                                userJson.getString("identity"),
+                                userJson.getString("name"),
+                                userJson.getInt("myclass"),
+                                userJson.getString("gender"),
+                                userJson.getInt("partner")
+                        );
+                        Log.d("partnerID", String.valueOf(userJson.getInt("partner")));
+                        //storing the user in shared preferences
+                        SharedPrefManager.getInstance(getApplicationContext()).userLogin(user);
+
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Invalid username or password", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.d("LoginActivity","Login json error");
+                }
+            }
+
+            @Override
+            protected String doInBackground(Void... voids) {
+                //creating request handler object
+                RequestHandler requestHandler = new RequestHandler();
+
+                //creating request parameters
+                HashMap<String, String> params = new HashMap<>();
+                params.put("username",username);
+
+                //returing the response
+                return requestHandler.sendPostRequest(URLs.URL_KEEPLOGIN, params);
+            }
+        }
+
+        KeepLogin ul = new KeepLogin();
         ul.execute();
     }
 }

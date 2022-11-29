@@ -208,7 +208,7 @@ public class ListenTest extends Fragment implements OnInitListener {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        listenAdapter = new ListenAdapter(getContext(),myModelList);
+        listenAdapter = new ListenAdapter(getContext(),myModelList,"test");
         recyclerView.setAdapter(listenAdapter);
     }
 

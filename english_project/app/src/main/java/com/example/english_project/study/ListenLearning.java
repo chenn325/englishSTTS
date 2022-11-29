@@ -210,7 +210,7 @@ public class ListenLearning extends Fragment implements OnInitListener {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         //layoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
-        listenAdapter = new ListenAdapter(getContext(),myModelList);
+        listenAdapter = new ListenAdapter(getContext(),myModelList, "learning");
         recyclerView.setAdapter(listenAdapter);
     }
 
