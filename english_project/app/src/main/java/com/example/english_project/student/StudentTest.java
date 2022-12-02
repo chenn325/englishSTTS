@@ -2,6 +2,7 @@ package com.example.english_project.student;
 
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import com.example.english_project.R;
@@ -24,9 +26,7 @@ import com.example.english_project.net.RequestHandler;
 import com.example.english_project.net.SharedPrefManager;
 import com.example.english_project.net.URLs;
 import com.example.english_project.net.User;
-import com.example.english_project.study.ListenLearning;
 import com.example.english_project.study.ListenTest;
-import com.example.english_project.study.SpeakLearning;
 import com.example.english_project.study.SpeakTest;
 
 import org.json.JSONException;
@@ -42,6 +42,9 @@ public class StudentTest extends Fragment {
 
     JSONObject obj;
 
+    String category[] = {"Listen", "Speak"};
+    String type[] = {"vocabulary","sentence","phrase"};
+
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_student_test,container,false);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
@@ -49,13 +52,18 @@ public class StudentTest extends Fragment {
 
         User user = SharedPrefManager.getInstance(getActivity()).getUser();
         myclass = user.getMyclass();
-        GetSchedule();
+        set();
 
         return view;
     }
 
+    private void set(){
+        for(int i=0; i< category.length; i++)
+            for(int j=0; j<type.length; j++)
+                GetSchedule(i, j);
+    }
 
-    private void GetSchedule(){
+    private void GetSchedule(int c, int t){
 
         class getSchedule extends AsyncTask<Void, Void, String> {
 
@@ -65,6 +73,7 @@ public class StudentTest extends Fragment {
                 progressBar.setVisibility(View.VISIBLE);
             }
 
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
@@ -74,7 +83,6 @@ public class StudentTest extends Fragment {
                     Log.d("json", "get schedule");
 
                     if (!obj.getBoolean("error")){
-//                        Toast.makeText(getActivity().getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
                         rowNum = obj.getInt("row");
                     }
                     else{
@@ -87,7 +95,7 @@ public class StudentTest extends Fragment {
                 }
                 //set schedule
                 try{
-                    setSchedule(rowNum);
+                    setSchedule(rowNum, c, t);
                 }catch (JSONException e){
                     e.printStackTrace();
                     Log.d("schedule frag","schedule json error");
@@ -103,7 +111,8 @@ public class StudentTest extends Fragment {
                 //creating request parameters
                 HashMap<String, String> params = new HashMap<>();
                 params.put("myclass", String.valueOf(myclass));
-
+                params.put("category", category[c].toLowerCase());
+                params.put("type", type[t]);
                 //returing the response
                 return requestHandler.sendPostRequest(URLs.URL_SETSCHEDULE, params);
             }
@@ -114,81 +123,56 @@ public class StudentTest extends Fragment {
     }
 
     @SuppressLint("ResourceAsColor")
-    public void setSchedule(int rowNum) throws JSONException {
-        Log.d("setSchedule","start");
-        //listen
-        TableRow tableRow = new TableRow(getContext());
+    public void setSchedule(int rowNum, int c, int t) throws JSONException {
+//        Log.d("setSchedule","start");
         TextView tv = new TextView(getContext());
-        tv.setText("Listen");
+        TableRow tableRow = new TableRow(getContext());
+        tv.setText(category[c]);
         tv.setTextSize(20);
-        tv.setTextColor(R.color.font_purple);
         tv.setTextColor(getResources().getColor(R.color.black));
         tableRow.addView(tv);
+        TextView tv2 = new TextView(getContext());
+        tv2.setText("- "+type[t]);
+        tv2.setTextSize(20);
+        tv2.setTextColor(getResources().getColor(R.color.black));
+        tableRow.addView(tv2);
         showSchedule.addView(tableRow, new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT));
         DisplayMetrics metrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
         int cusTextSize = metrics.widthPixels/60;
         for (int i=0; i<rowNum; i++){
-            JSONObject t = obj.getJSONObject(String.valueOf(i));
+            JSONObject topic = obj.getJSONObject(String.valueOf(i));
             tableRow = new TableRow(getContext());
             tv = new TextView(getContext());
             Button but = new Button(getContext());
-            but.setText("Unit" + t.getString("unit"));
-            int u = Integer.parseInt(t.getString("unit"));
+            but.setText("Unit" + topic.getString("unit"));
+            int u = Integer.parseInt(topic.getString("unit"));
             but.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ListenTest listenTest = new ListenTest();
-                    listenTest.setInfo(myclass, u, "listen", "vocabulary");
-                    StudentMainActivity studentMainActivity = (StudentMainActivity)getActivity();
-                    studentMainActivity.changeFragment(listenTest);
+                    if(c==0) { //listen
+                        ListenTest listenTest = new ListenTest();
+                        listenTest.setInfo(myclass, u, category[c].toLowerCase(), type[t]);
+                        StudentMainActivity studentMainActivity = (StudentMainActivity) getActivity();
+                        studentMainActivity.changeFragment(listenTest);
+                    }
+                    else{ //speak
+                        SpeakTest speakTest = new SpeakTest();
+                        speakTest.setInfo(myclass, u, category[c].toLowerCase(), type[t]);
+                        StudentMainActivity studentMainActivity = (StudentMainActivity)getActivity();
+                        studentMainActivity.changeFragment(speakTest);
+                    }
                 }
             });
+            but.setBackground(this.getResources().getDrawable(R.drawable.but_test));
             but.setTextSize(cusTextSize);
             tableRow.addView(but);
-            tv.setText(t.getString("startYmd")+" - "+t.getString("endYmd"));
+            tv.setText(" "+topic.getString("startYmd")+" - "+topic.getString("endYmd"));
             tv.setGravity(Gravity.CENTER);
-            tv.setTextSize(17);
             tv.setTextSize(cusTextSize);
-//            tv.setTextSize(20);
             tv.setTextColor(getResources().getColor(R.color.black));
             tableRow.addView(tv);
-            showSchedule.addView(tableRow, new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT));
-        }
-        //speak
-        tableRow = new TableRow(getContext());
-        tv = new TextView(getContext());
-        tv.setText("Speak");
-        tv.setTextSize(20);
-        tv.setTextColor(R.color.font_purple);
-        tv.setTextColor(getResources().getColor(R.color.black));
-        tableRow.addView(tv);
-        showSchedule.addView(tableRow, new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT));
-        for (int i=0; i<rowNum; i++){
-            JSONObject t = obj.getJSONObject(String.valueOf(i));
-            tableRow = new TableRow(getContext());
-            tv = new TextView(getContext());
-            Button but = new Button(getContext());
-            but.setText("Unit" + t.getString("unit"));
-            int u = Integer.parseInt(t.getString("unit"));
-            but.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    SpeakTest speakTest = new SpeakTest();
-                    speakTest.setInfo(myclass, u, "listen", "vocabulary");
-                    StudentMainActivity studentMainActivity = (StudentMainActivity)getActivity();
-                    studentMainActivity.changeFragment(speakTest);
-                }
-            });
-            but.setTextSize(cusTextSize);
-            tableRow.addView(but);
-            tv.setText(t.getString("startYmd")+" - "+t.getString("endYmd"));
-            tv.setGravity(Gravity.CENTER);
-            tv.setTextSize(17);
-            tv.setTextSize(cusTextSize);
-//            tv.setTextSize(20);
-            tv.setTextColor(getResources().getColor(R.color.black));
-            tableRow.addView(tv);
+            tableRow.setPadding(0, 10, 0, 10);
             showSchedule.addView(tableRow, new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT));
         }
     }
