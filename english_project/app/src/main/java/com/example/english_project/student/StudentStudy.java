@@ -79,7 +79,7 @@ public class StudentStudy extends Fragment {
                     Log.d("json", "get schedule");
 
                     if (!obj.getBoolean("error")){
-                        Toast.makeText(getActivity().getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getActivity().getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
                         rowNum = obj.getInt("row");
                     }
                     else{
@@ -180,7 +180,7 @@ public class StudentStudy extends Fragment {
                 @Override
                 public void onClick(View view) {
                     SpeakLearning speakLearning = new SpeakLearning();
-                    speakLearning.setInfo(myclass, u, "listen", "vocabulary");
+                    speakLearning.setInfo(myclass, u, "speak", "vocabulary");
                     StudentMainActivity studentMainActivity = (StudentMainActivity)getActivity();
                     studentMainActivity.changeFragment(speakLearning);
                 }

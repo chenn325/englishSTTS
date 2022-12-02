@@ -74,7 +74,7 @@ public class StudentTest extends Fragment {
                     Log.d("json", "get schedule");
 
                     if (!obj.getBoolean("error")){
-                        Toast.makeText(getActivity().getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getActivity().getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
                         rowNum = obj.getInt("row");
                     }
                     else{

@@ -295,7 +295,7 @@ public class SpeakTest extends Fragment {
                 try {
                     TextObj = new JSONObject(s);
                     if (!TextObj.getBoolean("error")) {
-                        Toast.makeText(getActivity().getApplicationContext(), TextObj.getString("message"), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getActivity().getApplicationContext(), TextObj.getString("message"), Toast.LENGTH_SHORT).show();
                         totalQNum = TextObj.getInt("rownum");
                         answer = new int[totalQNum];
                         for(int i=0; i<totalQNum; i++){
@@ -453,7 +453,7 @@ public class SpeakTest extends Fragment {
                     Log.d("json", "SC");
 
                     if (!obj.getBoolean("error")){
-                        Toast.makeText(getActivity().getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getActivity().getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
                     }
                     else{
                         Toast.makeText(getActivity().getApplicationContext(), "Can't cal", Toast.LENGTH_SHORT).show();
@@ -504,7 +504,7 @@ public class SpeakTest extends Fragment {
                     JSONObject UpLoadobj = new JSONObject(s);
 
                     if (!UpLoadobj.getBoolean("error")){
-                        Toast.makeText(getActivity().getApplicationContext(), UpLoadobj.getString("message"), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getActivity().getApplicationContext(), UpLoadobj.getString("message"), Toast.LENGTH_SHORT).show();
                     }
                     else{
                         Toast.makeText(getActivity().getApplicationContext(), "Can't upload", Toast.LENGTH_SHORT).show();

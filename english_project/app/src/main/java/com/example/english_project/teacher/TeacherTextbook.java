@@ -41,7 +41,7 @@ import java.util.Locale;
 public class TeacherTextbook extends Fragment {
 
     int totalQNum, classForSearch, unit, nowSettingDate;
-    int preClassForSearch, preUnit;
+    int preClassForSearch, preUnit, preCategory, preType;
     String category, type, date;
 
     ProgressBar progressBar;
@@ -129,7 +129,9 @@ public class TeacherTextbook extends Fragment {
         unit = Integer.parseInt(spUnit.getSelectedItem().toString());
         preUnit = unit;
         category = spCategory.getSelectedItem().toString();
+        preCategory = spCategory.getSelectedItemPosition();
         type = spType.getSelectedItem().toString();
+        preType = spType.getSelectedItemPosition();
 
         search.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -192,7 +194,7 @@ public class TeacherTextbook extends Fragment {
                 try {
                     TextObj = new JSONObject(s);
                     if (!TextObj.getBoolean("error")) {
-                        Toast.makeText(getActivity().getApplicationContext(), TextObj.getString("message"), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getActivity().getApplicationContext(), TextObj.getString("message"), Toast.LENGTH_SHORT).show();
 //                      取得題目數量
                         totalQNum = TextObj.getInt("rownum");
                         if(!TextObj.getBoolean("dateGetError")){
@@ -201,7 +203,7 @@ public class TeacherTextbook extends Fragment {
                         }
                     } else {
                         Log.d("get topic", "oh");
-                        Toast.makeText(getActivity().getApplicationContext(), "There are no topic", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity().getApplicationContext(), "尚無題目", Toast.LENGTH_SHORT).show();
                         return;
                     }
                 } catch (JSONException e) {
@@ -336,7 +338,7 @@ public class TeacherTextbook extends Fragment {
             cbArray[i].setSelected(false);
             cbArray[i].setChecked(false);
         }
-        Toast.makeText(getActivity().getApplicationContext(), "cancel delete", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getActivity().getApplicationContext(), "cancel delete", Toast.LENGTH_SHORT).show();
     }
 
     private void addTextbook(String e){
@@ -472,7 +474,7 @@ public class TeacherTextbook extends Fragment {
                 progressBar.setVisibility(View.GONE);
                 try {
                     JSONObject json = new JSONObject(s);
-                    Toast.makeText(getActivity().getApplicationContext(), json.getString("message"), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getActivity().getApplicationContext(), json.getString("message"), Toast.LENGTH_SHORT).show();
                     return;
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -487,7 +489,7 @@ public class TeacherTextbook extends Fragment {
                 HashMap<String, String> params = new HashMap<>();
                 params.put("unit", String.valueOf(unit));
                 params.put("class", String.valueOf(classForSearch));
-
+                params.put("type", String.valueOf(type));
                 return requestHandler.sendPostRequest(URLs.URL_INITSTUDENTHISTORY, params);
             }
         }
@@ -530,6 +532,8 @@ public class TeacherTextbook extends Fragment {
                 HashMap<String, String> params = new HashMap<>();
                 params.put("unit", String.valueOf(unit));
                 params.put("class", String.valueOf(classForSearch));
+                params.put("category", category);
+                params.put("type", type);
 
                 try {
                     JSONObject t = TextObj.getJSONObject(String.valueOf(i));
@@ -562,13 +566,15 @@ public class TeacherTextbook extends Fragment {
                 progressBar.setVisibility(View.GONE);
                 try {
                     JSONObject testSetObj = new JSONObject(s);
-                    Toast.makeText(getActivity().getApplicationContext(), testSetObj.getString("message"), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getActivity().getApplicationContext(), testSetObj.getString("message"), Toast.LENGTH_SHORT).show();
                     if(!testSetObj.getBoolean("error")) {
                         if (testSetObj.getBoolean("seted")) {
                             Log.d("test set", "has set");
                             getTopic();
                             preClassForSearch = classForSearch;
                             preUnit = unit;
+                            preCategory = spCategory.getSelectedItemPosition();
+                            preType = spType.getSelectedItemPosition();
                             return;
                         } else {
                             setNewOrNot();
@@ -591,6 +597,8 @@ public class TeacherTextbook extends Fragment {
                 HashMap<String, String> params = new HashMap<>();
                 params.put("unit", String.valueOf(unit));
                 params.put("class", String.valueOf(classForSearch));
+                params.put("category", String.valueOf(category));
+                params.put("type", String.valueOf(type));
                 return requestHandler.sendPostRequest(URLs.URL_TESTSET, params);
             }
         }
@@ -611,17 +619,19 @@ public class TeacherTextbook extends Fragment {
                 showTextLayout1.removeAllViewsInLayout();
                 preClassForSearch = classForSearch;
                 preUnit = unit;
+                preCategory = spCategory.getSelectedItemPosition();
+                preType = spType.getSelectedItemPosition();
                 Log.d("pre now", preClassForSearch + " " + classForSearch);
             }
         });
         ad.setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-//                int pg = preClassForSearch / 100 - 3;
-//                int pc = preClassForSearch % 100 - 1;
                 spGrade.setSelection(preClassForSearch / 100 - 3);
                 spClass.setSelection(preClassForSearch % 100 - 1);
                 spUnit.setSelection(preUnit-1);
+                spCategory.setSelection(preCategory);
+                spType.setSelection(preType);
                 Log.d("pre now unit", preClassForSearch + " " + classForSearch + " " + unit);
                 Toast.makeText(getActivity().getApplicationContext(), "未建立之單元不可查詢", Toast.LENGTH_SHORT).show();
             }
@@ -665,6 +675,8 @@ public class TeacherTextbook extends Fragment {
                 HashMap<String, String> params = new HashMap<>();
                 params.put("unit", String.valueOf(unit));
                 params.put("class", String.valueOf(classForSearch));
+                params.put("category", String.valueOf(category));
+                params.put("type", String.valueOf(type));
                 return requestHandler.sendPostRequest(URLs.URL_SETNEWTESTBOOK, params);
             }
         }

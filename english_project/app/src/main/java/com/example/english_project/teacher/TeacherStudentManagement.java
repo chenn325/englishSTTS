@@ -99,7 +99,7 @@ public class TeacherStudentManagement extends Fragment {
                     Log.d("json", "get history");
 
                     if (!obj.getBoolean("error")){
-                        Toast.makeText(getActivity().getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getActivity().getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
                         rowNum = obj.getInt("row");
                     }
                     else{
@@ -234,7 +234,7 @@ public class TeacherStudentManagement extends Fragment {
                     Log.d("json", "get Text");
 
                     if (!TextObj.getBoolean("error")){
-                        Toast.makeText(getActivity().getApplicationContext(), TextObj.getString("message"), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getActivity().getApplicationContext(), TextObj.getString("message"), Toast.LENGTH_SHORT).show();
                         rowNum = TextObj.getInt("row");
                         Log.d("rowNum", String.valueOf(rowNum));
                         if(rowNum > 0){

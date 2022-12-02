@@ -57,7 +57,7 @@ public class SpeakLearning extends Fragment {
     String myClass = String.valueOf(user.getMyclass());
     //測試用 之後用按鈕送
     String unit = "1";
-    String category = "listen";
+    String category = "speak";
     String studyType = "vocabulary";
     String partnerImage = "girl1";
     //測試用學生答案&counter
@@ -265,7 +265,7 @@ public class SpeakLearning extends Fragment {
                 try {
                     TextObj = new JSONObject(s);
                     if (!TextObj.getBoolean("error")) {
-                        Toast.makeText(getActivity().getApplicationContext(), TextObj.getString("message"), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getActivity().getApplicationContext(), TextObj.getString("message"), Toast.LENGTH_SHORT).show();
                         totalQNum = TextObj.getInt("rownum");
                         Log.d("get topic", "totalQNum = " + totalQNum);
                     } else {
@@ -357,7 +357,7 @@ public class SpeakLearning extends Fragment {
                     Log.d("json", "LP");
 
                     if (!tempObj.getBoolean("error")){
-                        Toast.makeText(getActivity().getApplicationContext(), tempObj.getString("message"), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getActivity().getApplicationContext(), tempObj.getString("message"), Toast.LENGTH_SHORT).show();
                     }
                     else{
                         Toast.makeText(getActivity().getApplicationContext(), "Can't plus", Toast.LENGTH_SHORT).show();

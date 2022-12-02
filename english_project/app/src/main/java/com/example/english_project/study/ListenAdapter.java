@@ -54,7 +54,6 @@ public class ListenAdapter extends RecyclerView.Adapter<ListenAdapter.ViewHolder
         return new ViewHolder(view);
     }
 
-
     //位置對應的數據與holder進行綁定
     @Override
     public void onBindViewHolder(@NonNull ListenAdapter.ViewHolder holder, int position) {

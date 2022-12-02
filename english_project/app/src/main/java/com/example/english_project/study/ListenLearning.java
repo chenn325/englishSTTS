@@ -164,7 +164,7 @@ public class ListenLearning extends Fragment implements OnInitListener {
                     Log.d("json", "get ListenText");
 
                     if (!obj.getBoolean("error")){
-                        Toast.makeText(getActivity().getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getActivity().getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
                         rowNum = obj.getInt("row");
                     }
                     else{

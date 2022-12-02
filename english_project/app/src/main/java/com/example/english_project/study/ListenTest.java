@@ -158,7 +158,7 @@ public class ListenTest extends Fragment implements OnInitListener {
                     Log.d("json", "get ListenText");
 
                     if (!obj.getBoolean("error")){
-                        Toast.makeText(getActivity().getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getActivity().getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
                         rowNum = obj.getInt("row");
                         answer = new int[rowNum];
                         for(int i=0; i<rowNum; i++){
@@ -350,7 +350,7 @@ public class ListenTest extends Fragment implements OnInitListener {
                     Log.d("json", "LC");
 
                     if (!obj.getBoolean("error")){
-                        Toast.makeText(getActivity().getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getActivity().getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
                         rowNum = obj.getInt("row");
                     }
                     else{
@@ -402,7 +402,7 @@ public class ListenTest extends Fragment implements OnInitListener {
                     JSONObject UpLoadobj = new JSONObject(s);
 
                     if (!UpLoadobj.getBoolean("error")){
-                        Toast.makeText(getActivity().getApplicationContext(), UpLoadobj.getString("message"), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getActivity().getApplicationContext(), UpLoadobj.getString("message"), Toast.LENGTH_SHORT).show();
                     }
                     else{
                         Toast.makeText(getActivity().getApplicationContext(), "Can't upload", Toast.LENGTH_SHORT).show();
