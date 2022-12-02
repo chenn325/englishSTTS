@@ -163,7 +163,6 @@ if(isset($_GET['apicall'])){
 				$Category = $_POST['category'];
 				$Type = $_POST['type'];
 
-				// $stmt = $conn->prepare("SELECT ch, en FROM textbook WHERE unit = ? AND class = ? AND category = ? AND type = ?");
 				$stmt = $conn->prepare("SELECT en FROM textbook WHERE unit = ? AND class = ? AND category = ? AND type = ?");
 				$stmt->bind_param("ssss", $Unit, $Classnum, $Category, $Type);
 				$stmt->execute();
@@ -175,12 +174,10 @@ if(isset($_GET['apicall'])){
 					$response['message'] = 'get topic successful';
 					$response['rownum'] = $count;
 					for($i=0; $i<$count; $i++){
-						// $stmt->bind_result($ch, $en);
 						$stmt->bind_result($en);
 						$stmt->fetch();
 
 						$topic = array(
-							// 'ch' => $ch,
 							'en' => $en
 						);
 		
@@ -219,11 +216,13 @@ if(isset($_GET['apicall'])){
 			break;
 
 		case 'setSchedule':
-			if(isTheseParametersAvailable(array('myclass'))){
+			if(isTheseParametersAvailable(array('myclass', 'category', 'type'))){
 				$Myclass = $_POST['myclass'];
+				$Category = $_POST['category'];
+				$Type = $_POST['type'];
 
-				$stmt = $conn->prepare("SELECT unit, startYmd, endYmd FROM `date` WHERE class = ?");
-				$stmt->bind_param('s', $Myclass);
+				$stmt = $conn->prepare("SELECT unit, startYmd, endYmd FROM `date` WHERE class = ? AND category = ? AND type = ?");
+				$stmt->bind_param('sss', $Myclass, $Category, $Type);
 				$stmt->execute();
 				$stmt->store_result();
 
@@ -253,16 +252,13 @@ if(isset($_GET['apicall'])){
 
 			break;
 		case 'addTextbook':
-			// if(isTheseParametersAvailable(array('e', 'c', 'unit', 'class', 'category', 'type'))){
 				if(isTheseParametersAvailable(array('e', 'unit', 'class', 'category', 'type'))){
 				$E = $_POST['e'];
-				// $C = $_POST['c'];
 				$Unit = $_POST['unit'];
 				$Class = $_POST['class'];
 				$Category = $_POST['category'];
 				$Type = $_POST['type'];
 
-				// $stmt = $conn->prepare("INSERT INTO textbook (unit, class, category, type, ch, en) VALUES (?, ?, ?, ?, ?, ?)");
 				$stmt = $conn->prepare("INSERT INTO textbook (unit, class, category, type, en) VALUES (?, ?, ?, ?, ?)");
 				$stmt->bind_param("sssss", $Unit, $Class, $Category, $Type, $E);
 				$response['error'] = !($stmt->execute());
@@ -345,20 +341,19 @@ if(isset($_GET['apicall'])){
 			}
 			break;
 		case 'deleteTextbook':
-			// if(isTheseParametersAvailable(array('unit', 'class', 'e', 'c'))){
-				if(isTheseParametersAvailable(array('unit', 'class', 'e'))){
+			if(isTheseParametersAvailable(array('e', 'unit', 'class', 'category', 'type'))){
+				$E = $_POST['e'];
 				$Unit = $_POST['unit'];
 				$Class = $_POST['class'];
-				$E = $_POST['e'];
-				// $C = $_POST['c'];
+				$Category = $_POST['category'];
+				$Type = $_POST['type'];
 
-				// $stmt = $conn->prepare("DELETE FROM textbook WHERE unit = ? AND class = ? AND en = ? AND ch = ?");
-				$stmt = $conn->prepare("DELETE FROM textbook WHERE unit = ? AND class = ? AND en = ?");
-				// $stmt->bind_param("ssss", $Unit, $Class, $E, $C);
-				$stmt->bind_param("sss", $Unit, $Class, $E);
+				$stmt = $conn->prepare("DELETE FROM textbook WHERE unit = ? AND class = ? AND en = ? AND category = ? AND type = ?");
+				$stmt->bind_param("sssss", $Unit, $Class, $E, $Category, $Type);
 				if($stmt->execute()){
 					$response['error'] = false;
 					$response['message'] = "delete textbook successful";
+					//可能啥都沒刪還是跟你說成功www
 				}
 				else{
 					$response['error'] = true;
@@ -367,34 +362,21 @@ if(isset($_GET['apicall'])){
 			}
 			break;
 		case 'testSet':
-			if(isTheseParametersAvailable(array('unit', 'class'))){
-				$Unit = $_POST['unit'];
-				$Class = $_POST['class'];
+			if(isTheseParametersAvailable(array('unit', 'class', 'category', 'type'))){
+                $Unit = $_POST['unit'];
+				$Classnum = $_POST['class'];
+				$Category = $_POST['category'];
+				$Type = $_POST['type'];
 
-				$stmt = $conn->prepare("SELECT unit FROM `date` WHERE unit = ? AND class = ?");
-				$stmt->bind_param("ss", $Unit, $Class);
+				$stmt = $conn->prepare("SELECT * FROM `date` WHERE `unit` = ? AND `class` = ? AND `category` = ? AND `type` = ?");
+				$stmt->bind_param("ssss", $Unit, $Classnum, $Category, $Type);
+
 				$stmt->execute();
 				$stmt->store_result();
 				$count = $stmt->num_rows;
 
 				if($count==0){
 					$response['seted'] = false;
-					// date_default_timezone_set('PRC');
-					// $today = date("Y-m-d", time());
-					// $tomarrow = date("Y-m-d", strtotime(" 1 day"));
-					// $stmt = $conn->prepare("INSERT INTO `date` (unit, class, startYmd, endYmd) VALUES (?, ?, ?, ?)");
-					// $stmt->bind_param("ssss", $Unit, $Class, $today, $tomarrow);
-					
-					// if($stmt->execute()){
-					// 	$response['error'] = false;
-					// 	$response['message'] = "set new textbook successful";
-					// 	$response['startDate'] = $today;
-					// 	$response['endDate'] = $tomarrow;
-					// }
-					// else{
-					// 	$response['error'] = true;
-					// 	$response['message'] = "set new textbook fail";
-					// }
 					$response['error'] = false;
 					$response['message'] = "textbook not set";
 				}
@@ -412,19 +394,21 @@ if(isset($_GET['apicall'])){
 			break;
 
 		case 'setNewTextbook':
-			if(isTheseParametersAvailable(array('unit', 'class'))){
+			if(isTheseParametersAvailable(array('unit', 'class', 'category', 'type'))){
 				$Unit = $_POST['unit'];
 				$Class = $_POST['class'];
+				$Category = $_POST['category'];
+				$Type = $_POST['type'];
 
 				date_default_timezone_set('PRC');
 				$today = date("Y-m-d", time());
 				$tomarrow = date("Y-m-d", strtotime(" 1 day"));
-				$stmt = $conn->prepare("INSERT INTO `date` (unit, class, startYmd, endYmd) VALUES (?, ?, ?, ?)");
-				$stmt->bind_param("ssss", $Unit, $Class, $today, $tomarrow);
+				$stmt = $conn->prepare("INSERT INTO `date` (unit, class, startYmd, endYmd, category, type) VALUES (?, ?, ?, ?, ?, ?)");
+				$stmt->bind_param("ssssss", $Unit, $Class, $today, $tomarrow, $Category, $Type);
 				
 				if($stmt->execute()){
 					$response['error'] = false;
-					$response['message'] = "set new textbook successful";
+					$response['message'] = "建立成功";
 					$response['startDate'] = $today;
 					$response['endDate'] = $tomarrow;
 				}
@@ -610,31 +594,44 @@ if(isset($_GET['apicall'])){
 			break;
 
 		case 'initStudentHistory' :
-			if(isTheseParametersAvailable(array('class', 'unit'))){
+			if(isTheseParametersAvailable(array('class', 'unit', 'type'))){
 				$classnum = $_POST['class'];
 				$unit = $_POST['unit'];
+				$Type = $_POST['type'];
 
-				$stmt = $conn->prepare("SELECT id FROM users WHERE myclass = ? AND identity = 'student'");
-				$stmt->bind_param('s', $classnum);
+				$stmt = $conn->prepare("SELECT id FROM `history` WHERE `unit` = ? AND `type` = ?");
+				$stmt->bind_param('ss', $unit, $Type);
 				$stmt->execute();
 				$stmt->store_result();
 				$count = $stmt->num_rows;
-
 				if($count > 0){
-					for($i=0; $i<$count; $i++){
-						$stmt->bind_result($stuID);
-						$stmt->fetch();
-		
-						$stmt2 = $conn->prepare("INSERT INTO `history` (`id`, `user_id`, `unit`, `listen_p`, `speak_p`, `listen_c`, `speak_c`, `type`) VALUES (NULL, ?, ?, '0', '0', '-1', '-1', 'vocabulary')");
-						$stmt2->bind_param('ss', $stuID, $unit);
-						$stmt2->execute();
-					}
 					$response['error'] = false;
-					$response['message'] = 'init student history successful';
+					$response['message'] = 'student history has init';
 				}
 				else{
-					$response['error'] = true;
-					$response['message'] = 'init student history get list error';
+					$stmt2 = $conn->prepare("SELECT id FROM users WHERE myclass = ? AND identity = 'student'");
+					$stmt2->bind_param('s', $classnum);
+					$stmt2->execute();
+					// $response['t'] = 't';
+					$stmt2->store_result();
+					$count2 = $stmt2->num_rows;
+
+					if($count2 > 0){
+						for($i=0; $i<$count2; $i++){
+							$stmt2->bind_result($stuID);
+							$stmt2->fetch();
+			
+							$stmt3 = $conn->prepare("INSERT INTO `history` (`id`, `user_id`, `unit`, `listen_p`, `speak_p`, `listen_c`, `speak_c`, `type`) VALUES (NULL, ?, ?, '0', '0', '-1', '-1', ?)");
+							$stmt3->bind_param('sss', $stuID, $unit, $Type);
+							$stmt3->execute();
+						}
+						$response['error'] = false;
+						$response['message'] = 'init student history successful';
+					}
+					else{
+						$response['error'] = true;
+						$response['message'] = 'init student history get list error';
+					}
 				}
 			}
 			else{
