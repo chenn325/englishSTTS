@@ -125,7 +125,9 @@
                     android:fadingEdge="vertical"
                     android:scrollbars="vertical"
                     tools:ignore="MissingConstraints">
-
+                    <HorizontalScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
                     <TableLayout
                         android:id="@+id/showStudentHistory"
                         android:layout_width="match_parent"
@@ -140,8 +142,8 @@
                             android:layout_height="wrap_content"
                             android:orientation="vertical"></TableLayout>
 
-
                     </TableLayout>
+                    </HorizontalScrollView>
                 </ScrollView>
 
             </androidx.constraintlayout.widget.ConstraintLayout>

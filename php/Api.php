@@ -460,25 +460,186 @@ if(isset($_GET['apicall'])){
 				$response['message'] = 'ListenLearning have some problem.';
 			}
 			break;
-		case 'history_LP': //listen練習次數+1
-			if(isTheseParametersAvailable(array('user_id','unit'))){
-					$user_id = $_POST['user_id'];
-					$unit = $_POST['unit'];
-					//creating the query
-					$stmt = $conn->prepare("UPDATE history SET listen_p = listen_p + 1 WHERE user_id = ? AND unit = ?");
-					$stmt->bind_param("ss", $user_id, $unit);
-					$stmt->execute();
-					$stmt->store_result();
 
+		case 'learningTimes': //完成練習或測驗
+			if(isTheseParametersAvailable(array('user_id', 'unit', 'type', 'category'))){
+				$user_id = $_POST['user_id'];
+				$unit = $_POST['unit'];
+				$type = $_POST['type']; //vocabulary or sentence or phrase
+				$category = $_POST['category']; //listen_p or listen_c ...
+
+				switch($category){
+					case 'listen_p':
+						$stmt = $conn->prepare("UPDATE history SET listen_p = listen_p + 1 WHERE user_id = ? AND unit = ? AND type = ?");
+						$stmt->bind_param("sss",$user_id,$unit,$type);
+						$stmt->execute();
+						$stmt->close();
+
+						break;
+					case 'speak_p':
+						$stmt = $conn->prepare("UPDATE history SET speak_p = speak_p + 1 WHERE user_id = ? AND unit = ? AND type = ?");
+						$stmt->bind_param("sss",$user_id,$unit,$type);
+						$stmt->execute();
+						$stmt->close();
+						break;
+				}
+				$response['error'] = false;
+				$response['message'] = 'learningTimes successful';	
+			}
+			else{
+				$response['error'] = true;
+				$response['message'] = 'learningTimes php error.';
+			}
+			break;
+
+		case 'testScore':
+			if(isTheseParametersAvailable(array('user_id','unit','type','category','score'))){
+				$user_id = $_POST['user_id'];
+				$unit = $_POST['unit'];
+				$type = $_POST['type']; //vocabulary or sentence or phrase
+				$category = $_POST['category'];
+				$score = $_POST['score'];
+				switch($category){
+					case 'listen_c':
+						$getPrevScore = $conn->prepare("SELECT listen_c FROM history WHERE user_id = ? AND unit = ? AND type = ?");
+						$getPrevScore->bind_param("sss",$user_id,$unit,$type);
+						$getPrevScore->execute();
+						if($getPrevScore->num_rows > 0){
+							$getPrevScore->store_result();
+							$getPrevScore->bind_result($prevScore);
+						}
+						else{
+							$prevScore = -1;
+						}
 					
-					$response['error'] = false;
-					$response['message'] = 'LP plus 1 successful';
+						if($score > $prevScore){
+							$getPrevScore->close();
+							$stmt = $conn->prepare("UPDATE history SET listen_c = $score WHERE user_id = ? AND unit = ? AND type = ?");
+							$stmt->bind_param("sss",$user_id,$unit,$type);
+							$stmt->execute();
+						}
+
+						$getCounts = $conn->prepare("SELECT id FROM personal_history WHERE user_id = ? AND unit = ? AND type = ? AND category = ?");
+						$getCounts->bind_param("ssss", $user_id, $unit, $type, $category);
+						$getCounts->execute();
+						$getCounts->store_result();
+						$myCounts = $getCounts->num_rows;
+						$getCounts->close();
+						//記錄每次成績
+						$stmt2 = $conn->prepare("INSERT INTO `personal_history` (`id`, `user_id`, `unit`, `type`, `category`, `counts`, `score`) VALUES (NULL, ?, ?, ?, ?, ?, ?)");
+						$stmt2->bind_param("ssssss",$user_id,$unit,$type,$category,$myCounts,$score);
+						$stmt2->execute();
+						break;
+
+					case 'speak_c':
+						$getPrevScore = $conn->prepare("SELECT listen_c FROM history WHERE user_id = ? AND unit = ? AND type = ?");
+						$getPrevScore->bind_param("sss",$user_id,$unit,$type);
+						$getPrevScore->execute();
+						if($getPrevScore->num_rows > 0){
+							$getPrevScore->store_result();
+							$getPrevScore->bind_result($prevScore);
+						}
+						else{
+							$prevScore = -1;
+						}
+					
+						if($score > $prevScore){
+							$getPrevScore->close();
+							$stmt = $conn->prepare("UPDATE history SET speak_c = $score WHERE user_id = ? AND unit = ? AND type = ?");
+							$stmt->bind_param("sss",$user_id,$unit,$type);
+							$stmt->execute();
+						}
+
+						$getCounts = $conn->prepare("SELECT id FROM personal_history WHERE user_id = ? AND unit = ? AND type = ? AND category = ?");
+						$getCounts->bind_param("ssss", $user_id, $unit, $type, $category);
+						$getCounts->execute();
+						$getCounts->store_result();
+						$myCounts = $getCounts->num_rows;
+						$getCounts->close();
+						//score?
+						$stmt2 = $conn->prepare("INSERT INTO `personal_history` (`id`, `user_id`, `unit`, `type`, `category`, `counts`, `score`) VALUES (NULL, ?, ?, ?, ?, ?, ?)");
+						$stmt2->bind_param("ssssss",$user_id,$unit,$type,$category,$myCounts,$score);
+						$stmt2->execute();
+						break;
+				}
+				$response['error'] = false;
+				$response['message'] = 'testScore successful';
+			}
+			else{
+				$response['error'] = true;
+				$response['message'] = 'testScore unsuccessful';	
+			}
+			break;
+		case 'uploadError':
+			if(isTheseParametersAvailable(array('user_id', 'category', 'type', 'unit', 'en'))){
+				$user_id = $_POST['user_id'];
+				$category = $_POST['category'];
+				$type = $_POST['type'];
+				$unit = $_POST['unit'];
+				$en = $_POST['en'];
+
+				//第幾次測驗
+				$getCounts = $conn->prepare("SELECT id FROM personal_history WHERE user_id = ? AND unit = ? AND type = ? AND category = ?");
+				$getCounts->bind_param("ssss", $user_id, $unit, $type, $category);
+				$getCounts->execute();
+				$getCounts->store_result();
+				$myCounts = $getCounts->num_rows;
+				$myCounts = $myCounts - 1;
+				$getCounts->close();
+
+				$stmt = $conn->prepare("INSERT INTO error (user_id, category, type, unit, counts, en) VALUES (?, ?, ?, ?, ?, ?)");
+				$stmt->bind_param("ssssss", $user_id, $category, $type, $unit, $myCounts, $en);
+				$stmt->execute();
+
+				$response['error'] = false;
+				$response['message'] = 'uploadError successful';
+			}
+			else{
+				$response['error'] = true;
+				$response['message'] = 'uploadError have some problem';
+			}
+			break;
+		case 'downloadError':
+			if(isTheseParametersAvailable(array('user_id', 'unit', 'category', 'type', 'counts'))){
+				$user_id = $_POST['user_id'];
+				$unit = $_POST['unit'];
+				$category = $_POST['category'];
+				$type = $_POST['type'];
+				$counts = $_POST['counts'];
+
+				$stmt = $conn->prepare("SELECT en FROM error WHERE user_id = ? AND unit = ? AND category = ? AND type = ? AND counts = ?");
+				$stmt->bind_param("sssss", $user_id, $unit, $category, $type, $counts);
+				$stmt->execute();
+				$stmt->store_result();
+
+				if($stmt->num_rows > 0){
+					$response['row'] = $stmt->num_rows;
+					$count = $stmt->num_rows;
+					for($i=0; $i<$count; $i++){
+						$stmt->bind_result($en);
+						$stmt->fetch();
+						$errorText = array(
+							'text' => $en
+						);
+
+						$response[$i] = $errorText;
+					}
+
 				}
 				else{
-					$response['error'] = true;
-					$response['message'] = 'LP have some problem.';
+					$response['row'] = 0;
+					$response[0] = "無";
 				}
-				break;
+
+				
+				$response['error'] = false;
+				$response['message'] = 'downloadError successful';
+			}
+			else{
+				$response['error'] = true;
+				$response['message'] = 'downloadError have some problem';
+			}
+			break;
 		case 'history_LC': //listen測驗成績
 			if(isTheseParametersAvailable(array('user_id','unit','score'))){
 					$user_id = $_POST['user_id'];
@@ -531,76 +692,16 @@ if(isset($_GET['apicall'])){
 				}
 				break;
 
-		case 'uploadError':
-			if(isTheseParametersAvailable(array('user_id', 'category', 'type', 'unit', 'en'))){
-				$user_id = $_POST['user_id'];
-				$category = $_POST['category'];
-				$type = $_POST['type'];
-				$unit = $_POST['unit'];
-				$en = $_POST['en'];
-
-				$stmt = $conn->prepare("INSERT INTO error (user_id, category, type, unit, en) VALUES (?, ?, ?, ?, ?)");
-				$stmt->bind_param("sssss", $user_id, $category, $type, $unit, $en);
-				$stmt->execute();
-
-				$response['error'] = false;
-				$response['message'] = 'uploadError successful';
-			}
-			else{
-				$response['error'] = true;
-				$response['message'] = 'uploadError have some problem';
-			}
-			break;
-		case 'downloadError':
-			if(isTheseParametersAvailable(array('user_id', 'unit', 'category', 'type'))){
-				$user_id = $_POST['user_id'];
-				$unit = $_POST['unit'];
-				$category = $_POST['category'];
-				$type = $_POST['type'];
-				
-
-				$stmt = $conn->prepare("SELECT en FROM error WHERE user_id = ? AND unit = ? AND category = ? AND type = ?");
-				$stmt->bind_param("ssss", $user_id, $unit, $category, $type);
-				$stmt->execute();
-				$stmt->store_result();
-
-				if($stmt->num_rows > 0){
-					$response['row'] = $stmt->num_rows;
-					$count = $stmt->num_rows;
-					for($i=0; $i<$count; $i++){
-						$stmt->bind_result($en);
-						$stmt->fetch();
-						$errorText = array(
-							'text' => $en
-						);
-
-						$response[$i] = $errorText;
-					}
-
-				}
-				else{
-					$response['row'] = 0;
-					$response[0] = "無";
-				}
-				
-
-				$response['error'] = false;
-				$response['message'] = 'downloadError successful';
-			}
-			else{
-				$response['error'] = true;
-				$response['message'] = 'downloadError have some problem';
-			}
-			break;
+		
 
 		case 'initStudentHistory' :
 			if(isTheseParametersAvailable(array('class', 'unit', 'type'))){
 				$classnum = $_POST['class'];
 				$unit = $_POST['unit'];
 				$Type = $_POST['type'];
-
-				$stmt = $conn->prepare("SELECT id FROM `history` WHERE `unit` = ? AND `type` = ?");
-				$stmt->bind_param('ss', $unit, $Type);
+				
+				$stmt = $conn->prepare("SELECT id FROM history WHERE myclass = ? AND unit = ? AND type = ?");
+				$stmt->bind_param('sss',$classnum, $unit, $Type);
 				$stmt->execute();
 				$stmt->store_result();
 				$count = $stmt->num_rows;
@@ -621,9 +722,27 @@ if(isset($_GET['apicall'])){
 							$stmt2->bind_result($stuID);
 							$stmt2->fetch();
 			
-							$stmt3 = $conn->prepare("INSERT INTO `history` (`id`, `user_id`, `unit`, `listen_p`, `speak_p`, `listen_c`, `speak_c`, `type`) VALUES (NULL, ?, ?, '0', '0', '-1', '-1', ?)");
-							$stmt3->bind_param('sss', $stuID, $unit, $Type);
+							$stmt3 = $conn->prepare("INSERT INTO `history` (`id`, `user_id`, `myclass`, `unit`, `listen_p`, `speak_p`, `listen_c`, `speak_c`, `type`) VALUES (NULL, ?, ?, ?, '0', '0', '-1', '-1', ?)");
+							$stmt3->bind_param('ssss', $stuID, $classnum, $unit, $Type);
 							$stmt3->execute();
+
+							// //personal_history
+							$stmt4 = $conn->prepare("INSERT INTO `personal_history` (`id`, `user_id`, `unit`, `type`, `category`, `counts`, `score`) VALUES (NULL, ?, ?, ?, 'listen_p', '0', '-1')");
+							$stmt4->bind_param('sss', $stuID, $unit, $Type);
+							$stmt4->execute();
+
+							$stmt5 = $conn->prepare("INSERT INTO `personal_history` (`id`, `user_id`, `unit`, `type`, `category`, `counts`, `score`) VALUES (NULL, ?, ?, ?, 'listen_c', '0', '-1')");
+							$stmt5->bind_param('sss', $stuID, $unit, $Type);
+							$stmt5->execute();
+
+							$stmt6 = $conn->prepare("INSERT INTO `personal_history` (`id`, `user_id`, `unit`, `type`, `category`, `counts`, `score`) VALUES (NULL, ?, ?, ?, 'speak_p', '0', '-1')");
+							$stmt6->bind_param('sss', $stuID, $unit, $Type);
+							$stmt6->execute();
+
+							$stmt7 = $conn->prepare("INSERT INTO `personal_history` (`id`, `user_id`, `unit`, `type`, `category`, `counts`, `score`) VALUES (NULL, ?, ?, ?, 'speak_c', '0', '-1')");
+							$stmt7->bind_param('sss', $stuID, $unit, $Type);
+							$stmt7->execute();
+
 						}
 						$response['error'] = false;
 						$response['message'] = 'init student history successful';
