@@ -42,7 +42,7 @@ public class ListenTest extends Fragment implements OnInitListener {
     //default
     private int rowNum = 0;
     private int unit = 1, myclass = 301;
-    private String category = "listen", type = "vocabulary";
+    private String category = "listen_c", type = "vocabulary";
     private String partnerImage;
     private int resID; //紀錄imageId
 
@@ -372,9 +372,11 @@ public class ListenTest extends Fragment implements OnInitListener {
                 HashMap<String, String> params = new HashMap<>();
                 params.put("user_id", String.valueOf(user.getId()));
                 params.put("unit", String.valueOf(unit));
+                params.put("type", type);
+                params.put("category", category);
                 params.put("score", String.valueOf(finalScore));
                 //returing the response
-                return requestHandler.sendPostRequest(URLs.URL_HISTORY_LC, params);
+                return requestHandler.sendPostRequest(URLs.URL_TESTSCORE, params);
             }
         }
 

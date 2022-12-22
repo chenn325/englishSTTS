@@ -227,9 +227,9 @@ public class TeacherStudentManagement extends Fragment {
         tableRow.addView(tv);
         showErrorText.addView(tableRow, new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT));
         //列出score and errorText
-
-        getEveryScore(user_id, unit, "listen_c", type);
         getErrorText(user_id, unit, "listen_c", type);
+        getEveryScore(user_id, unit, "listen_c", type);
+
 
         //speak_c
         tableRow = new TableRow(getContext());
@@ -239,8 +239,9 @@ public class TeacherStudentManagement extends Fragment {
         tableRow.addView(tv);
         showErrorText.addView(tableRow, new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT));
 
-        getEveryScore(user_id, unit, "speak_c", type);
         getErrorText(user_id, unit, "speak_c", type);
+        getEveryScore(user_id, unit, "speak_c", type);
+
 
 
     }
@@ -263,7 +264,7 @@ public class TeacherStudentManagement extends Fragment {
                 tv.setTextColor(getResources().getColor(R.color.black));
                 tableRow.addView(tv);
                 showErrorText.addView(tableRow, new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                //setError(errorText,i);
+                setError(errorText,i);
             }
         }
     }
@@ -319,11 +320,11 @@ public class TeacherStudentManagement extends Fragment {
                             }
                             errorText = error;
                             for(int i=0; i<errorText.length; i++){
-                                Log.d("errorText"+i, String.valueOf(error[i]));
+                                Log.d("errorText"+i, String.valueOf(errorText[i]));
                             }
                         }
                         else{
-                            errorText[0] = "無";
+                            errorText[0] = "";
                         }
                     }
                     else{

@@ -44,7 +44,7 @@ public class ListenLearning extends Fragment implements OnInitListener {
     //default
     private int rowNum = 0;
     private int unit = 1, myclass = 301;
-    private String category = "listen", type = "vocabulary";
+    private String category = "listen_p", type = "vocabulary";
     private String partnerImage = "girl1";
     private int resID; //紀錄imageId
 
@@ -315,8 +315,10 @@ public class ListenLearning extends Fragment implements OnInitListener {
                 HashMap<String, String> params = new HashMap<>();
                 params.put("user_id", String.valueOf(user.getId()));
                 params.put("unit", String.valueOf(unit));
+                params.put("type", type);
+                params.put("category", category);
                 //returing the response
-                return requestHandler.sendPostRequest(URLs.URL_HISTORY_LP, params);
+                return requestHandler.sendPostRequest(URLs.URL_LEARNINGTIMES, params);
             }
         }
 

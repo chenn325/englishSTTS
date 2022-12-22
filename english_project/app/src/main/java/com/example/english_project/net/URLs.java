@@ -26,6 +26,8 @@ private static final String ROOT_URL = "http://163.21.245.182/englishSTTS-main/p
     public static final String URL_UPLOADERROR = ROOT_URL + "uploadError"; //上傳錯題
     public static final String URL_DOWNLOADERROR = ROOT_URL + "downloadError"; //顯示錯題
     public static final String URL_DOWNLOADEVERYSCORE = ROOT_URL + "downloadEveryScore"; //顯示每次成績
+    public static final String URL_LEARNINGTIMES = ROOT_URL + "learningTimes"; //完成練習次數
+    public static final String URL_TESTSCORE = ROOT_URL + "testScore"; //儲存每次測驗分數
     public static final String URL_INITSTUDENTHISTORY = ROOT_URL + "initStudentHistory"; //初始化學生學習記錄
 
     public static final String URL_ListenLearning = ROOT_URL + "ListenLearning";

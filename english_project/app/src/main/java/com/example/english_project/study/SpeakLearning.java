@@ -382,8 +382,10 @@ public class SpeakLearning extends Fragment {
                 HashMap<String, String> params = new HashMap<>();
                 params.put("user_id", String.valueOf(user.getId()));
                 params.put("unit", String.valueOf(unit));
+                params.put("type", studyType);
+                params.put("category", "speak_p");
                 //returing the response
-                return requestHandler.sendPostRequest(URLs.URL_HISTORY_SP, params);
+                return requestHandler.sendPostRequest(URLs.URL_LEARNINGTIMES, params);
             }
         }
 

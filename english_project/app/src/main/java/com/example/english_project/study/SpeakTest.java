@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -123,7 +124,9 @@ public class SpeakTest extends Fragment {
         });
 
         mic.setEnabled(false);
-        mic.setImageTintList(ColorStateList.valueOf((getResources().getColor(R.color.gray))));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mic.setImageTintList(ColorStateList.valueOf((getResources().getColor(R.color.gray))));
+        }
 
         backBtn.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -524,7 +527,7 @@ public class SpeakTest extends Fragment {
                 //creating request parameters
                 HashMap<String, String> params = new HashMap<>();
                 params.put("user_id", String.valueOf(user.getId()));
-                params.put("category", "speak");
+                params.put("category", "speak_c");
                 params.put("type", studyType);
                 params.put("unit", String.valueOf(unit));
                 params.put("en", errorText);
