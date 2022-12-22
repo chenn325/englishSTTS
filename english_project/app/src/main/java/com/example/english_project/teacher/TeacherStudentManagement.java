@@ -147,12 +147,12 @@ public class TeacherStudentManagement extends Fragment {
 
         Log.d("setHistory","start");
         TableRow tableRow = new TableRow(getContext());
-        String[] arr = {"姓名","聽力練習","口說練習","聽力挑戰","口說挑戰"};
+        String[] arr = {"姓名","聽力練習","口說練習","聽力測驗","口說測驗"};
         for(int k=0; k<5; k++){
             TextView tv = new TextView(getContext());
             tv.setText(arr[k]);
             tv.setGravity(Gravity.CENTER);
-            tv.setWidth(110);
+            tv.setWidth(200);
             tv.setTextColor(getResources().getColor(R.color.black));
             tableRow.addView(tv);
         }
