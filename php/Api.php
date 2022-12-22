@@ -461,7 +461,7 @@ if(isset($_GET['apicall'])){
 			}
 			break;
 
-		case 'learningTimes': //完成練習或測驗
+		case 'learningTimes': //完成練習
 			if(isTheseParametersAvailable(array('user_id', 'unit', 'type', 'category'))){
 				$user_id = $_POST['user_id'];
 				$unit = $_POST['unit'];
@@ -600,15 +600,14 @@ if(isset($_GET['apicall'])){
 			}
 			break;
 		case 'downloadError':
-			if(isTheseParametersAvailable(array('user_id', 'unit', 'category', 'type', 'counts'))){
+			if(isTheseParametersAvailable(array('user_id', 'unit', 'category', 'type'))){
 				$user_id = $_POST['user_id'];
 				$unit = $_POST['unit'];
 				$category = $_POST['category'];
 				$type = $_POST['type'];
-				$counts = $_POST['counts'];
 
-				$stmt = $conn->prepare("SELECT en FROM error WHERE user_id = ? AND unit = ? AND category = ? AND type = ? AND counts = ?");
-				$stmt->bind_param("sssss", $user_id, $unit, $category, $type, $counts);
+				$stmt = $conn->prepare("SELECT counts, en FROM error WHERE user_id = ? AND unit = ? AND category = ? AND type = ?");
+				$stmt->bind_param("ssss", $user_id, $unit, $category, $type);
 				$stmt->execute();
 				$stmt->store_result();
 
@@ -616,9 +615,10 @@ if(isset($_GET['apicall'])){
 					$response['row'] = $stmt->num_rows;
 					$count = $stmt->num_rows;
 					for($i=0; $i<$count; $i++){
-						$stmt->bind_result($en);
+						$stmt->bind_result($counts,$en);
 						$stmt->fetch();
 						$errorText = array(
+							'counts' => $counts,
 							'text' => $en
 						);
 
@@ -638,6 +638,49 @@ if(isset($_GET['apicall'])){
 			else{
 				$response['error'] = true;
 				$response['message'] = 'downloadError have some problem';
+			}
+			break;
+
+		case 'downloadEveryScore':
+			if(isTheseParametersAvailable(array('user_id', 'unit', 'category', 'type'))){
+				$user_id = $_POST['user_id'];
+				$unit = $_POST['unit'];
+				$category = $_POST['category'];
+				$type = $_POST['type'];
+
+				$stmt = $conn->prepare("SELECT counts, score FROM personal_history WHERE user_id = ? AND unit = ? AND category = ? AND type = ?");
+				$stmt->bind_param("ssss", $user_id, $unit, $category, $type);
+				$stmt->execute();
+				$stmt->store_result();
+
+				if($stmt->num_rows > 0){
+					$response['row'] = $stmt->num_rows;
+					$count = $stmt->num_rows;
+					for($i=0; $i<$count; $i++){
+						$stmt->bind_result($counts,$score);
+						$stmt->fetch();
+						$result = array(
+							'counts' => $counts,
+							'score' => $score
+						);
+
+						$response[$i] = $result;
+					}
+
+				}
+				else{
+					$response['row'] = 0;
+					$response[0] = "無";
+				}
+
+				$response['error'] = false;
+				$response['message'] = 'downloadEveryScore successful';
+
+			}
+			else{
+
+				$response['error'] = true;
+				$response['message'] = 'downloadEveryScore have some problem';
 			}
 			break;
 		case 'history_LC': //listen測驗成績
