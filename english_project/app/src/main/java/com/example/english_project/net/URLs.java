@@ -2,7 +2,9 @@ package com.example.english_project.net;
 
 public class URLs {
 //   private static final String ROOT_URL = "http://192.168.0.167/englishSTTS/Api.php?apicall=";
-    private static final String ROOT_URL = "http://192.168.137.1/englishSTTS/Api.php?apicall=";
+//    private static final String ROOT_URL = "http://192.168.137.1/englishSTTS/Api.php?apicall=";
+private static final String ROOT_URL = "http://163.21.245.182/englishSTTS-main/php/Api.php?apicall=";
+//private static final String ROOT_URL = "http://172.20.10.9/englishSTTS/Api.php?apicall=";
 
     public static final String URL_REGISTER = ROOT_URL + "signup";
     public static final String URL_LOGIN = ROOT_URL + "login";
