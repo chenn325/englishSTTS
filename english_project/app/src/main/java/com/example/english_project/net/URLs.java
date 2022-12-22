@@ -23,6 +23,7 @@ public class URLs {
     public static final String URL_HISTORY_SC = ROOT_URL + "history_SC"; //speak_score set
     public static final String URL_UPLOADERROR = ROOT_URL + "uploadError"; //上傳錯題
     public static final String URL_DOWNLOADERROR = ROOT_URL + "downloadError"; //顯示錯題
+    public static final String URL_DOWNLOADEVERYSCORE = ROOT_URL + "downloadEveryScore"; //顯示每次成績
     public static final String URL_INITSTUDENTHISTORY = ROOT_URL + "initStudentHistory"; //初始化學生學習記錄
 
     public static final String URL_ListenLearning = ROOT_URL + "ListenLearning";

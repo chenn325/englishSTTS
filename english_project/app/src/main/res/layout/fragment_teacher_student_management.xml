@@ -6,7 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".teacher.TeacherStudentManagement"
     android:background="@color/primary">
-
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fadingEdge="vertical"
+        android:scrollbars="vertical"
+        tools:ignore="MissingConstraints">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -106,11 +111,12 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:background="@drawable/oval_third"
-            android:layout_weight="10">
+            android:layout_weight="6">
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -119,12 +125,6 @@
                 android:background="@drawable/framestyle"
                 android:orientation="vertical">
 
-                <ScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fadingEdge="vertical"
-                    android:scrollbars="vertical"
-                    tools:ignore="MissingConstraints">
                     <HorizontalScrollView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
@@ -144,33 +144,33 @@
 
                     </TableLayout>
                     </HorizontalScrollView>
-                </ScrollView>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="錯題一覽："
-            android:textSize="20dp"
-            android:textColor="@color/font_purple"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
             android:layout_weight="5"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="@drawable/oval_third">
 
-            <TextView
+            <TableLayout
                 android:id="@+id/showErrorText"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textColor="@color/black"></TextView>
+                android:layout_width="wrap_content"
+                android:layout_height="300dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical"></TableLayout>
         </LinearLayout>
-    </LinearLayout>
 
+
+    </LinearLayout>
+</ScrollView>
     <ProgressBar
         android:visibility="gone"
         android:id="@+id/progressBar"
