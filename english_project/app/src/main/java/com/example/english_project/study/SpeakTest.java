@@ -62,7 +62,7 @@ public class SpeakTest extends Fragment {
     String studyType = "vocabulary";
     String partnerImage = "girl1";
     //測試用學生答案&counter
-    String ans[] = {"apple", "ball", "cat", "date", "duck", "dark", "tiger", "fox", "bubble"};
+    String ans[] = {"Where is the ball"};
     int ansN = 0;
     int resID;
     int delay_time = 1000;
@@ -173,6 +173,7 @@ public class SpeakTest extends Fragment {
         final String fUserAns;
         if(isLetter(userAns.charAt(0))) { fUserAns = userAns.toLowerCase(); }
         else { fUserAns = userAns; }
+        if(isLetter(nowTopic.charAt(0))) { nowTopic = nowTopic.toLowerCase(); }
         if (fUserAns.equals(nowTopic)) {
             sendTeacherText("正確！", Ftime);
             int time = Ftime+delay_time;

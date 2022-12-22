@@ -61,7 +61,8 @@ public class SpeakLearning extends Fragment {
     String studyType = "vocabulary";
     String partnerImage = "girl1";
     //測試用學生答案&counter
-    String ans[] = {"apple", "ball", "cat", "date", "duck", "dark", "tiger", "fox", "bubble"};
+//    String ans[] = {"apple", "ball", "cat", "date", "duck", "dark", "tiger", "fox", "bubble"};
+    String ans[] = {"Where is the ball"};
     int ansN = 0;
     int resID = 0;
     String nowTopic = "";
@@ -164,6 +165,9 @@ public class SpeakLearning extends Fragment {
     public void checkAnswer(String ans) throws JSONException {
         mic.setEnabled(false);
         mic.setImageTintList(ColorStateList.valueOf((getResources().getColor(R.color.gray))));
+//        final String fUserAns;
+        if(isLetter(ans.charAt(0))) { ans = ans.toLowerCase(); }
+        if(isLetter(nowTopic.charAt(0))) { nowTopic = nowTopic.toLowerCase(); }
         int time = delay_time;
         if(isLetter(ans.charAt(0))) {
             ans = ans.toLowerCase();
