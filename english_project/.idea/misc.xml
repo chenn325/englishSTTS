@@ -62,6 +62,7 @@
         <entry key="app/src/main/res/drawable/but_third.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/framestyle.xml" value="0.1495" />
         <entry key="app/src/main/res/drawable/frameview.xml" value="0.144" />
+        <entry key="app/src/main/res/drawable/oval_third.xml" value="0.1485" />
         <entry key="app/src/main/res/layout/activity_index.xml" value="0.2545289855072464" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.31230926513671875" />
@@ -76,7 +77,7 @@
         <entry key="app/src/main/res/layout/fragment_student_test.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/fragment_teacher_home.xml" value="0.19270833333333334" />
         <entry key="app/src/main/res/layout/fragment_teacher_profile.xml" value="0.28229166666666666" />
-        <entry key="app/src/main/res/layout/fragment_teacher_student_management.xml" value="0.39476216634114586" />
+        <entry key="app/src/main/res/layout/fragment_teacher_student_management.xml" value="0.29690755208333336" />
         <entry key="app/src/main/res/layout/fragment_teacher_textbook.xml" value="0.25" />
         <entry key="app/src/main/res/layout/in_fab_dialog_layout.xml" value="0.28125" />
         <entry key="app/src/main/res/layout/list_item.xml" value="0.6076232910156252" />

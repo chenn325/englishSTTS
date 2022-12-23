@@ -35,11 +35,12 @@ public class TeacherStudentManagement extends Fragment {
     private String type;
     private TableLayout showText;
     private TableLayout showErrorText;
-    private String[] errorText = new String[1];
-
+    private String[] errorText;
+    private int[] sc;
 
     JSONObject obj;
     JSONObject TextObj;
+    JSONObject ErrorTextObj;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +70,6 @@ public class TeacherStudentManagement extends Fragment {
                 GetHistory();
             }
         });
-
 
         return view;
     }
@@ -151,12 +151,13 @@ public class TeacherStudentManagement extends Fragment {
 
         Log.d("setHistory","start");
         TableRow tableRow = new TableRow(getContext());
-        String[] arr = {"　　","姓名","聽力練習","口說練習","聽力測驗","口說測驗"};
+        String[] arr = {"","姓名","聽力練習","口說練習","聽力測驗","口說測驗"};
         for(int k=0; k<6; k++){
             TextView tv = new TextView(getContext());
             tv.setText(arr[k]);
             tv.setGravity(Gravity.CENTER);
-            tv.setWidth(200);
+            if(k!=0) {  tv.setWidth(200);   }
+            else {  tv.setWidth(100);   }
             tv.setTextColor(getResources().getColor(R.color.black));
             tableRow.addView(tv);
         }
@@ -171,6 +172,10 @@ public class TeacherStudentManagement extends Fragment {
             tableRow = new TableRow(getContext());
             Button btn = new Button(getContext());
             btn.setText(String.valueOf(i+1));
+            btn.setMinWidth(0);
+            btn.setMinimumWidth(0);
+            btn.setMinHeight(0);
+            btn.setMinimumHeight(0);
             int finalN = n;
             btn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -220,35 +225,37 @@ public class TeacherStudentManagement extends Fragment {
         tableRow.addView(tv);
         showErrorText.addView(tableRow, new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT));
         //listen_c
-        tableRow = new TableRow(getContext());
-        tv = new TextView(getContext());
-        tv.setText("聽力測驗");
-        tv.setTextColor(getResources().getColor(R.color.black));
-        tableRow.addView(tv);
-        showErrorText.addView(tableRow, new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT));
+//        tableRow = new TableRow(getContext());
+//        tv = new TextView(getContext());
+//        tv.setText("聽力測驗");
+//        tv.setTextColor(getResources().getColor(R.color.black));
+//        tableRow.addView(tv);
+//        showErrorText.addView(tableRow, new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT));
         //列出score and errorText
-        getErrorText(user_id, unit, "listen_c", type);
-        getEveryScore(user_id, unit, "listen_c", type);
-
+        getErrorText(user_id, unit, "listen_c", type, "聽力測驗");
 
         //speak_c
-        tableRow = new TableRow(getContext());
-        tv = new TextView(getContext());
-        tv.setText("口說測驗");
-        tv.setTextColor(getResources().getColor(R.color.black));
-        tableRow.addView(tv);
-        showErrorText.addView(tableRow, new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT));
+//        tableRow = new TableRow(getContext());
+//        tv = new TextView(getContext());
+//        tv.setText("口說測驗");
+//        tv.setTextColor(getResources().getColor(R.color.black));
+//        tableRow.addView(tv);
+//        showErrorText.addView(tableRow, new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT));
 
-        getErrorText(user_id, unit, "speak_c", type);
-        getEveryScore(user_id, unit, "speak_c", type);
-
-
-
+        getErrorText(user_id, unit, "speak_c", type, "口說測驗");
     }
-    private void setScore(int[] score){
-        Log.d("score.length",String.valueOf(score.length));
-        TableRow tableRow = new TableRow(getContext());
-        TextView tv = new TextView(getContext());
+
+    private void setScore(int[] score, String title) throws JSONException {
+//        Log.d("score.length",String.valueOf(score.length));
+        TableRow trTitle = new TableRow(getContext());
+        TextView tvTitle = new TextView(getContext());
+        tvTitle.setText(title);
+        tvTitle.setTextColor(getResources().getColor(R.color.black));
+        trTitle.addView(tvTitle);
+        showErrorText.addView(trTitle, new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT));
+        TableRow tableRow;
+        TextView tv;
+        String errorText2[] = setErrorArray();
         for(int i=0; i<score.length; i++) {
             tableRow = new TableRow(getContext());
             tv = new TextView(getContext());
@@ -260,25 +267,21 @@ public class TeacherStudentManagement extends Fragment {
                 break;
             }
             else{
-                tv.setText("第" + (i) + "次成績: " + score[i] + "　錯題: ");
-                tv.setTextColor(getResources().getColor(R.color.black));
-                tableRow.addView(tv);
-                showErrorText.addView(tableRow, new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                setError(errorText,i);
+                if(i!=0) {
+                    tv.setText("第" + (i) + "次成績: " + score[i] + "　錯題: ");
+                    tv.setTextColor(getResources().getColor(R.color.black));
+                    tableRow.addView(tv);
+                    TextView tv2 = new TextView(getContext());
+                    tv2.setText(errorText2[i]);
+                    tv2.setTextColor(getResources().getColor(R.color.black));
+                    tableRow.addView(tv2);
+                    showErrorText.addView(tableRow, new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                }
             }
         }
     }
-    private void setError(String[] error, int i){
-        TableRow tableRow = new TableRow(getContext());
-        TextView tv = new TextView(getContext());
-        tv.setText(error[i]);
-        tv.setTextColor(getResources().getColor(R.color.black));
-        tableRow.addView(tv);
-        showErrorText.addView(tableRow, new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
-    }
-    private void getErrorText(int user_id, int unit, String category, String type){
-
+    private void getErrorText(int user_id, int unit, String category, String type, String title){
         class GetErrorText extends AsyncTask<Void, Void, String> {
             //String errorText[] = new String[1];
             @Override
@@ -293,39 +296,13 @@ public class TeacherStudentManagement extends Fragment {
                 progressBar.setVisibility(View.GONE);
 
                 try {
-                    JSONObject ErrorTextObj = new JSONObject(s);
+                    ErrorTextObj = new JSONObject(s);
                     Log.d("json", "get Text");
 
                     if (!ErrorTextObj.getBoolean("error")){
 //                      Toast.makeText(getActivity().getApplicationContext(), TextObj.getString("message"), Toast.LENGTH_SHORT).show();
                         errorRowNum = ErrorTextObj.getInt("row");
-                        maxCounts=0;
-                        if(errorRowNum > 0){
-
-                            //init
-                            for(int i=0; i<errorRowNum; i++){
-                                JSONObject t = ErrorTextObj.getJSONObject(String.valueOf(i));
-                                int counts = t.getInt("counts");
-                                if(counts > maxCounts)
-                                    maxCounts = counts;
-                            }
-                            Log.d("maxCounts", String.valueOf(maxCounts));
-                            String error[] = new String[maxCounts+1];
-                            for(int i=0; i<=maxCounts; i++){
-                                error[i] = "";
-                            }
-                            for(int i=0; i<errorRowNum; i++){
-                                JSONObject t = ErrorTextObj.getJSONObject(String.valueOf(i));
-                                error[t.getInt("counts")] += t.getString("text") + " ";
-                            }
-                            errorText = error;
-                            for(int i=0; i<errorText.length; i++){
-                                Log.d("errorText"+i, String.valueOf(errorText[i]));
-                            }
-                        }
-                        else{
-                            errorText[0] = "";
-                        }
+                        getEveryScore(user_id, unit, category, type, title);
                     }
                     else{
                         // Toast.makeText(getActivity().getApplicationContext(), "Can't get ErrorText", Toast.LENGTH_SHORT).show();
@@ -358,7 +335,7 @@ public class TeacherStudentManagement extends Fragment {
         GetErrorText ul = new GetErrorText();
         ul.execute();
     }
-    private void getEveryScore(int user_id, int unit, String category, String type){
+    private void getEveryScore(int user_id, int unit, String category, String type, String title){
         class GetEveryScore extends AsyncTask<Void, Void, String> {
 
             @Override
@@ -375,13 +352,13 @@ public class TeacherStudentManagement extends Fragment {
                     JSONObject ScoreObj = new JSONObject(s);
                     if(!ScoreObj.getBoolean("error")){
                         scoreRowNum = ScoreObj.getInt("row");
-                        int[] sc = new int[scoreRowNum];
+                        sc = new int[scoreRowNum];
                         for(int i=0; i<scoreRowNum; i++){
                             JSONObject t = ScoreObj.getJSONObject(String.valueOf(i));
                             sc[i] = t.getInt("score");
                         }
 
-                        setScore(sc);
+                        setScore(sc, title);
 
                     }
                     else{
@@ -409,6 +386,37 @@ public class TeacherStudentManagement extends Fragment {
 
     }
 
+    private String[] setErrorArray() throws JSONException {
+        maxCounts=0;
+        if(errorRowNum > 0){
+            //init
+            for(int i=0; i<errorRowNum; i++){
+                JSONObject t = ErrorTextObj.getJSONObject(String.valueOf(i));
+                int counts = t.getInt("counts");
+                if(counts > maxCounts)
+                    maxCounts = counts;
+            }
+            Log.d("maxCounts", String.valueOf(maxCounts));
+            String error[] = new String[maxCounts+1];
+            for(int i=0; i<=maxCounts; i++){
+                error[i] = "";
+            }
+            for(int i=0; i<errorRowNum; i++){
+                JSONObject t = ErrorTextObj.getJSONObject(String.valueOf(i));
+                error[t.getInt("counts")] += t.getString("text") + " ";
+            }
+//            errorText = error;
+            for(int i=0; i<error.length; i++){
+                Log.d("errorText"+i, "oAo "+String.valueOf(error[i]));
+            }
+            Log.d("takoo", String.valueOf(error.length));
+            return error;
+        }
+        else{
+            String error[] = {""};
+            return error;
+        }
+    }
 
 
 }
