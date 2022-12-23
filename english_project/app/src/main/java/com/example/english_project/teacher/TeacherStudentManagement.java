@@ -35,11 +35,9 @@ public class TeacherStudentManagement extends Fragment {
     private String type;
     private TableLayout showText;
     private TableLayout showErrorText;
-    private String[] errorText;
     private int[] sc;
 
     JSONObject obj;
-    JSONObject TextObj;
     JSONObject ErrorTextObj;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -146,9 +144,6 @@ public class TeacherStudentManagement extends Fragment {
     }
 
     public void setHistory(int rowNum, int id[]) throws JSONException {
-
-        //Button btn[] = new Button[rowNum];
-
         Log.d("setHistory","start");
         TableRow tableRow = new TableRow(getContext());
         String[] arr = {"","姓名","聽力練習","口說練習","聽力測驗","口說測驗"};
@@ -218,35 +213,19 @@ public class TeacherStudentManagement extends Fragment {
         TextView tv = new TextView(getContext());
 
         //name
-        tableRow = new TableRow(getContext());
-        tv = new TextView(getContext());
         tv.setText(name);
         tv.setTextColor(getResources().getColor(R.color.black));
         tableRow.addView(tv);
         showErrorText.addView(tableRow, new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT));
         //listen_c
-//        tableRow = new TableRow(getContext());
-//        tv = new TextView(getContext());
-//        tv.setText("聽力測驗");
-//        tv.setTextColor(getResources().getColor(R.color.black));
-//        tableRow.addView(tv);
-//        showErrorText.addView(tableRow, new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT));
-        //列出score and errorText
         getErrorText(user_id, unit, "listen_c", type, "聽力測驗");
 
         //speak_c
-//        tableRow = new TableRow(getContext());
-//        tv = new TextView(getContext());
-//        tv.setText("口說測驗");
-//        tv.setTextColor(getResources().getColor(R.color.black));
-//        tableRow.addView(tv);
-//        showErrorText.addView(tableRow, new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT));
-
         getErrorText(user_id, unit, "speak_c", type, "口說測驗");
     }
 
-    private void setScore(int[] score, String title) throws JSONException {
-//        Log.d("score.length",String.valueOf(score.length));
+    private void setScore(int[] score, String[] error, String title) throws JSONException {
+        Log.d("set score","go");
         TableRow trTitle = new TableRow(getContext());
         TextView tvTitle = new TextView(getContext());
         tvTitle.setText(title);
@@ -255,7 +234,6 @@ public class TeacherStudentManagement extends Fragment {
         showErrorText.addView(trTitle, new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT));
         TableRow tableRow;
         TextView tv;
-        String errorText2[] = setErrorArray();
         for(int i=0; i<score.length; i++) {
             tableRow = new TableRow(getContext());
             tv = new TextView(getContext());
@@ -272,7 +250,7 @@ public class TeacherStudentManagement extends Fragment {
                     tv.setTextColor(getResources().getColor(R.color.black));
                     tableRow.addView(tv);
                     TextView tv2 = new TextView(getContext());
-                    tv2.setText(errorText2[i]);
+                    tv2.setText(error[i]);
                     tv2.setTextColor(getResources().getColor(R.color.black));
                     tableRow.addView(tv2);
                     showErrorText.addView(tableRow, new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -283,7 +261,6 @@ public class TeacherStudentManagement extends Fragment {
 
     private void getErrorText(int user_id, int unit, String category, String type, String title){
         class GetErrorText extends AsyncTask<Void, Void, String> {
-            //String errorText[] = new String[1];
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
@@ -302,7 +279,35 @@ public class TeacherStudentManagement extends Fragment {
                     if (!ErrorTextObj.getBoolean("error")){
 //                      Toast.makeText(getActivity().getApplicationContext(), TextObj.getString("message"), Toast.LENGTH_SHORT).show();
                         errorRowNum = ErrorTextObj.getInt("row");
-                        getEveryScore(user_id, unit, category, type, title);
+                        String error[];
+                        maxCounts=0;
+                        if(errorRowNum > 0){
+                            //init
+                            for(int i=0; i<errorRowNum; i++){
+                                JSONObject t = ErrorTextObj.getJSONObject(String.valueOf(i));
+                                int counts = t.getInt("counts");
+                                if(counts > maxCounts)
+                                    maxCounts = counts;
+                            }
+                            Log.d("maxCounts", String.valueOf(maxCounts));
+                            error = new String[maxCounts+1];
+                            for(int i=0; i<=maxCounts; i++){
+                                error[i] = "";
+                            }
+                            for(int i=0; i<errorRowNum; i++){
+                                JSONObject t = ErrorTextObj.getJSONObject(String.valueOf(i));
+                                error[t.getInt("counts")] += t.getString("text") + " ";
+                            }
+                            for(int i=0; i<error.length; i++){
+                                Log.d("errorText"+i, String.valueOf(error[i]));
+                            }
+                            Log.d("errorText length", String.valueOf(error.length));
+                        }
+                        else{
+                            error = new String[1];
+                            error[0]="";
+                        }
+                        getEveryScore(user_id, unit, category, type, title, error);
                     }
                     else{
                         // Toast.makeText(getActivity().getApplicationContext(), "Can't get ErrorText", Toast.LENGTH_SHORT).show();
@@ -335,7 +340,7 @@ public class TeacherStudentManagement extends Fragment {
         GetErrorText ul = new GetErrorText();
         ul.execute();
     }
-    private void getEveryScore(int user_id, int unit, String category, String type, String title){
+    private void getEveryScore(int user_id, int unit, String category, String type, String title, String[] error){
         class GetEveryScore extends AsyncTask<Void, Void, String> {
 
             @Override
@@ -358,7 +363,7 @@ public class TeacherStudentManagement extends Fragment {
                             sc[i] = t.getInt("score");
                         }
 
-                        setScore(sc, title);
+                        setScore(sc, error, title);
 
                     }
                     else{
@@ -383,40 +388,5 @@ public class TeacherStudentManagement extends Fragment {
         }
         GetEveryScore ul = new GetEveryScore();
         ul.execute();
-
     }
-
-    private String[] setErrorArray() throws JSONException {
-        maxCounts=0;
-        if(errorRowNum > 0){
-            //init
-            for(int i=0; i<errorRowNum; i++){
-                JSONObject t = ErrorTextObj.getJSONObject(String.valueOf(i));
-                int counts = t.getInt("counts");
-                if(counts > maxCounts)
-                    maxCounts = counts;
-            }
-            Log.d("maxCounts", String.valueOf(maxCounts));
-            String error[] = new String[maxCounts+1];
-            for(int i=0; i<=maxCounts; i++){
-                error[i] = "";
-            }
-            for(int i=0; i<errorRowNum; i++){
-                JSONObject t = ErrorTextObj.getJSONObject(String.valueOf(i));
-                error[t.getInt("counts")] += t.getString("text") + " ";
-            }
-//            errorText = error;
-            for(int i=0; i<error.length; i++){
-                Log.d("errorText"+i, "oAo "+String.valueOf(error[i]));
-            }
-            Log.d("takoo", String.valueOf(error.length));
-            return error;
-        }
-        else{
-            String error[] = {""};
-            return error;
-        }
-    }
-
-
 }
