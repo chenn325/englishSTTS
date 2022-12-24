@@ -32,7 +32,7 @@ public class TeacherStudentManagement extends Fragment {
     private Button searchBut;
     private ProgressBar progressBar;
     private int user_id, unit, myclass, rowNum, scoreRowNum, errorRowNum, maxCounts;
-    private String type;
+    private String type, category;
     private TableLayout showText;
     private TableLayout showErrorText;
     private String[] errorText;
@@ -58,6 +58,7 @@ public class TeacherStudentManagement extends Fragment {
         unit = 1;
         myclass = 301;
         type = "vocabulary";
+        category = "listen_c";
         GetHistory();
         searchBut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -241,7 +242,6 @@ public class TeacherStudentManagement extends Fragment {
 //        tv.setTextColor(getResources().getColor(R.color.black));
 //        tableRow.addView(tv);
 //        showErrorText.addView(tableRow, new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT));
-
         getErrorText(user_id, unit, "speak_c", type, "口說測驗");
     }
 
@@ -255,6 +255,7 @@ public class TeacherStudentManagement extends Fragment {
         showErrorText.addView(trTitle, new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT));
         TableRow tableRow;
         TextView tv;
+
         String errorText2[] = setErrorArray();
         for(int i=0; i<score.length; i++) {
             tableRow = new TableRow(getContext());
