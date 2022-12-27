@@ -90,14 +90,14 @@ public class StudentStudy extends Fragment {
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Log.d("schedule frag","schedule json error");
+                    Log.d("schedule frag","schedule json error1");
                 }
                 //set schedule
                 try{
                     setSchedule(rowNum, c, t);
                 }catch (JSONException e){
                     e.printStackTrace();
-                    Log.d("schedule frag","schedule json error");
+                    Log.d("schedule frag","schedule json error2");
                 };
 
             }
@@ -151,19 +151,21 @@ public class StudentStudy extends Fragment {
                 public void onClick(View view) {
                     if(c==0) { //listen
                         ListenLearning listenLearning = new ListenLearning();
-                        listenLearning.setInfo(myclass, u, category[c].toLowerCase(), type[t]);
+                        listenLearning.setInfo(myclass, u, "listen".toLowerCase(), type[t]);
                         StudentMainActivity studentMainActivity = (StudentMainActivity) getActivity();
                         studentMainActivity.changeFragment(listenLearning);
                     }
                     else{ //speak
                         SpeakLearning speakLearning = new SpeakLearning();
-                        speakLearning.setInfo(myclass, u, category[c].toLowerCase(), type[t]);
+                        speakLearning.setInfo(myclass, u, "speak".toLowerCase(), type[t]);
                         StudentMainActivity studentMainActivity = (StudentMainActivity)getActivity();
                         studentMainActivity.changeFragment(speakLearning);
                     }
                 }
             });
-            but.setBackground(this.getResources().getDrawable(R.drawable.but_study));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                but.setBackground(this.getResources().getDrawable(R.drawable.but_study));
+            }
             but.setTextSize(cusTextSize);
             tableRow.addView(but);
             tv.setText(" "+topic.getString("startYmd")+" - "+topic.getString("endYmd"));

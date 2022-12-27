@@ -316,7 +316,7 @@ public class ListenLearning extends Fragment implements OnInitListener {
                 params.put("user_id", String.valueOf(user.getId()));
                 params.put("unit", String.valueOf(unit));
                 params.put("type", type);
-                params.put("category", category);
+                params.put("category", "listen_p");
                 //returing the response
                 return requestHandler.sendPostRequest(URLs.URL_LEARNINGTIMES, params);
             }

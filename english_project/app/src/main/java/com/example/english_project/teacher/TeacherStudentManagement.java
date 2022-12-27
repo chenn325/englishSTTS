@@ -242,7 +242,7 @@ public class TeacherStudentManagement extends Fragment {
         showErrorText.addView(trTitle, new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT));
         TableRow tableRow;
         TextView tv;
-        String errorText2[] = setErrorArray();
+        //String errorText2[] = setErrorArray();
         for(int i=0; i<score.length; i++) {
             tableRow = new TableRow(getContext());
             tv = new TextView(getContext());

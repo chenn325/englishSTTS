@@ -1,6 +1,7 @@
 package com.example.english_project.study;
 
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -100,20 +101,22 @@ public class ListenTest extends Fragment implements OnInitListener {
             public void onClick(View view) {
                 if(sendBtn.getText().equals("EXIT")){
                     StudentMainActivity studentMainActivity = (StudentMainActivity)getActivity();
-                    studentMainActivity.changeFragment(new StudentStudy());
+                    studentMainActivity.changeFragment(new StudentTest());
                 }
                 String msg = editText.getText().toString();
-                if(!msg.isEmpty()){
-                    sendMessage(msg);
-                    editText.setText("");
-                    try {
-                        compare(myText, msg);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+                    if(!msg.isEmpty()){
+                        sendMessage(msg);
+                        editText.setText("");
+                        try {
+                            compare(myText, msg);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
-                }
-                else{
-                    Toast.makeText(getActivity(), "Cant be empty! ", Toast.LENGTH_SHORT);
+                    else{
+                        Toast.makeText(getActivity(), "Cant be empty! ", Toast.LENGTH_SHORT);
+                    }
                 }
             }
         });
@@ -347,18 +350,20 @@ public class ListenTest extends Fragment implements OnInitListener {
                 progressBar.setVisibility(View.GONE);
                 try {
                     obj = new JSONObject(s);
-                    Log.d("json", "LC");
+                    Log.d("json", "Listen_c json get");
 
                     if (!obj.getBoolean("error")){
-//                        Toast.makeText(getActivity().getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
-                        rowNum = obj.getInt("row");
+                        //Toast.makeText(getActivity().getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+                        //rowNum = obj.getInt("row");
+                        Log.d("listen_c frag", "Listen_c error false");
                     }
                     else{
-                        Toast.makeText(getActivity().getApplicationContext(), "Can't cal", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getActivity().getApplicationContext(), "Can't cal", Toast.LENGTH_SHORT).show();
+                        Log.d("listen_c frag", "Listen_c error true");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Log.d("history_LC frag","LC json error");
+                    Log.d("listen_c frag","testScore json error");
                 }
 
             }
@@ -373,9 +378,10 @@ public class ListenTest extends Fragment implements OnInitListener {
                 params.put("user_id", String.valueOf(user.getId()));
                 params.put("unit", String.valueOf(unit));
                 params.put("type", type);
-                params.put("category", category);
+                params.put("category", "listen_c");
                 params.put("score", String.valueOf(finalScore));
                 //returing the response
+                Log.d("params", type+category+String.valueOf(finalScore));
                 return requestHandler.sendPostRequest(URLs.URL_TESTSCORE, params);
             }
         }

@@ -152,19 +152,21 @@ public class StudentTest extends Fragment {
                 public void onClick(View view) {
                     if(c==0) { //listen
                         ListenTest listenTest = new ListenTest();
-                        listenTest.setInfo(myclass, u, category[c].toLowerCase(), type[t]);
+                        listenTest.setInfo(myclass, u, "listen".toLowerCase(), type[t]);
                         StudentMainActivity studentMainActivity = (StudentMainActivity) getActivity();
                         studentMainActivity.changeFragment(listenTest);
                     }
                     else{ //speak
                         SpeakTest speakTest = new SpeakTest();
-                        speakTest.setInfo(myclass, u, category[c].toLowerCase(), type[t]);
+                        speakTest.setInfo(myclass, u, "speak".toLowerCase(), type[t]);
                         StudentMainActivity studentMainActivity = (StudentMainActivity)getActivity();
                         studentMainActivity.changeFragment(speakTest);
                     }
                 }
             });
-            but.setBackground(this.getResources().getDrawable(R.drawable.but_test));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                but.setBackground(this.getResources().getDrawable(R.drawable.but_test));
+            }
             but.setTextSize(cusTextSize);
             tableRow.addView(but);
             tv.setText(" "+topic.getString("startYmd")+" - "+topic.getString("endYmd"));

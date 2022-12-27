@@ -171,7 +171,9 @@ public class SpeakTest extends Fragment {
 
     public void checkAnswer(String userAns) throws JSONException {
         mic.setEnabled(false);
-        mic.setImageTintList(ColorStateList.valueOf((getResources().getColor(R.color.gray))));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mic.setImageTintList(ColorStateList.valueOf((getResources().getColor(R.color.gray))));
+        }
         final int Ftime = delay_time;
         final String fUserAns;
         if(isLetter(userAns.charAt(0))) { fUserAns = userAns.toLowerCase(); }
@@ -224,7 +226,9 @@ public class SpeakTest extends Fragment {
             @Override
             public void run() {
                 mic.setEnabled(true);
-                mic.setImageTintList(ColorStateList.valueOf((getResources().getColor(R.color.black))));
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    mic.setImageTintList(ColorStateList.valueOf((getResources().getColor(R.color.black))));
+                }
             }
         }, t);
     }
@@ -384,7 +388,9 @@ public class SpeakTest extends Fragment {
             exitBtn.setText("EXIT");
             exitBtn.setTextSize(25);
             exitBtn.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            exitBtn.setBackground(getResources().getDrawable(R.drawable.but_third));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                exitBtn.setBackground(getResources().getDrawable(R.drawable.but_third));
+            }
             butArea.addView(exitBtn);
             t+=delay_time;
             sendTeacherText("題目已全作答完畢", t);
@@ -478,9 +484,12 @@ public class SpeakTest extends Fragment {
                 HashMap<String, String> params = new HashMap<>();
                 params.put("user_id", String.valueOf(user.getId()));
                 params.put("unit", String.valueOf(unit));
+                params.put("type", studyType);
+                params.put("category", "speak_c");
                 params.put("score", String.valueOf(finalScore));
+
                 //returing the response
-                return requestHandler.sendPostRequest(URLs.URL_HISTORY_SC, params);
+                return requestHandler.sendPostRequest(URLs.URL_TESTSCORE, params);
             }
         }
 
