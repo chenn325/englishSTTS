@@ -504,9 +504,10 @@ if(isset($_GET['apicall'])){
 						$getPrevScore = $conn->prepare("SELECT listen_c FROM history WHERE user_id = ? AND unit = ? AND type = ?");
 						$getPrevScore->bind_param("sss",$user_id,$unit,$type);
 						$getPrevScore->execute();
+						$getPrevScore->store_result();
 						if($getPrevScore->num_rows > 0){
-							$getPrevScore->store_result();
 							$getPrevScore->bind_result($prevScore);
+							$getPrevScore->fetch();
 						}
 						else{
 							$prevScore = -1;
@@ -517,8 +518,9 @@ if(isset($_GET['apicall'])){
 							$stmt = $conn->prepare("UPDATE history SET listen_c = $score WHERE user_id = ? AND unit = ? AND type = ?");
 							$stmt->bind_param("sss",$user_id,$unit,$type);
 							$stmt->execute();
+							$stmt->close();
 						}
-
+					
 						$getCounts = $conn->prepare("SELECT id FROM personal_history WHERE user_id = ? AND unit = ? AND type = ? AND category = ?");
 						$getCounts->bind_param("ssss", $user_id, $unit, $type, $category);
 						$getCounts->execute();
@@ -535,9 +537,10 @@ if(isset($_GET['apicall'])){
 						$getPrevScore = $conn->prepare("SELECT listen_c FROM history WHERE user_id = ? AND unit = ? AND type = ?");
 						$getPrevScore->bind_param("sss",$user_id,$unit,$type);
 						$getPrevScore->execute();
+						$getPrevScore->store_result();
 						if($getPrevScore->num_rows > 0){
-							$getPrevScore->store_result();
 							$getPrevScore->bind_result($prevScore);
+							$getPrevScore->fetch();
 						}
 						else{
 							$prevScore = -1;
@@ -548,6 +551,7 @@ if(isset($_GET['apicall'])){
 							$stmt = $conn->prepare("UPDATE history SET speak_c = $score WHERE user_id = ? AND unit = ? AND type = ?");
 							$stmt->bind_param("sss",$user_id,$unit,$type);
 							$stmt->execute();
+							$stmt->close();
 						}
 
 						$getCounts = $conn->prepare("SELECT id FROM personal_history WHERE user_id = ? AND unit = ? AND type = ? AND category = ?");

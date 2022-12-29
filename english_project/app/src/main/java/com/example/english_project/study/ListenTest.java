@@ -102,6 +102,8 @@ public class ListenTest extends Fragment implements OnInitListener {
                 if(sendBtn.getText().equals("EXIT")){
                     StudentMainActivity studentMainActivity = (StudentMainActivity)getActivity();
                     studentMainActivity.changeFragment(new StudentTest());
+                    BottomNavigationView bottomNavigationView = (BottomNavigationView) getActivity().findViewById(R.id.bottom_navigation);
+                    bottomNavigationView.setVisibility(View.VISIBLE);
                 }
                 String msg = editText.getText().toString();
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
@@ -273,8 +275,8 @@ public class ListenTest extends Fragment implements OnInitListener {
             }
         }
         else{
-            answer[currentNum]++;
-            switch(answer[currentNum]){
+            answer[currentNum-1]++;
+            switch(answer[currentNum-1]){
                 case 1://重複錯誤
                     receiveMessage(3,"你的答案之發音為");
                     receiveMessage(1,msg);
@@ -286,8 +288,23 @@ public class ListenTest extends Fragment implements OnInitListener {
                     break;
                 case 3://明確校正
                     receiveMessage(3,"可惜!最後答案是"+myText);
-                    receiveMessage(2,"讓我們進入下一題吧");
-                    setText(rowNum);
+                    if(currentNum == rowNum){
+                        receiveMessage(3, "恭喜你完成測驗!");
+                        //算成績
+                        receiveMessage(2, "本次成績為: "+String.valueOf(Cal()));
+                        sendBtn.setText("EXIT");
+                        for(int i=0; i<rowNum; i++){
+                            if(answer[i]!=0){
+                                JSONObject t = obj.getJSONObject(String.valueOf(i));
+                                String errorText = t.getString("en");
+                                UploadError(errorText);
+                            }
+                        }
+                    }
+                    else{
+                        receiveMessage(2,"讓我們進入下一題吧");
+                        setText(rowNum);
+                    }
                     break;
             }
         }
@@ -429,7 +446,7 @@ public class ListenTest extends Fragment implements OnInitListener {
                 //creating request parameters
                 HashMap<String, String> params = new HashMap<>();
                 params.put("user_id", String.valueOf(user.getId()));
-                params.put("category", category);
+                params.put("category", "listen_c");
                 params.put("type", type);
                 params.put("unit", String.valueOf(unit));
                 params.put("en", errorText);
