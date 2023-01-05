@@ -100,26 +100,26 @@ public class SpeakTest extends Fragment {
             @Override
             public void onClick(View view) {
                 //測試用 DON'T DELETE ME!!
-//                sendStudentText(ans[ansN]);
-//                try {
-//                    checkAnswer(ans[ansN++]);
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-                //錄音 DON'T DELETE ME!!
+                sendStudentText(ans[ansN]);
                 try {
-                    Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-                    intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en-US");
-                    intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-                    intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "speech to text");
-                    startActivityForResult(intent, RECOGNIZER_RESULT);
-                }catch(ActivityNotFoundException e){
-                    Log.d("MainActivity", "沒谷哥哥ㄌㄚ");
-                    AlertDialog.Builder ad = new AlertDialog.Builder(getContext());
-                    ad.setMessage("您未安裝google軟體\n請安裝後再試一次！");
-                    ad.setPositiveButton("好", null);
-                    ad.show();
+                    checkAnswer(ans[ansN++]);
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
+                //錄音 DON'T DELETE ME!!
+//                try {
+//                    Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+//                    intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en-US");
+//                    intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+//                    intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "speech to text");
+//                    startActivityForResult(intent, RECOGNIZER_RESULT);
+//                }catch(ActivityNotFoundException e){
+//                    Log.d("MainActivity", "沒谷哥哥ㄌㄚ");
+//                    AlertDialog.Builder ad = new AlertDialog.Builder(getContext());
+//                    ad.setMessage("您未安裝google軟體\n請安裝後再試一次！");
+//                    ad.setPositiveButton("好", null);
+//                    ad.show();
+//                }
             }
         });
 
@@ -179,6 +179,7 @@ public class SpeakTest extends Fragment {
         if(isLetter(userAns.charAt(0))) { fUserAns = userAns.toLowerCase(); }
         else { fUserAns = userAns; }
         if(isLetter(nowTopic.charAt(0))) { nowTopic = nowTopic.toLowerCase(); }
+        if(nowTopic.charAt(nowTopic.length()-1)=='.') { nowTopic = nowTopic.substring(0, nowTopic.length()-1);}
         if (fUserAns.equals(nowTopic)) {
             sendTeacherText("正確！", Ftime);
             int time = Ftime+delay_time;
