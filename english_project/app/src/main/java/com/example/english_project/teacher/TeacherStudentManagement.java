@@ -20,7 +20,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.example.english_project.R;
 import com.example.english_project.net.RequestHandler;
+import com.example.english_project.net.SharedPrefManager;
 import com.example.english_project.net.URLs;
+import com.example.english_project.net.User;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.HashMap;
@@ -43,7 +46,7 @@ public class TeacherStudentManagement extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_teacher_student_management, container, false);
-
+        User user = SharedPrefManager.getInstance(getActivity()).getUser();
         spGrade = (Spinner) view.findViewById(R.id.spGrade);
         spClass = (Spinner) view.findViewById(R.id.spClass);
         spUnit = (Spinner) view.findViewById(R.id.spUnit);
@@ -54,9 +57,12 @@ public class TeacherStudentManagement extends Fragment {
         showErrorText = (TableLayout) view.findViewById(R.id.showErrorText);
         //default
         unit = 1;
-        myclass = 301;
+        myclass = user.getMyclass();
         type = "vocabulary";
         category = "listen_c";
+
+        spGrade.setSelection(user.getMyclass()/100 - 3);
+        spClass.setSelection(user.getMyclass()%10 - 1);
         GetHistory();
         searchBut.setOnClickListener(new View.OnClickListener() {
             @Override

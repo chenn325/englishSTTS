@@ -27,7 +27,9 @@ import android.widget.Toast;
 
 import com.example.english_project.R;
 import com.example.english_project.net.RequestHandler;
+import com.example.english_project.net.SharedPrefManager;
 import com.example.english_project.net.URLs;
+import com.example.english_project.net.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONException;
@@ -116,15 +118,19 @@ public class TeacherTextbook extends Fragment {
                 }
             }
         };
+        User user = SharedPrefManager.getInstance(getActivity()).getUser();
 
         spCategory = view.findViewById(R.id.SPcategory);
         spType = view.findViewById(R.id.SPtype);
         fabA = view.findViewById(R.id.fabAdd);
         fabD = view.findViewById(R.id.fabDelete);
-
+        spGrade.setSelection(user.getMyclass()/100 - 3);
+        spClass.setSelection(user.getMyclass()%10 - 1);
         int pg = spGrade.getSelectedItemPosition() + 3;
         int pc = spClass.getSelectedItemPosition() + 1;
         classForSearch = pg*100 +pc;
+        //獲取老師class
+        classForSearch = user.getMyclass();
         preClassForSearch = classForSearch;
         unit = Integer.parseInt(spUnit.getSelectedItem().toString());
         preUnit = unit;
