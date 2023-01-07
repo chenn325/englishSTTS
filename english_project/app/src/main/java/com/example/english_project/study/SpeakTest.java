@@ -180,7 +180,7 @@ public class SpeakTest extends Fragment {
         if(isLetter(userAns.charAt(0))) { fUserAns = userAns.toLowerCase(); }
         else { fUserAns = userAns; }
         if(isLetter(nowTopic.charAt(0))) { nowTopic = nowTopic.toLowerCase(); }
-        if(nowTopic.charAt(nowTopic.length()-1)=='.') { nowTopic = nowTopic.substring(0, nowTopic.length()-1);}
+        if(nowTopic.charAt(nowTopic.length()-1)=='.' || nowTopic.charAt(nowTopic.length()-1)=='?') { nowTopic = nowTopic.substring(0, nowTopic.length()-1);}
         if (fUserAns.equals(nowTopic)) {
             sendTeacherText("正確！", Ftime);
             int time = Ftime+delay_time;
