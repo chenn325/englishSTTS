@@ -82,7 +82,7 @@ public class TeacherTextbook extends Fragment {
         showDateE = view.findViewById(R.id.showDateE);
         delPositive = view.findViewById(R.id.deletePositive);
         delNegative = view.findViewById(R.id.deleteNegative);
-
+        spUnit.setSelection(2);
         delButLayout.setVisibility(View.GONE);
         datePicker = new DatePickerDialog.OnDateSetListener() {
             @Override
