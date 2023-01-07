@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -62,8 +63,8 @@ public class SpeakLearning extends Fragment {
     String studyType = "vocabulary";
     String partnerImage = "girl1";
     //測試用學生答案&counter
-    String ans[] = {"ball", "baseball", "basketball", "m", "morning", "afternoon", "evening", "climb", "dance", "draw", "exercise"};
-    //String ans[] = {"Where is the ball"};
+//    String ans[] = {"ball", "baseball", "basketball", "m", "morning", "afternoon", "evening", "climb", "dance", "draw", "exercise"};
+    String ans[] = {"Where is the ball"};
     int ansN = 0;
     int resID = 0;
     String nowTopic = "";
@@ -98,31 +99,33 @@ public class SpeakLearning extends Fragment {
             @Override
             public void onClick(View view) {
                 //測試用 DON'T DELETE ME!!
-//                sendStudentText(ans[ansN]);
-//                try {
-//                    checkAnswer(ans[ansN++]);
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-                //錄音 DON'T DELETE ME!!
+                sendStudentText(ans[ansN]);
                 try {
-                    Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-                    intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en-US");
-                    intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-                    intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "speech to text");
-                    startActivityForResult(intent, RECOGNIZER_RESULT);
-                }catch(ActivityNotFoundException e){
-                    Log.d("MainActivity", "沒谷哥哥ㄌㄚ");
-                    AlertDialog.Builder ad = new AlertDialog.Builder(getContext());
-                    ad.setMessage("您未安裝google軟體\n請安裝後再試一次！");
-                    ad.setPositiveButton("好", null);
-                    ad.show();
+                    checkAnswer(ans[ansN++]);
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
+                //錄音 DON'T DELETE ME!!
+//                try {
+//                    Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+//                    intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en-US");
+//                    intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+//                    intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "speech to text");
+//                    startActivityForResult(intent, RECOGNIZER_RESULT);
+//                }catch(ActivityNotFoundException e){
+//                    Log.d("MainActivity", "沒谷哥哥ㄌㄚ");
+//                    AlertDialog.Builder ad = new AlertDialog.Builder(getContext());
+//                    ad.setMessage("您未安裝google軟體\n請安裝後再試一次！");
+//                    ad.setPositiveButton("好", null);
+//                    ad.show();
+//                }
             }
         });
 
         mic.setEnabled(false);
-        mic.setImageTintList(ColorStateList.valueOf((getResources().getColor(R.color.gray))));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mic.setImageTintList(ColorStateList.valueOf((getResources().getColor(R.color.gray))));
+        }
 
         backBtn.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -165,11 +168,13 @@ public class SpeakLearning extends Fragment {
 
     public void checkAnswer(String ans) throws JSONException {
         mic.setEnabled(false);
-        mic.setImageTintList(ColorStateList.valueOf((getResources().getColor(R.color.gray))));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mic.setImageTintList(ColorStateList.valueOf((getResources().getColor(R.color.gray))));
+        }
 //        final String fUserAns;
         if(isLetter(ans.charAt(0))) { ans = ans.toLowerCase(); }
         if(isLetter(nowTopic.charAt(0))) { nowTopic = nowTopic.toLowerCase(); }
-        if(nowTopic.charAt(nowTopic.length()-1)=='.') { nowTopic = nowTopic.substring(0, nowTopic.length()-1);}
+        if(nowTopic.charAt(nowTopic.length()-1)=='.' || nowTopic.charAt(nowTopic.length()-1)=='?') { nowTopic = nowTopic.substring(0, nowTopic.length()-1);}
         Log.d("test delete char", nowTopic);
         int time = delay_time;
         if(isLetter(ans.charAt(0))) {
@@ -194,7 +199,9 @@ public class SpeakLearning extends Fragment {
             @Override
             public void run() {
                 mic.setEnabled(true);
-                mic.setImageTintList(ColorStateList.valueOf((getResources().getColor(R.color.black))));
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    mic.setImageTintList(ColorStateList.valueOf((getResources().getColor(R.color.black))));
+                }
             }
         }, t);
     }
@@ -407,7 +414,6 @@ public class SpeakLearning extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-
         if( requestCode==RECOGNIZER_RESULT && resultCode==RESULT_OK){
             ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
             String s = matches.get(0);
