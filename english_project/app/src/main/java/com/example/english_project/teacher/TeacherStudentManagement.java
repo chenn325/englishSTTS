@@ -56,13 +56,14 @@ public class TeacherStudentManagement extends Fragment {
         showText = (TableLayout) view.findViewById(R.id.showText);
         showErrorText = (TableLayout) view.findViewById(R.id.showErrorText);
         //default
-        unit = 1;
+        unit = 3;
         myclass = user.getMyclass();
         type = "vocabulary";
         category = "listen_c";
 
         spGrade.setSelection(user.getMyclass()/100 - 3);
         spClass.setSelection(user.getMyclass()%10 - 1);
+        spUnit.setSelection(2);
         GetHistory();
         searchBut.setOnClickListener(new View.OnClickListener() {
             @Override
