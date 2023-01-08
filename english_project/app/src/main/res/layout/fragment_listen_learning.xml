@@ -19,7 +19,8 @@
         android:layout_marginBottom="10dp"
         android:background="@drawable/but_third"
         android:text="Back"
-        android:textColor="@color/black"></Button>
+        android:textColor="@color/black"
+        android:textSize="20dp"></Button>
     <LinearLayout
         android:layout_below="@id/backBtn"
         android:layout_width="match_parent"
@@ -47,6 +48,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginLeft="10dp"
+                android:textSize="20dp"
                 android:singleLine="true"></EditText>
 
             <Button
@@ -56,6 +58,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:text="send"
+                android:textSize="20dp"
                 android:background="@drawable/but_third"
                 android:textColor="@color/black"
                 android:layout_margin="10dp"></Button>

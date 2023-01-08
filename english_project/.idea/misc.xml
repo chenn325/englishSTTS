@@ -80,13 +80,13 @@
         <entry key="app/src/main/res/layout/fragment_teacher_student_management.xml" value="0.29690755208333336" />
         <entry key="app/src/main/res/layout/fragment_teacher_textbook.xml" value="0.25" />
         <entry key="app/src/main/res/layout/in_fab_dialog_layout.xml" value="0.28125" />
-        <entry key="app/src/main/res/layout/list_item.xml" value="0.6076232910156252" />
+        <entry key="app/src/main/res/layout/list_item.xml" value="0.3908157348632814" />
         <entry key="app/src/main/res/layout/show_home.xml" value="0.1" />
         <entry key="app/src/main/res/layout/show_personal.xml" value="0.2545289855072464" />
         <entry key="app/src/main/res/layout/show_study.xml" value="0.165" />
         <entry key="app/src/main/res/layout/student_txt.xml" value="0.4286270141601562" />
         <entry key="app/src/main/res/layout/teacher_next.xml" value="0.15" />
-        <entry key="app/src/main/res/layout/teacher_text.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/teacher_text.xml" value="0.6333114624023437" />
         <entry key="app/src/main/res/layout/teacher_topictxt.xml" value="0.38253631591796877" />
         <entry key="app/src/main/res/layout/unseted_textbook_dialog_layout.xml" value="0.4300974527994792" />
         <entry key="app/src/main/res/menu/student_menu.xml" value="0.28229166666666666" />
@@ -94,7 +94,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

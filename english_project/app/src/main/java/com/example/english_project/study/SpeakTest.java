@@ -63,7 +63,7 @@ public class SpeakTest extends Fragment {
     String studyType = "vocabulary";
     String partnerImage = "girl1";
     //測試用學生答案&counter
-    //String ans[] = {"ball", "baseball", "basketball", "m", "morning", "afternoon", "evening", "climb", "dance", "draw", "exercise"};
+    String ans[] = {"ball", "baseball", "basketball", "m", "morning", "afternoon", "evening", "climb", "dance", "draw", "exercise"};
     //String ans[] = {"Where is the ball"};
     int ansN = 0;
     int resID;

@@ -226,7 +226,7 @@ if(isset($_GET['apicall'])){
 				$stmt->execute();
 				$stmt->store_result();
 
-				if($stmt->num_rows > 0){
+				// if($stmt->num_rows > 0){
 					$response['row'] = $stmt->num_rows;
 					$count = $stmt->num_rows;
 					for($i=0; $i<$count; $i++){
@@ -241,7 +241,7 @@ if(isset($_GET['apicall'])){
 						$response[$i] = $schedule;
 					}
 					
-				}
+				// }
 				$response['error'] = false;
 				$response['message'] = 'setSchedule successsfull';
 			}

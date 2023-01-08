@@ -21,11 +21,11 @@
         android:background="@drawable/oval_second"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_below="@+id/studyPlan"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
-        android:layout_marginTop="10dp"
+        android:layout_height="700dp"
+        android:layout_below="@+id/studyPlan"
         android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginRight="20dp"
         android:background="@drawable/oval_third"
         android:orientation="vertical">
@@ -33,9 +33,9 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_margin="20dp"
             android:fadingEdge="vertical"
             android:scrollbars="vertical"
-            android:layout_margin="20dp"
             tools:ignore="MissingConstraints">
 
             <TableLayout

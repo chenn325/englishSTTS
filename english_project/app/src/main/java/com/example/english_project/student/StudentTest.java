@@ -1,5 +1,7 @@
 package com.example.english_project.student;
 
+import static android.graphics.Color.rgb;
+
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -11,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -128,12 +131,12 @@ public class StudentTest extends Fragment {
         TextView tv = new TextView(getContext());
         TableRow tableRow = new TableRow(getContext());
         tv.setText(category[c]);
-        tv.setTextSize(20);
+        tv.setTextSize(30);
         tv.setTextColor(getResources().getColor(R.color.black));
         tableRow.addView(tv);
         TextView tv2 = new TextView(getContext());
         tv2.setText("- "+type[t]);
-        tv2.setTextSize(20);
+        tv2.setTextSize(30);
         tv2.setTextColor(getResources().getColor(R.color.black));
         tableRow.addView(tv2);
         showSchedule.addView(tableRow, new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -177,5 +180,13 @@ public class StudentTest extends Fragment {
             tableRow.setPadding(0, 10, 0, 10);
             showSchedule.addView(tableRow, new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT));
         }
+        View v = new View(getContext());
+        v.setMinimumHeight(10);
+        v.setBackgroundColor(rgb(230, 230, 230));
+        showSchedule.addView(v);
+        View v2 = v;
+        LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) v2.getLayoutParams();
+        lp.setMargins(0, 20, 0, 10);
+        v2.setLayoutParams(lp);
     }
 }

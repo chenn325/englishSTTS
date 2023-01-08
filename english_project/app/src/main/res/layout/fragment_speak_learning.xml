@@ -9,13 +9,17 @@
     android:background="@color/primary">
 
     <Button
+        android:id="@+id/backBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/backBtn"
-        android:text="Back"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/but_third"
-        android:textColor="@color/black"
-        android:layout_margin="10dp"/>
+        android:text="Back"
+        android:textSize="20dp"
+        android:textColor="@color/black" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -53,7 +57,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="點擊錄音"
-                android:textSize="20dp"/>
+                android:textSize="30dp"/>
         </LinearLayout>
     </LinearLayout>
 
