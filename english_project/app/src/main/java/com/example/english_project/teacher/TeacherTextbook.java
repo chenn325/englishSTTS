@@ -352,7 +352,7 @@ public class TeacherTextbook extends Fragment {
             Toast.makeText(getContext(), "請輸入內容！", Toast.LENGTH_SHORT).show();
             return;
         }
-        else if(!e.matches("[a-zA-Z]+(\\s[a-zA-Z]+(.)*(\\?)*)*")){
+        else if(!e.matches("([a-zA-Z]+(')*[a-zA-Z]+)+(\\s([a-zA-Z](')*[a-zA-Z])+(.)*(\\?)*)*")){
             Toast.makeText(getContext(), "請輸入正確的語言！", Toast.LENGTH_SHORT).show();
             return;
         }
