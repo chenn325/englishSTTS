@@ -38,6 +38,6 @@
 
     </application>
     <uses-sdk
-        android:maxSdkVersion="17"
-        android:minSdkVersion="8" />
+        android:maxSdkVersion="33"
+        android:minSdkVersion="21" />
 </manifest>

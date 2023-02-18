@@ -56,6 +56,7 @@
         <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/menu/teacher_menu.xml" value="0.2012820512820513" />
         <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
         <entry key="..\:/GitHub/englishSTTS/english_project/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.163" />
+        <entry key="app/src/main/res/drawable-v24/shape_corner_right.xml" value="0.175" />
         <entry key="app/src/main/res/drawable/bubble_third.xml" value="0.106" />
         <entry key="app/src/main/res/drawable/but_fourth.xml" value="0.137" />
         <entry key="app/src/main/res/drawable/but_study.xml" value="0.1" />
@@ -63,13 +64,15 @@
         <entry key="app/src/main/res/drawable/framestyle.xml" value="0.1495" />
         <entry key="app/src/main/res/drawable/frameview.xml" value="0.144" />
         <entry key="app/src/main/res/drawable/oval_third.xml" value="0.1485" />
+        <entry key="app/src/main/res/drawable/shape_corner.xml" value="0.175" />
+        <entry key="app/src/main/res/drawable/shape_corner_right2.xml" value="0.175" />
         <entry key="app/src/main/res/layout/activity_index.xml" value="0.2545289855072464" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.31230926513671875" />
         <entry key="app/src/main/res/layout/activity_profile.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/activity_teacher_main.xml" value="0.19270833333333334" />
         <entry key="app/src/main/res/layout/choose_partners.xml" value="0.28229166666666666" />
-        <entry key="app/src/main/res/layout/fragment_listen_learning.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_listen_learning.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_speak_learning.xml" value="0.3117889404296875" />
         <entry key="app/src/main/res/layout/fragment_student_home.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/fragment_student_profile.xml" value="0.28229166666666666" />

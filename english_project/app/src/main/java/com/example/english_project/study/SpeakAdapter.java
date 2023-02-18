@@ -105,9 +105,11 @@ public class SpeakAdapter extends RecyclerView.Adapter {
         switch(viewType){
             case TYPE_TEACHER_TXT:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.teacher_text, parent, false);
+                Log.d("TYPE_TEACHER_TXT", "pass");
                 return new TeacherTxtViewHolder(view);
             case TYPE_TEACHER_TOPIC:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.teacher_topictxt, parent, false);
+                Log.d("TYPE_TEACHER_TOPIC", "pass");
                 return new TeacherTopicViewHolder(view);
             case TYPE_STUDENT_TXT:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.student_txt, parent, false);
