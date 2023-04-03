@@ -63,7 +63,7 @@ public class SpeakTest extends Fragment {
     String studyType = "vocabulary";
     String partnerImage = "girl1";
     //測試用學生答案&counter
-    String ans[] = {"ball", "baseball", "basketball", "m", "morning", "afternoon", "evening", "climb", "dance", "draw", "exercise"};
+    String ans[] = {"across from", "behind", "in front of", "bake", "back", "bad", "evening", "climb", "dance", "draw", "exercise"};
     //String ans[] = {"Where is the ball"};
     int ansN = 0;
     int resID;
@@ -101,26 +101,26 @@ public class SpeakTest extends Fragment {
             @Override
             public void onClick(View view) {
                 //測試用 DON'T DELETE ME!!
-//                sendStudentText(ans[ansN]);
-//                try {
-//                    checkAnswer(ans[ansN++]);
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-                //錄音 DON'T DELETE ME!!
+                sendStudentText(ans[ansN]);
                 try {
-                    Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-                    intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en-US");
-                    intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-                    intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "speech to text");
-                    startActivityForResult(intent, RECOGNIZER_RESULT);
-                }catch(ActivityNotFoundException e){
-                    Log.d("MainActivity", "沒谷哥哥ㄌㄚ");
-                    AlertDialog.Builder ad = new AlertDialog.Builder(getContext());
-                    ad.setMessage("您未安裝google軟體\n請安裝後再試一次！");
-                    ad.setPositiveButton("好", null);
-                    ad.show();
+                    checkAnswer(ans[ansN++]);
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
+                //錄音 DON'T DELETE ME!!
+//                try {
+//                    Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+//                    intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en-US");
+//                    intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+//                    intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "speech to text");
+//                    startActivityForResult(intent, RECOGNIZER_RESULT);
+//                }catch(ActivityNotFoundException e){
+//                    Log.d("MainActivity", "沒谷哥哥ㄌㄚ");
+//                    AlertDialog.Builder ad = new AlertDialog.Builder(getContext());
+//                    ad.setMessage("您未安裝google軟體\n請安裝後再試一次！");
+//                    ad.setPositiveButton("好", null);
+//                    ad.show();
+//                }
             }
         });
 
